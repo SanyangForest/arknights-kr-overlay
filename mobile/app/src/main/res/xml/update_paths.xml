@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Updater가 받은 새 APK (cacheDir/update/)만 설치 화면에 보여 줌 -->
+<paths>
+    <cache-path name="update" path="update/" />
+</paths>

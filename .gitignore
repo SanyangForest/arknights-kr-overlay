@@ -1,0 +1,28 @@
+# 게임 데이터·중간 결과·도구 (크거나 다시 만들 수 있음)
+data/
+tmp/
+out/
+analysis/
+batches/
+chunks/
+tools/
+.venv/
+
+# 빌드 결과·설치 파일
+*.apk
+mobile/app/build/
+mobile/build/
+mobile/.gradle/
+mobile/.kotlin/
+mobile/local.properties
+mobile/app/src/main/assets/dict.db
+
+# 기록·캡처
+*.log
+*_log.txt
+overlay/overlay_trace.txt
+overlay/captures/
+
+# 파이썬·도구 설정
+__pycache__/
+.claude/

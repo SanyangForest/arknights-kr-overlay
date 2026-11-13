@@ -1,0 +1,389 @@
+zh	ko	source
+被动：<替身>状态初始召唤<@ba.vup>塔纳托斯</>，攻击速度<@ba.vup>+{talent@attack_speed}</>，攻击对至多<@ba.vup>{attack@max_target}</>名敌人造成攻击力<@ba.vup>{attack@atk_scale:0%}</>的<$ba.weaknessatk>弱点伤害</>，<@ba.vup>塔纳托斯</>在场时，开启技能或受到致命伤时改为召唤<@ba.vup>俄耳甫斯</>，阻挡数<@ba.vup>+{attack@block_cnt}</>，使范围内友方干员获得<@ba.vup>{attack@prob:0%}</>的物理与法术闪避并每秒治疗范围内最多<@ba.vup>{attack@max_target_heal}</>名友方干员相当于结城理攻击力<@ba.vup>{attack@heal_scale:0%}</>的生命值，直到<替身>状态结束\\n主动：立即切换为<替身>状态作战	패시브: <대리인> 상태 시작 시 <@ba.vup>타나토스</> 소환, 공격 속도 <@ba.vup>+{talent@attack_speed}</>, 공격 시 최대 <@ba.vup>{attack@max_target}</>명의 적에게 공격력의 <@ba.vup>{attack@atk_scale:0%}</>만큼 <$ba.weaknessatk>약점 대미지</>. <@ba.vup>타나토스</>가 필드에 있을 때 스킬을 발동하거나 치명상을 입으면 대신 <@ba.vup>오르페우스</>를 소환: 저지 가능 수 <@ba.vup>+{attack@block_cnt}</>, 범위 내 아군 오퍼레이터가 <@ba.vup>{attack@prob:0%}</>의 물리 및 마법 회피 획득, 매초 범위 내 최대 <@ba.vup>{attack@max_target_heal}</>명의 아군 오퍼레이터의 HP를 유키 마코토 공격력의 <@ba.vup>{attack@heal_scale:0%}</>만큼 회복. <대리인> 상태가 끝날 때까지 지속\\n액티브: 즉시 <대리인> 상태로 전환하여 전투	claude
+部署后立刻<$ba.liftoff>起飞</>，攻击范围<@ba.vup>扩大</>，攻击力<@ba.vup>+{atk:0%}</>，同时攻击两个目标	배치 후 즉시 <$ba.liftoff>이륙</>, 공격 범위 <@ba.vup>확대</>, 공격력 <@ba.vup>+{atk:0%}</>, 동시에 2명의 대상을 공격	claude
+攻击范围<@ba.vup>扩大</>并向前方滑翔<$ba.liftoff>起飞</>，使掠过的攻击范围内的地面敌人<$ba.levitate>浮空</><@ba.vup>{buff_duration_levitate}</>秒、飞行敌人<$ba.groundbind>缚地</><@ba.vup>{buff_duration_ground_bound}</>秒，随后攻击间隔<@ba.vup>缩短</>，攻击力<@ba.vup>+{atk:0%}</>，攻击变为法术伤害且同时攻击<@ba.vup>{attack@max_target}</>个目标	공격 범위 <@ba.vup>확대</>, 전방으로 활공하며 <$ba.liftoff>이륙</>하여 지나간 공격 범위 내의 지상 적을 <@ba.vup>{buff_duration_levitate}</>초간 <$ba.levitate>공중 부양</>, 공중 적을 <@ba.vup>{buff_duration_ground_bound}</>초간 <$ba.groundbind>지면 속박</>시킴. 이후 공격 간격 <@ba.vup>감소</>, 공격력 <@ba.vup>+{atk:0%}</>, 공격이 마법 대미지로 바뀌며 동시에 <@ba.vup>{attack@max_target}</>명의 대상을 공격	claude
+攻击范围<@ba.vup>扩大</>并向前方滑翔<$ba.liftoff>起飞</>，使掠过的攻击范围内的地面敌人<$ba.levitate>浮空</><@ba.vup>{buff_duration_levitate}</>秒、飞行敌人<$ba.groundbind>缚地</><@ba.vup>{buff_duration_ground_bound}</>秒，随后攻击间隔<@ba.vup>较大幅缩短</>，攻击力<@ba.vup>+{atk:0%}</>，攻击变为法术伤害且同时攻击<@ba.vup>{attack@max_target}</>个目标	공격 범위 <@ba.vup>확대</>, 전방으로 활공하며 <$ba.liftoff>이륙</>하여 지나간 공격 범위 내의 지상 적을 <@ba.vup>{buff_duration_levitate}</>초간 <$ba.levitate>공중 부양</>, 공중 적을 <@ba.vup>{buff_duration_ground_bound}</>초간 <$ba.groundbind>지면 속박</>시킴. 이후 공격 간격 <@ba.vup>비교적 크게 감소</>, 공격력 <@ba.vup>+{atk:0%}</>, 공격이 마법 대미지로 바뀌며 동시에 <@ba.vup>{attack@max_target}</>명의 대상을 공격	claude
+立刻<$ba.liftoff>起飞</>，攻击力<@ba.vup>+{atk:0%}</>，获得<@ba.vup>{damage_resistance:0%}</>的<$ba.airprotect>对空庇护</>，攻击范围<@ba.vup>扩大</>，且周围8格视作予愿安洁莉娜的额外攻击范围，攻击对<@ba.vup>{attack@max_walk_target}</>个敌人造成攻击力<@ba.vup>{attack@atk_scale:0%}</>的物理伤害且额外攻击1个飞行敌人；范围内飞行敌人移动速度<@ba.vup>{move_speed:0%}</>，<@ba.vup>原技能范围</>内有未被阻挡的可阻挡飞行敌人，且自身未阻挡时，<$ba.addash>移动</>至该敌人所在格\\n<@ba.rem>攻击装有{attack@trigger_time}发弹药，打完后技能结束（期间可随时停止技能）</>	즉시 <$ba.liftoff>이륙</>, 공격력 <@ba.vup>+{atk:0%}</>, <@ba.vup>{damage_resistance:0%}</>의 <$ba.airprotect>대공 가호</> 획득, 공격 범위 <@ba.vup>확대</>, 주변 8칸을 안젤리나 더 멜로우 위시의 추가 공격 범위로 간주. 공격 시 <@ba.vup>{attack@max_walk_target}</>명의 적에게 공격력의 <@ba.vup>{attack@atk_scale:0%}</>만큼 물리 대미지를 주고 공중 적 1명을 추가로 공격; 범위 내 공중 적의 이동 속도 <@ba.vup>{move_speed:0%}</>, <@ba.vup>원래 스킬 범위</> 내에 저지되지 않은 저지 가능한 공중 적이 있고 자신이 저지 중이 아닐 때, 해당 적이 있는 칸으로 <$ba.addash>이동</>\\n<@ba.rem>탄약 {attack@trigger_time}발 장전, 모두 소진 시 스킬 종료 (스킬 지속 중 언제든 스킬 중지 가능)</>	claude
+攻击间隔<@ba.vdown>增大</>，攻击变为<@ba.vup>五连击</>的群体攻击，每次造成攻击力<@ba.vup>{attack@atk_scale:0%}</>的范围物理伤害\\n<@ba.rem>攻击装有{attack@trigger_time}发弹药，打完后结束（可随时停止技能）</>	공격 간격 <@ba.vdown>증가</>, 공격이 <@ba.vup>5연속 공격</>의 광역 공격으로 바뀌며, 매번 공격력의 <@ba.vup>{attack@atk_scale:0%}</>만큼 범위 물리 대미지\\n<@ba.rem>탄약 {attack@trigger_time}발 장전, 모두 소진 시 종료 (언제든 스킬 중지 가능)</>	claude
+攻击力<@ba.vup>+{atk:0%}</>，自身和结构性原理立刻获得最大生命<@ba.vup>{hp_ratio:0%}</>的<$ba.barrier>屏障</>，<$ba.barrier>屏障</>被摧毁时对周围敌人造成攻击力<@ba.vup>{atk_scale:0%}</>的法术伤害和<@ba.vup>{not_combat}</>秒的<$ba.tremble>战栗</>，并消耗1发弹药再次获得<$ba.barrier>屏障</>\\n<@ba.rem>攻击装有{trigger_time}发弹药，打完后结束（可随时停止技能）</>	공격력 <@ba.vup>+{atk:0%}</>, 자신과 구조적 원리가 즉시 최대 HP의 <@ba.vup>{hp_ratio:0%}</>만큼 <$ba.barrier>보호막</> 획득. <$ba.barrier>보호막</>이 파괴되면 주변 적에게 공격력의 <@ba.vup>{atk_scale:0%}</>만큼 마법 대미지를 주고 <@ba.vup>{not_combat}</>초간 <$ba.tremble>전율</>시키며, 탄약 1발을 소모해 다시 <$ba.barrier>보호막</> 획득\\n<@ba.rem>탄약 {trigger_time}발 장전, 모두 소진 시 종료 (언제든 스킬 중지 가능)</>	claude
+攻击力<@ba.vup>+{atk:0%}</>，攻击间隔<@ba.vdown>大幅增大</>，攻击变为对十字范围内所有敌人造成攻击力<@ba.vup>{attack@atk_scale:0%}</>的法术伤害，可攻击结构性原理阻挡的目标\\n结构性原理向前方冲锋，碰到敌人或高台时对范围内所有敌人造成机械师攻击力<@ba.vup>{atk_scale:0%}</>的物理伤害并停下，周围的敌人获得逐渐衰减的50%的<$ba.weaken>虚弱</>效果	공격력 <@ba.vup>+{atk:0%}</>, 공격 간격 <@ba.vdown>대폭 증가</>, 공격이 십자 범위 내 모든 적에게 공격력의 <@ba.vup>{attack@atk_scale:0%}</>만큼 마법 대미지를 주도록 바뀌며, 구조적 원리가 저지한 대상을 공격 가능\\n구조적 원리가 전방으로 돌진하여 적이나 고지대에 부딪히면 범위 내 모든 적에게 메카니스트 공격력의 <@ba.vup>{atk_scale:0%}</>만큼 물리 대미지를 주고 멈추며, 주변 적은 점차 감소하는 50%의 <$ba.weaken>약화</> 효과를 받음	claude
+向前方冲锋，碰到敌人或高台时对范围内所有敌人造成机械师攻击力<@ba.vup>{atk_scale:0%}</>的物理伤害并停下，周围的敌人获得逐渐衰减的50%的<$ba.weaken>虚弱</>效果	전방으로 돌진하여 적이나 고지대에 부딪히면 범위 내 모든 적에게 메카니스트 공격력의 <@ba.vup>{atk_scale:0%}</>만큼 물리 대미지를 주고 멈추며, 주변 적은 점차 감소하는 50%의 <$ba.weaken>약화</> 효과를 받음	claude
+攻击力<@ba.vup>+{atk:0%}</>，防御力<@ba.vup>+{def:0%}</>，同时攻击并以<@ba.vup>小力度</>推动所有阻挡的敌人	공격력 <@ba.vup>+{atk:0%}</>, 방어력 <@ba.vup>+{def:0%}</>, 저지 중인 모든 적을 동시에 공격하며 <@ba.vup>약한 힘</>으로 밀어냄	claude
+攻击力和防御力<@ba.vup>+{def:0%}</>；向前方可通行地面喷洒占据<@ba.vup>4</>格的强力胶，每<@ba.vup>{interval}</>秒造成相当于珊比攻击力<@ba.vup>{atk_scale:0%}</>的物理伤害和<@ba.vup>{sluggish}</>秒<$ba.sluggish>停顿</>，其他干员对强力胶内的敌人造成物理伤害时附带相当于珊比攻击力<@ba.vup>{ep_damage_ratio[damage]:0%}</>的<$ba.dt.erosion2>侵蚀损伤</>	공격력과 방어력 <@ba.vup>+{def:0%}</>; 전방의 통행 가능한 지면에 <@ba.vup>4</>칸을 차지하는 강력 접착제를 분사하여, <@ba.vup>{interval}</>초마다 섬피 공격력의 <@ba.vup>{atk_scale:0%}</>만큼 물리 대미지를 주고 <@ba.vup>{sluggish}</>초간 <$ba.sluggish>정지</>시킴. 다른 오퍼레이터가 강력 접착제 안의 적에게 물리 대미지를 줄 때 섬피 공격력의 <@ba.vup>{ep_damage_ratio[damage]:0%}</>만큼 <$ba.dt.erosion2>침식 손상</>을 추가로 부여	claude
+阻挡数<@ba.vup>+2</>且同时攻击所有阻挡的敌人，攻击力<@ba.vup>+{atk:0%}</>，防御力<@ba.vup>+{def:0%}</>；向前展开<@ba.vup>4</>格的便携传送带，使重量小于等于<@ba.vup>4</>且未被阻挡的敌人以每秒<@ba.vup>0.8</>格的速度移向珊比；传送带上的敌人每秒受到相当于珊比攻击力<@ba.vup>{atk_scale:0%}</>的物理伤害，且<$ba.dt.erosion2>侵蚀损伤</>爆发时防御力额外<@ba.vup>{thumpy[ep_break_water].def}</>	저지 가능 수 <@ba.vup>+2</>, 저지 중인 모든 적을 동시에 공격, 공격력 <@ba.vup>+{atk:0%}</>, 방어력 <@ba.vup>+{def:0%}</>; 전방으로 <@ba.vup>4</>칸의 휴대용 컨베이어 벨트를 펼쳐, 무게가 <@ba.vup>4</> 이하이며 저지되지 않은 적을 초당 <@ba.vup>0.8</>칸의 속도로 섬피 쪽으로 이동시킴; 컨베이어 벨트 위의 적은 매초 섬피 공격력의 <@ba.vup>{atk_scale:0%}</>만큼 물리 대미지를 받으며, <$ba.dt.erosion2>침식 손상</> 폭발 시 방어력이 추가로 <@ba.vup>{thumpy[ep_break_water].def}</>	claude
+下次攻击的攻击力提高至<@ba.vup>{atk_scale:0%}</>并造成相当于物理伤害<@ba.vup>{ep_damage_ratio:0%}</>的<$ba.dt.erosion2>侵蚀损伤</>	다음 공격의 공격력이 <@ba.vup>{atk_scale:0%}</>로 증가하며, 물리 대미지의 <@ba.vup>{ep_damage_ratio:0%}</>만큼 <$ba.dt.erosion2>침식 손상</>을 줌	claude
+攻击范围<@ba.vup>扩大</>，攻击速度<@ba.vup>+{attack_speed}</>，每次攻击对目标及其周围最多<@ba.vup>5</>名地面敌人造成相当于攻击力<@ba.vup>{attack@aoe_atk_scale:0%}</>的物理伤害；向前方召唤浮游放逐舱，放逐舱使周围累计不超过<@ba.vup>{attack@max_passenger_mass}</>重量的最多<@ba.vup>15</>名地面敌人不断向前移动；放逐舱在移动3格后消失并留下漩涡，处于漩涡的所有敌人移动速度<@ba.vup>{attack@move_speed:0%}</>且每秒受到<@ba.vup>200</>点<$ba.dt.erosion2>侵蚀损伤</>和相当于攻击力<@ba.vup>{attack@physical_atk_scale:0%}</>的物理伤害	공격 범위 <@ba.vup>확대</>, 공격 속도 <@ba.vup>+{attack_speed}</>, 매 공격 시 대상과 그 주변 최대 <@ba.vup>5</>명의 지상 적에게 공격력의 <@ba.vup>{attack@aoe_atk_scale:0%}</>만큼 물리 대미지; 전방에 부유 추방선을 소환하여, 주변에 있는 누적 무게 <@ba.vup>{attack@max_passenger_mass}</> 이하의 최대 <@ba.vup>15</>명의 지상 적을 계속 앞으로 이동시킴; 추방선은 3칸 이동 후 사라지며 소용돌이를 남기고, 소용돌이 안의 모든 적은 이동 속도 <@ba.vup>{attack@move_speed:0%}</>, 매초 <@ba.vup>200</>의 <$ba.dt.erosion2>침식 손상</>과 공격력의 <@ba.vup>{attack@physical_atk_scale:0%}</>만큼 물리 대미지를 받음	claude
+攻击范围<@ba.vup>扩大</>，攻击目标数<@ba.vup>+2</>，每次攻击对目标造成相当于攻击力<@ba.vup>{attack@atk_scale:0%}</>的物理伤害并额外造成相当于物理伤害<@ba.vup>{attack@ep_damage_ratio:0%}</>的<$ba.dt.erosion2>侵蚀损伤</>；当全场有敌人<$ba.dt.erosion2>侵蚀损伤</>爆发时，消耗1发弹药对目标所在位置及其周围四格内所有地面敌人造成<@ba.vup>3</>次相当于攻击力<@ba.vup>{s3_atk_scale:0%}</>的物理伤害与相当于攻击力<@ba.vup>{ep_damage_scale:0%}</>的元素伤害\\n<@ba.rem>技能装有{trigger_time}发弹药，打完后结束（可随时停止技能）</>	공격 범위 <@ba.vup>확대</>, 공격 대상 수 <@ba.vup>+2</>, 매 공격 시 대상에게 공격력의 <@ba.vup>{attack@atk_scale:0%}</>만큼 물리 대미지를 주고, 추가로 물리 대미지의 <@ba.vup>{attack@ep_damage_ratio:0%}</>만큼 <$ba.dt.erosion2>침식 손상</>을 줌; 필드의 적에게 <$ba.dt.erosion2>침식 손상</> 폭발이 일어나면 탄약 1발을 소모해 대상 위치와 그 주변 4칸 내 모든 지상 적에게 공격력의 <@ba.vup>{s3_atk_scale:0%}</>만큼 물리 대미지와 공격력의 <@ba.vup>{ep_damage_scale:0%}</>만큼 원소 대미지를 <@ba.vup>3</>회 줌\\n<@ba.rem>스킬 탄약 {trigger_time}발 장전, 모두 소진 시 종료 (언제든 스킬 중지 가능)</>	claude
+使面前一格干员的生命上限+100%	정면 1칸의 오퍼레이터 최대 HP +100%	claude
+使面前一格干员的生命上限+150%，并立即获得<@ba.kw>1件</>本职业的<@ba.kw>战术装备</>（部署效果无法触发）	정면 1칸의 오퍼레이터 최대 HP +150%, 즉시 해당 직군의 <@ba.kw>전술 장비</> <@ba.kw>1개</> 획득 (배치 효과는 발동 불가)	claude
+得分额外回复技力；技能开启后，随机抽取一个额外道具	득점 시 추가로 SP 회복; 스킬 발동 후 추가 아이템 1개를 무작위로 획득	claude
+瞄准大范围内阻挡数最高的干员，对该干员和其周围四格不分敌我的所有单位造成三次超高额伤害\\n技能释放完成后自身退场	넓은 범위 내에서 저지 가능 수가 가장 높은 오퍼레이터를 조준하여, 해당 오퍼레이터와 그 주변 4칸 내 피아를 가리지 않는 모든 유닛에게 매우 높은 대미지를 3회 줌\\n스킬 시전 완료 후 자신은 퇴장	claude
+生产<采集专员>来采集<杂木林>、<巨大岩石>、<奇异矿脉>等资源；最多生产{max_cnt}台	<채집 전문 요원>을 생산하여 <잡목림>, <거대 암석>, <신비 광맥> 등의 자원을 채집; 최대 {max_cnt}대 생산	claude
+每隔一段时间，在攻击范围内随机生成一只野生动物；同时存在的数量上限为4	일정 시간마다 공격 범위 내에 야생동물 1마리를 무작위로 생성; 동시에 존재할 수 있는 수량 상한은 4	claude
+每隔一段时间，生成敌人朝着基地位置移动；每次生成敌人后扣除一定比例的生命值，死亡后不再生成敌人	일정 시간마다 기지 위치를 향해 이동하는 적을 생성; 적을 생성할 때마다 HP가 일정 비율 감소하며, 사망 후에는 더 이상 적을 생성하지 않음	claude
+已经废弃的装置，总会将一些游荡在荒地上的东西运来此处，似乎摧毁后就能中止这一切。	이미 폐기된 장치. 황무지를 떠도는 무언가를 늘 이곳으로 실어 온다. 파괴하면 이 모든 것을 멈출 수 있을 것 같다.	claude
+外勤部干员之前安置在此处的资源前哨站，不知遇到了什么问题变成了现在这样。需要快点将它修好！	외근부 오퍼레이터가 예전에 이곳에 설치해 둔 자원 전초기지. 무슨 문제가 생겼는지 지금 같은 상태가 되어 버렸다. 서둘러 수리해야 한다!	claude
+我方单位每秒恢复50点生命	아군 유닛이 매초 HP 50 회복	claude
+我方单位的技力自然恢复速度<@ba.vup>+{sp_recovery_per_sec}</>/秒	아군 유닛의 SP 자연 회복 속도 <@ba.vup>+{sp_recovery_per_sec}</>/초	claude
+我方单位攻击速度<@ba.vup>+{attack_speed}</>	아군 유닛 공격 속도 <@ba.vup>+{attack_speed}</>	claude
+与补给车终点站台通过轨道相连时回复技力；技能释放时生成一个综合维护补给车，沿补给车轨道前往补给车终点站台	보급차 종착역 플랫폼과 궤도로 연결되어 있을 때 SP 회복; 스킬 시전 시 종합 정비 보급차 1대를 생성하여, 보급차 궤도를 따라 보급차 종착역 플랫폼으로 향하게 함	claude
+维护补给车经过时，使范围内建筑获得技力:维护补给车每前进过{every_grid_cnt}格回复<@ba.vup>1</>点技力	정비 보급차가 지나갈 때 범위 내 건물이 SP 획득: 정비 보급차가 {every_grid_cnt}칸 전진할 때마다 SP <@ba.vup>1</> 회복	claude
+累计受击次数；可加工：\n[lv1]木材→木板\n[lv1]石材→石板\n[lv1]铁矿石→金属板	피격 횟수 누적; 가공 가능:\n[lv1]목재→나무판\n[lv1]석재→석판\n[lv1]철광석→금속판	claude
+处于干员或召唤物攻击范围内时恢复技力，不可叠加；可加工：\n[lv2]毛线→工业纤维\n[lv1]毛线→布匹	오퍼레이터 또는 소환물의 공격 범위 내에 있을 때 SP 회복, 중첩 불가; 가공 가능:\n[lv2]털실→공업 섬유\n[lv1]털실→직물	claude
+累计受到的伤害，每次清空累计槽获得1点技力；可加工：\n[lv2]干亚麻→布匹\n[lv1]干亚麻→营养浓缩液	받은 대미지 누적, 누적 게이지를 비울 때마다 SP 1 획득; 가공 가능:\n[lv2]건조 아마→직물\n[lv1]건조 아마→영양 농축액	claude
+可加工：\n[lv2]稻谷→大米\n[lv1]稻谷→粘合剂	가공 가능:\n[lv2]벼→쌀\n[lv1]벼→접착제	claude
+受到法术伤害时额外回复<@ba.vup>{sp_magical}点</>技力；可加工：\n[lv2]羽兽蛋→营养浓缩液\n[lv1]羽兽蛋→粘合剂	마법 대미지를 받으면 SP를 추가로 <@ba.vup>{sp_magical}</> 회복; 가공 가능:\n[lv2]파울비스트 알→영양 농축액\n[lv1]파울비스트 알→접착제	claude
+累计受到的伤害，每次清空累计槽获得{sp}点技力；可加工：\n[lv2]皮毛→防水革\n[lv1]皮毛→工业纤维	받은 대미지 누적, 누적 게이지를 비울 때마다 SP {sp} 획득; 가공 가능:\n[lv2]모피→방수 가죽\n[lv1]모피→공업 섬유	claude
+累计受到的伤害，每次清空累计槽获得{sp}点技力；可加工：\n[lv2]蟹壳碎片→粘合剂\n[lv1]蟹壳碎片→防水革	받은 대미지 누적, 누적 게이지를 비울 때마다 SP {sp} 획득; 가공 가능:\n[lv2]게 껍데기 파편→접착제\n[lv1]게 껍데기 파편→방수 가죽	claude
+技能释放时，攻击范围内的每个地块有{prob:0%}概率生成1棵<杂木林>，至少生成1棵<杂木林>	스킬 시전 시 공격 범위 내 각 타일마다 {prob:0%} 확률로 <잡목림> 1개 생성, 최소 1개의 <잡목림> 생성	claude
+技能释放时，攻击范围内的每个地块有{prob:0%}概率生成1块<巨大岩石>，至少生成1块<巨大岩石>	스킬 시전 시 공격 범위 내 각 타일마다 {prob:0%} 확률로 <거대 암석> 1개 생성, 최소 1개의 <거대 암석> 생성	claude
+技能释放时，攻击范围内的每个地块有{prob:0%}概率生成1块<奇异矿脉>，至少生成1块<奇异矿脉>	스킬 시전 시 공격 범위 내 각 타일마다 {prob:0%} 확률로 <신비 광맥> 1개 생성, 최소 1개의 <신비 광맥> 생성	claude
+技能释放时，使攻击范围内的加工类建筑获得<@ba.vup>{sp}</>点技力，被放入的野生动物攻击时自身获得1点技力	스킬 시전 시 공격 범위 내 가공류 건물이 SP <@ba.vup>{sp}</> 획득, 안에 넣은 야생동물이 공격할 때 자신이 SP 1 획득	claude
+技能释放时，获取{item_count}份清水	스킬 시전 시 맑은 물 {item_count}개 획득	claude
+技能释放时，在自身所在位置生成一只随机岩壳蟹	스킬 시전 시 자신의 위치에 무작위 크랙핀서 1마리 생성	claude
+攻击范围内存在我方单位时开始恢复技力（不叠加），技能可以开启对话	공격 범위 내에 아군 유닛이 있으면 SP 회복 시작 (중첩 불가), 스킬로 대화 시작 가능	claude
+技能释放时，产出{item_count}份赤金	스킬 시전 시 순금 {item_count}개 생산	claude
+技能释放时，产出{item_count_min}～12份粗制赤金	스킬 시전 시 순금 원석 {item_count_min}~12개 생산	claude
+技能释放时，产出{item_count}份粗制赤金	스킬 시전 시 순금 원석 {item_count}개 생산	claude
+可加工：\n[lv2]大米+木板→整箱的口粮\n[lv1]稻谷+水→整箱的饮料\n[lv1]羽兽蛋→营养浓缩液	가공 가능:\n[lv2]쌀+나무판→식량 상자\n[lv1]벼+물→음료 상자\n[lv1]파울비스트 알→영양 농축액	claude
+可加工：\n[lv2]木板+布匹→整箱的医疗用品\n[lv1]皮毛→工业纤维\n[lv1]营养浓缩液+水→整箱的能量剂	가공 가능:\n[lv2]나무판+직물→의료용품 상자\n[lv1]모피→공업 섬유\n[lv1]영양 농축액+물→활력제 상자	claude
+累计受击次数，受到元素伤害时额外回复<@ba.vup>{sp}点</>技力；可加工：\n[lv2]工业纤维+金属板→整箱的武器\n[lv1]粘合剂+金属板→整箱的器械\n[lv1]铁矿石→金属板	피격 횟수 누적, 원소 대미지를 받으면 SP를 추가로 <@ba.vup>{sp}</> 회복; 가공 가능:\n[lv2]공업 섬유+금속판→무기 상자\n[lv1]접착제+금속판→장치 상자\n[lv1]철광석→금속판	claude
+可加工：\n[lv2]石板+防水革→整箱的装备\n[lv1]石板+金属板→整箱的工具\n[lv1]石材→石板	가공 가능:\n[lv2]석판+방수 가죽→장비 상자\n[lv1]석판+금속판→공구 상자\n[lv1]석재→석판	claude
+可加工：\n[lv1]干亚麻+木板→整箱的外勤用品\n[lv1]木板+布匹→整箱的医疗用品\n[lv1]大米+木板→整箱的口粮\n[lv1]木材→木板	가공 가능:\n[lv1]건조 아마+나무판→외근용품 상자\n[lv1]나무판+직물→의료용품 상자\n[lv1]쌀+나무판→식량 상자\n[lv1]목재→나무판	claude
+累计受到的伤害，每次清空累计槽获得{sp}点技力；可加工：\n[lv3]粘合剂+金属板→整箱的器械\n[lv1]工业纤维+金属板→整箱的武器	받은 대미지 누적, 누적 게이지를 비울 때마다 SP {sp} 획득; 가공 가능:\n[lv3]접착제+금속판→장치 상자\n[lv1]공업 섬유+금속판→무기 상자	claude
+累计受击次数，受到来自近战干员的攻击时额外回复<@ba.vup>{sp}点</>技力；可加工：\n[lv2]石板+金属板→整箱的工具\n[lv1]稻谷→大米\n[lv1]蟹壳碎片→防水革	피격 횟수 누적, 근거리 오퍼레이터의 공격을 받으면 SP를 추가로 <@ba.vup>{sp}</> 회복; 가공 가능:\n[lv2]석판+금속판→공구 상자\n[lv1]벼→쌀\n[lv1]게 껍데기 파편→방수 가죽	claude
+可加工：\n[lv3]干亚麻+木板→整箱的外勤用品\n[lv1]防水革+粘合剂→整箱的防护器具	가공 가능:\n[lv3]건조 아마+나무판→외근용품 상자\n[lv1]방수 가죽+접착제→방호구 상자	claude
+可加工：\n[lv2]防水革+粘合剂→整箱的防护器具\n[lv1]石板+防水革→整箱的装备\n[lv1]毛线→布匹	가공 가능:\n[lv2]방수 가죽+접착제→방호구 상자\n[lv1]석판+방수 가죽→장비 상자\n[lv1]털실→직물	claude
+累计受击次数，可加工：\n[lv2]营养浓缩液+水→整箱的能量剂\n[lv2]稻谷+水→整箱的饮料	피격 횟수 누적, 가공 가능:\n[lv2]영양 농축액+물→활력제 상자\n[lv2]벼+물→음료 상자	claude
+技能持续期间远程干员攻速<@ba.vup>+{attack_speed}</>，且持续消耗整箱的能量剂或整箱的饮料维持繁荣度，库存不足时停止技能。\n<@ba.rem>持续时间无限，可主动关闭技能（期间可随时停止技能）</>	스킬 지속 중 원거리 오퍼레이터 공격 속도 <@ba.vup>+{attack_speed}</>, 활력제 상자 또는 음료 상자를 지속적으로 소모하여 번영도를 유지하며, 재고가 부족하면 스킬 중지.\n<@ba.rem>지속 시간 무한, 수동으로 스킬 종료 가능 (스킬 지속 중 언제든 스킬 중지 가능)</>	claude
+技能持续期间近战干员攻击力<@ba.vup>+{atk:0%}</>，且持续消耗整箱的饮料或整箱的能量剂或整箱的口粮维持高额繁荣度，库存不足时自动关闭技能。\n<@ba.rem>持续时间无限，可主动关闭技能（期间可随时停止技能）</>	스킬 지속 중 근거리 오퍼레이터 공격력 <@ba.vup>+{atk:0%}</>, 음료 상자, 활력제 상자 또는 식량 상자를 지속적으로 소모하여 높은 번영도를 유지하며, 재고가 부족하면 스킬이 자동으로 종료됨.\n<@ba.rem>지속 시간 무한, 수동으로 스킬 종료 가능 (스킬 지속 중 언제든 스킬 중지 가능)</>	claude
+技能持续期间场上我方单位受到的治疗效果提升至<@ba.vup>{heal_scale:0%}</>，且持续消耗整箱的医疗用品或整箱的能量剂维持高额繁荣度，库存不足时自动关闭技能。\n<@ba.rem>持续时间无限，可主动关闭技能（期间可随时停止技能）</>	스킬 지속 중 필드의 아군 유닛이 받는 치료 효과가 <@ba.vup>{heal_scale:0%}</>로 증가, 의료용품 상자 또는 활력제 상자를 지속적으로 소모하여 높은 번영도를 유지하며, 재고가 부족하면 스킬이 자동으로 종료됨.\n<@ba.rem>지속 시간 무한, 수동으로 스킬 종료 가능 (스킬 지속 중 언제든 스킬 중지 가능)</>	claude
+技能持续期间场上我方单位受到的物理与法术伤害<@ba.vup>-{def_penetrate:0%}</>，且持续消耗整箱的武器或整箱的工具维持高额繁荣度，库存不足时自动关闭技能。\n<@ba.rem>持续时间无限，可主动关闭技能（期间可随时停止技能）</>	스킬 지속 중 필드의 아군 유닛이 받는 물리 및 마법 대미지 <@ba.vup>-{def_penetrate:0%}</>, 무기 상자 또는 공구 상자를 지속적으로 소모하여 높은 번영도를 유지하며, 재고가 부족하면 스킬이 자동으로 종료됨.\n<@ba.rem>지속 시간 무한, 수동으로 스킬 종료 가능 (스킬 지속 중 언제든 스킬 중지 가능)</>	claude
+技能持续期间场上所有干员阻挡数<@ba.vup>+{block_cnt}</>且持续消耗整箱的武器或整箱的装备维持高额繁荣度，库存不足时自动关闭技能。\n<@ba.rem>持续时间无限，可主动关闭技能（期间可随时停止技能）</>	스킬 지속 중 필드의 모든 오퍼레이터 저지 가능 수 <@ba.vup>+{block_cnt}</>, 무기 상자 또는 장비 상자를 지속적으로 소모하여 높은 번영도를 유지하며, 재고가 부족하면 스킬이 자동으로 종료됨.\n<@ba.rem>지속 시간 무한, 수동으로 스킬 종료 가능 (스킬 지속 중 언제든 스킬 중지 가능)</>	claude
+<通路>类建筑\n道路相邻部署时会进行拼接\n<@ba.dgrey>部署后增加<@ba.delc>{score}</>建造评分\n基地效果：使相邻的<道路>、<生活>建筑额外增加建造评分</>	<통로>류 건물\n길을 인접하게 배치하면 서로 연결됨\n<@ba.dgrey>배치 후 건설 평점 <@ba.delc>{score}</> 증가\n기지 효과: 인접한 <길>, <생활> 건물의 건설 평점 추가 증가</>	claude
+<通路>类建筑\n渠道相邻部署时会进行拼接\n<@ba.dgrey>部署后增加<@ba.delc>{score}</>建造评分\n基地效果：使相邻的<渠道>、<生活>建筑额外增加建造评分</>	<통로>류 건물\n경로를 인접하게 배치하면 서로 연결됨\n<@ba.dgrey>배치 후 건설 평점 <@ba.delc>{score}</> 증가\n기지 효과: 인접한 <경로>, <생활> 건물의 건설 평점 추가 증가</>	claude
+<装饰>类建筑\n<@ba.dgrey>当前等级部署后增加<@ba.delc>{score}</>建造评分（升级至LV2，增加到<@ba.delc>{next_score}</>）\n基地效果：和其他任意类型的建筑相邻时额外增加建造评分</>	<장식>류 건물\n<@ba.dgrey>현재 레벨에서 배치 후 건설 평점 <@ba.delc>{score}</> 증가 (LV2로 레벨업 시 <@ba.delc>{next_score}</>로 증가)\n기지 효과: 다른 모든 유형의 건물과 인접하면 건설 평점 추가 증가</>	claude
+<装饰>类建筑\n<@ba.dgrey>部署后增加建造评分<@ba.delc>{score}</>\n基地效果：和其他任意类型的建筑相邻时额外获得建造得分</>	<장식>류 건물\n<@ba.dgrey>배치 후 건설 평점 <@ba.delc>{score}</> 증가\n기지 효과: 다른 모든 유형의 건물과 인접하면 건설 득점 추가 획득</>	claude
+<生活>类建筑\n和<基地建筑>或<基地设施>同一行或同一列的3格内时生成<基地通道>，<基地通道>重叠时生成<基地通道中转枢纽>\n<@ba.dgrey>当前等级部署后增加建造评分<@ba.delc>{score}</>（升级至LV2，增加到<@ba.delc>{next_score}</>）\n基地效果：和<道路>相邻时额外增加建造评分</>	<생활>류 건물\n<기지 건물> 또는 <기지 시설>과 같은 행 또는 같은 열의 3칸 이내에 있으면 <기지 통로> 생성, <기지 통로>가 겹치면 <기지 통로 환승 허브> 생성\n<@ba.dgrey>현재 레벨에서 배치 후 건설 평점 <@ba.delc>{score}</> 증가 (LV2로 레벨업 시 <@ba.delc>{next_score}</>로 증가)\n기지 효과: <길>과 인접하면 건설 평점 추가 증가</>	claude
+<生活>类建筑\n和<基地建筑>或<基地设施>同一行或同一列的3格内时生成<基地通道>，<基地通道>重叠时生成<基地通道中转枢纽>\n<@ba.dgrey>部署后增加建造评分<@ba.delc>{score}</>\n基地效果：和<道路>相邻时额外增加建造评分</>	<생활>류 건물\n<기지 건물> 또는 <기지 시설>과 같은 행 또는 같은 열의 3칸 이내에 있으면 <기지 통로> 생성, <기지 통로>가 겹치면 <기지 통로 환승 허브> 생성\n<@ba.dgrey>배치 후 건설 평점 <@ba.delc>{score}</> 증가\n기지 효과: <길>과 인접하면 건설 평점 추가 증가</>	claude
+<装饰>类建筑，完成成就获得\n<@ba.dgrey>当前等级部署后增加<@ba.delc>{score}</>建造评分（升级至LV2，增加到<@ba.delc>{next_score}</>）\n基地效果：和其他任意类型的建筑相邻时额外增加建造评分</>	<장식>류 건물, 업적 달성 시 획득\n<@ba.dgrey>현재 레벨에서 배치 후 건설 평점 <@ba.delc>{score}</> 증가 (LV2로 레벨업 시 <@ba.delc>{next_score}</>로 증가)\n기지 효과: 다른 모든 유형의 건물과 인접하면 건설 평점 추가 증가</>	claude
+<装饰>类建筑，完成成就获得\n<@ba.dgrey>当前等级部署后增加<@ba.delc>{score}</>建造评分\n基地效果：和其他任意类型的建筑相邻时额外增加建造评分</>	<장식>류 건물, 업적 달성 시 획득\n<@ba.dgrey>현재 레벨에서 배치 후 건설 평점 <@ba.delc>{score}</> 증가\n기지 효과: 다른 모든 유형의 건물과 인접하면 건설 평점 추가 증가</>	claude
+捕获攻击范围内任意一只生命值低于50％的常见狩猎物	공격 범위 내에서 HP가 50% 미만인 일반 사냥감 1마리를 포획	claude
+<农牧>类建筑\n<@ba.dgrey>部署后增加<@ba.delc>{score}</>建造评分\n基地效果：和<渠道>相邻时额外增加建造评分。\n关卡增益：基地内每部署1个<亚麻幼苗>，关卡内所有<亚麻幼苗>每秒额外回复<@ba.vup>5</>点生命值，最多<@ba.vup>25</>点/秒</>	<농축산>류 건물\n<@ba.dgrey>배치 후 건설 평점 <@ba.delc>{score}</> 증가\n기지 효과: <경로>와 인접하면 건설 평점 추가 증가.\n스테이지 강화: 기지 내에 <아마 모종>을 1개 배치할 때마다 스테이지 내 모든 <아마 모종>이 매초 HP를 <@ba.vup>5</> 추가 회복, 최대 <@ba.vup>25</>/초</>	claude
+<农牧>类建筑\n<@ba.dgrey>部署后增加<@ba.delc>{score}</>建造评分\n基地效果：和<渠道>相邻时额外增加建造评分。\n关卡增益：基地内每部署1个<稻谷种植槽>，关卡内所有<稻谷幼苗>每秒额外回复<@ba.vup>5</>点生命值，最多<@ba.vup>25</>点/秒</>	<농축산>류 건물\n<@ba.dgrey>배치 후 건설 평점 <@ba.delc>{score}</> 증가\n기지 효과: <경로>와 인접하면 건설 평점 추가 증가.\n스테이지 강화: 기지 내에 <벼 재배용기>를 1개 배치할 때마다 스테이지 내 모든 <벼 모종>이 매초 HP를 <@ba.vup>5</> 추가 회복, 최대 <@ba.vup>25</>/초</>	claude
+<农牧>类建筑\n<@ba.dgrey>部署后增加<@ba.delc>{score}</>建造评分\n基地效果：和<渠道>相邻时额外增加建造评分。\n关卡增益：基地内每部署1个<稻谷幼苗>，关卡内所有<稻谷幼苗>每秒额外回复<@ba.vup>5</>点生命值，最多<@ba.vup>25</>点/秒</>	<농축산>류 건물\n<@ba.dgrey>배치 후 건설 평점 <@ba.delc>{score}</> 증가\n기지 효과: <경로>와 인접하면 건설 평점 추가 증가.\n스테이지 강화: 기지 내에 <벼 모종>을 1개 배치할 때마다 스테이지 내 모든 <벼 모종>이 매초 HP를 <@ba.vup>5</> 추가 회복, 최대 <@ba.vup>25</>/초</>	claude
+<农牧>类建筑\n<@ba.dgrey>部署后增加<@ba.delc>{score}</>建造评分\n基地效果：和<渠道>相邻时额外增加建造评分。\n关卡增益：基地内每部署1个<亚麻种植槽>，关卡内所有<亚麻幼苗>每秒额外回复<@ba.vup>5</>点生命值，最多<@ba.vup>25</>点/秒</>	<농축산>류 건물\n<@ba.dgrey>배치 후 건설 평점 <@ba.delc>{score}</> 증가\n기지 효과: <경로>와 인접하면 건설 평점 추가 증가.\n스테이지 강화: 기지 내에 <아마 재배용기>를 1개 배치할 때마다 스테이지 내 모든 <아마 모종>이 매초 HP를 <@ba.vup>5</> 추가 회복, 최대 <@ba.vup>25</>/초</>	claude
+<农牧>类建筑\n<@ba.dgrey>部署后增加<@ba.delc>{score}</>建造评分\n基地效果：和<渠道>相邻时额外增加建造评分\n关卡增益：基地内每部署9个<小型兽栏>，关卡内获得<@ba.vup>1</>个<高级捕猎笼>，最多<@ba.vup>2</>个</>	<농축산>류 건물\n<@ba.dgrey>배치 후 건설 평점 <@ba.delc>{score}</> 증가\n기지 효과: <경로>와 인접하면 건설 평점 추가 증가\n스테이지 강화: 기지 내에 <소형 축사>를 9개 배치할 때마다 스테이지 내에서 <고급 비스트 트랩> <@ba.vup>1</>개 획득, 최대 <@ba.vup>2</>개</>	claude
+<农牧>类建筑\n<@ba.dgrey>部署后增加<@ba.delc>{score}</>建造评分\n基地效果：和<渠道>相邻时额外增加建造评分\n关卡增益：基地内每部署1个<大型兽栏>，关卡内获得<@ba.vup>1</>个<高级捕猎笼>，最多<@ba.vup>2</>个</>	<농축산>류 건물\n<@ba.dgrey>배치 후 건설 평점 <@ba.delc>{score}</> 증가\n기지 효과: <경로>와 인접하면 건설 평점 추가 증가\n스테이지 강화: 기지 내에 <대형 축사>를 1개 배치할 때마다 스테이지 내에서 <고급 비스트 트랩> <@ba.vup>1</>개 획득, 최대 <@ba.vup>2</>개</>	claude
+<产线>类建筑\n范围内存在<木材处理中心>时，可以激活并生产能源\n<@ba.dgrey>当前等级部署后增加<@ba.delc>{score}</>建造评分，激活后产出<@ba.velc>{electric_value}</>能源值（升级至LV2，分别增加到<@ba.delc>{next_score}</>和<@ba.velc>{next_electric_value}</>）\n基地效果：和任何<补给车轨道>或<补给车站台>相邻时额外增加建造评分</>	<생산 라인>류 건물\n범위 내에 <목재 처리 센터>가 있으면 활성화하여 에너지 생산 가능\n<@ba.dgrey>현재 레벨에서 배치 후 건설 평점 <@ba.delc>{score}</> 증가, 활성화 후 에너지 수치 <@ba.velc>{electric_value}</> 생산 (LV2로 레벨업 시 각각 <@ba.delc>{next_score}</> 및 <@ba.velc>{next_electric_value}</>로 증가)\n기지 효과: <보급차 궤도> 또는 <보급차 플랫폼>과 인접하면 건설 평점 추가 증가</>	claude
+<产线>类建筑\n范围内存在<木材处理中心>时，可以激活并生产能源\n<@ba.dgrey>当前等级部署后增加<@ba.delc>{score}</>建造评分，激活后产出<@ba.velc>{electric_value}</>能源值（升级至LV3，分别增加到<@ba.delc>{next_score}</>和<@ba.velc>{next_electric_value}</>）\n基地效果：和任何<补给车轨道>或<补给车站台>相邻时额外增加建造评分</>	<생산 라인>류 건물\n범위 내에 <목재 처리 센터>가 있으면 활성화하여 에너지 생산 가능\n<@ba.dgrey>현재 레벨에서 배치 후 건설 평점 <@ba.delc>{score}</> 증가, 활성화 후 에너지 수치 <@ba.velc>{electric_value}</> 생산 (LV3로 레벨업 시 각각 <@ba.delc>{next_score}</> 및 <@ba.velc>{next_electric_value}</>로 증가)\n기지 효과: <보급차 궤도> 또는 <보급차 플랫폼>과 인접하면 건설 평점 추가 증가</>	claude
+<产线>类建筑\n范围内存在<木材处理中心>时，可以激活并生产能源\n<@ba.dgrey>当前等级部署后增加<@ba.delc>{score}</>建造评分，激活后产出<@ba.velc>{electric_value}</>能源值（升级至LV4，分别增加到<@ba.delc>{next_score}</>和<@ba.velc>{next_electric_value}</>）\n基地效果：和任何<补给车轨道>或<补给车站台>相邻时额外增加建造评分</>	<생산 라인>류 건물\n범위 내에 <목재 처리 센터>가 있으면 활성화하여 에너지 생산 가능\n<@ba.dgrey>현재 레벨에서 배치 후 건설 평점 <@ba.delc>{score}</> 증가, 활성화 후 에너지 수치 <@ba.velc>{electric_value}</> 생산 (LV4로 레벨업 시 각각 <@ba.delc>{next_score}</> 및 <@ba.velc>{next_electric_value}</>로 증가)\n기지 효과: <보급차 궤도> 또는 <보급차 플랫폼>과 인접하면 건설 평점 추가 증가</>	claude
+<产线>类建筑\n范围内存在<木材处理中心>时，可以激活并生产能源\n<@ba.dgrey>当前等级部署后增加<@ba.delc>{score}</>建造评分，激活后产出<@ba.velc>{electric_value}</>能源值（升级至LV5，分别增加到<@ba.delc>{next_score}</>和<@ba.velc>{next_electric_value}</>）\n基地效果：和任何<补给车轨道>或<补给车站台>相邻时额外增加建造评分</>	<생산 라인>류 건물\n범위 내에 <목재 처리 센터>가 있으면 활성화하여 에너지 생산 가능\n<@ba.dgrey>현재 레벨에서 배치 후 건설 평점 <@ba.delc>{score}</> 증가, 활성화 후 에너지 수치 <@ba.velc>{electric_value}</> 생산 (LV5로 레벨업 시 각각 <@ba.delc>{next_score}</> 및 <@ba.velc>{next_electric_value}</>로 증가)\n기지 효과: <보급차 궤도> 또는 <보급차 플랫폼>과 인접하면 건설 평점 추가 증가</>	claude
+<产线>类建筑\n范围内存在<木材处理中心>时，可以激活并生产能源\n<@ba.dgrey>当前等级部署后增加<@ba.delc>{score}</>建造评分，激活后产出<@ba.velc>{electric_value}</>能源值\n基地效果：和任何<补给车轨道>或<补给车站台>相邻时额外增加建造评分</>	<생산 라인>류 건물\n범위 내에 <목재 처리 센터>가 있으면 활성화하여 에너지 생산 가능\n<@ba.dgrey>현재 레벨에서 배치 후 건설 평점 <@ba.delc>{score}</> 증가, 활성화 후 에너지 수치 <@ba.velc>{electric_value}</> 생산\n기지 효과: <보급차 궤도> 또는 <보급차 플랫폼>과 인접하면 건설 평점 추가 증가</>	claude
+<产线>类建筑\n范围内存在<石材处理中心>时，可以激活并生产能源\n<@ba.dgrey>当前等级部署后增加<@ba.delc>{score}</>建造评分，激活后产出<@ba.velc>{electric_value}</>能源值（升级至LV2，分别增加到<@ba.delc>{next_score}</>和<@ba.velc>{next_electric_value}</>）\n基地效果：和任何<补给车轨道>或<补给车站台>相邻时额外增加建造评分</>	<생산 라인>류 건물\n범위 내에 <석재 처리 센터>가 있으면 활성화하여 에너지 생산 가능\n<@ba.dgrey>현재 레벨에서 배치 후 건설 평점 <@ba.delc>{score}</> 증가, 활성화 후 에너지 수치 <@ba.velc>{electric_value}</> 생산 (LV2로 레벨업 시 각각 <@ba.delc>{next_score}</> 및 <@ba.velc>{next_electric_value}</>로 증가)\n기지 효과: <보급차 궤도> 또는 <보급차 플랫폼>과 인접하면 건설 평점 추가 증가</>	claude
+<产线>类建筑\n范围内存在<石材处理中心>时，可以激活并生产能源\n<@ba.dgrey>当前等级部署后增加<@ba.delc>{score}</>建造评分，激活后产出<@ba.velc>{electric_value}</>能源值（升级至LV3，分别增加到<@ba.delc>{next_score}</>和<@ba.velc>{next_electric_value}</>）\n基地效果：和任何<补给车轨道>或<补给车站台>相邻时额外增加建造评分</>	<생산 라인>류 건물\n범위 내에 <석재 처리 센터>가 있으면 활성화하여 에너지 생산 가능\n<@ba.dgrey>현재 레벨에서 배치 후 건설 평점 <@ba.delc>{score}</> 증가, 활성화 후 에너지 수치 <@ba.velc>{electric_value}</> 생산 (LV3로 레벨업 시 각각 <@ba.delc>{next_score}</> 및 <@ba.velc>{next_electric_value}</>로 증가)\n기지 효과: <보급차 궤도> 또는 <보급차 플랫폼>과 인접하면 건설 평점 추가 증가</>	claude
+<产线>类建筑\n范围内存在<石材处理中心>时，可以激活并生产能源\n<@ba.dgrey>当前等级部署后增加<@ba.delc>{score}</>建造评分，激活后产出<@ba.velc>{electric_value}</>能源值（升级至LV4，分别增加到<@ba.delc>{next_score}</>和<@ba.velc>{next_electric_value}</>）\n基地效果：和任何<补给车轨道>或<补给车站台>相邻时额外增加建造评分</>	<생산 라인>류 건물\n범위 내에 <석재 처리 센터>가 있으면 활성화하여 에너지 생산 가능\n<@ba.dgrey>현재 레벨에서 배치 후 건설 평점 <@ba.delc>{score}</> 증가, 활성화 후 에너지 수치 <@ba.velc>{electric_value}</> 생산 (LV4로 레벨업 시 각각 <@ba.delc>{next_score}</> 및 <@ba.velc>{next_electric_value}</>로 증가)\n기지 효과: <보급차 궤도> 또는 <보급차 플랫폼>과 인접하면 건설 평점 추가 증가</>	claude
+<产线>类建筑\n范围内存在<石材处理中心>时，可以激活并生产能源\n<@ba.dgrey>当前等级部署后增加<@ba.delc>{score}</>建造评分，激活后产出<@ba.velc>{electric_value}</>能源值（升级至LV5，分别增加到<@ba.delc>{next_score}</>和<@ba.velc>{next_electric_value}</>）\n基地效果：和任何<补给车轨道>或<补给车站台>相邻时额外增加建造评分</>	<생산 라인>류 건물\n범위 내에 <석재 처리 센터>가 있으면 활성화하여 에너지 생산 가능\n<@ba.dgrey>현재 레벨에서 배치 후 건설 평점 <@ba.delc>{score}</> 증가, 활성화 후 에너지 수치 <@ba.velc>{electric_value}</> 생산 (LV5로 레벨업 시 각각 <@ba.delc>{next_score}</> 및 <@ba.velc>{next_electric_value}</>로 증가)\n기지 효과: <보급차 궤도> 또는 <보급차 플랫폼>과 인접하면 건설 평점 추가 증가</>	claude
+<产线>类建筑\n范围内存在<石材处理中心>时，可以激活并生产能源\n<@ba.dgrey>当前等级部署后增加<@ba.delc>{score}</>建造评分，激活后产出<@ba.velc>{electric_value}</>能源值\n基地效果：和任何<补给车轨道>或<补给车站台>相邻时额外增加建造评分</>	<생산 라인>류 건물\n범위 내에 <석재 처리 센터>가 있으면 활성화하여 에너지 생산 가능\n<@ba.dgrey>현재 레벨에서 배치 후 건설 평점 <@ba.delc>{score}</> 증가, 활성화 후 에너지 수치 <@ba.velc>{electric_value}</> 생산\n기지 효과: <보급차 궤도> 또는 <보급차 플랫폼>과 인접하면 건설 평점 추가 증가</>	claude
+<产线>类建筑\n范围内存在<铁矿石处理中心>时，可以激活并生产能源\n<@ba.dgrey>当前等级部署后增加<@ba.delc>{score}</>建造评分，激活后产出<@ba.velc>{electric_value}</>能源值（升级至LV2，分别增加到<@ba.delc>{next_score}</>和<@ba.velc>{next_electric_value}</>）\n基地效果：和任何<补给车轨道>或<补给车站台>相邻时额外增加建造评分</>	<생산 라인>류 건물\n범위 내에 <철광석 처리 센터>가 있으면 활성화하여 에너지 생산 가능\n<@ba.dgrey>현재 레벨에서 배치 후 건설 평점 <@ba.delc>{score}</> 증가, 활성화 후 에너지 수치 <@ba.velc>{electric_value}</> 생산 (LV2로 레벨업 시 각각 <@ba.delc>{next_score}</> 및 <@ba.velc>{next_electric_value}</>로 증가)\n기지 효과: <보급차 궤도> 또는 <보급차 플랫폼>과 인접하면 건설 평점 추가 증가</>	claude
+<产线>类建筑\n范围内存在<铁矿石处理中心>时，可以激活并生产能源\n<@ba.dgrey>当前等级部署后增加<@ba.delc>{score}</>建造评分，激活后产出<@ba.velc>{electric_value}</>能源值（升级至LV3，分别增加到<@ba.delc>{next_score}</>和<@ba.velc>{next_electric_value}</>）\n基地效果：和任何<补给车轨道>或<补给车站台>相邻时额外增加建造评分</>	<생산 라인>류 건물\n범위 내에 <철광석 처리 센터>가 있으면 활성화하여 에너지 생산 가능\n<@ba.dgrey>현재 레벨에서 배치 후 건설 평점 <@ba.delc>{score}</> 증가, 활성화 후 에너지 수치 <@ba.velc>{electric_value}</> 생산 (LV3로 레벨업 시 각각 <@ba.delc>{next_score}</> 및 <@ba.velc>{next_electric_value}</>로 증가)\n기지 효과: <보급차 궤도> 또는 <보급차 플랫폼>과 인접하면 건설 평점 추가 증가</>	claude
+<产线>类建筑\n范围内存在<铁矿石处理中心>时，可以激活并生产能源\n<@ba.dgrey>当前等级部署后增加<@ba.delc>{score}</>建造评分，激活后产出<@ba.velc>{electric_value}</>能源值（升级至LV4，分别增加到<@ba.delc>{next_score}</>和<@ba.velc>{next_electric_value}</>）\n基地效果：和任何<补给车轨道>或<补给车站台>相邻时额外增加建造评分</>	<생산 라인>류 건물\n범위 내에 <철광석 처리 센터>가 있으면 활성화하여 에너지 생산 가능\n<@ba.dgrey>현재 레벨에서 배치 후 건설 평점 <@ba.delc>{score}</> 증가, 활성화 후 에너지 수치 <@ba.velc>{electric_value}</> 생산 (LV4로 레벨업 시 각각 <@ba.delc>{next_score}</> 및 <@ba.velc>{next_electric_value}</>로 증가)\n기지 효과: <보급차 궤도> 또는 <보급차 플랫폼>과 인접하면 건설 평점 추가 증가</>	claude
+<产线>类建筑\n范围内存在<铁矿石处理中心>时，可以激活并生产能源\n<@ba.dgrey>当前等级部署后增加<@ba.delc>{score}</>建造评分，激活后产出<@ba.velc>{electric_value}</>能源值（升级至LV5，分别增加到<@ba.delc>{next_score}</>和<@ba.velc>{next_electric_value}</>）\n基地效果：和任何<补给车轨道>或<补给车站台>相邻时额外增加建造评分</>	<생산 라인>류 건물\n범위 내에 <철광석 처리 센터>가 있으면 활성화하여 에너지 생산 가능\n<@ba.dgrey>현재 레벨에서 배치 후 건설 평점 <@ba.delc>{score}</> 증가, 활성화 후 에너지 수치 <@ba.velc>{electric_value}</> 생산 (LV5로 레벨업 시 각각 <@ba.delc>{next_score}</> 및 <@ba.velc>{next_electric_value}</>로 증가)\n기지 효과: <보급차 궤도> 또는 <보급차 플랫폼>과 인접하면 건설 평점 추가 증가</>	claude
+<产线>类建筑\n范围内存在<铁矿石处理中心>时，可以激活并生产能源\n<@ba.dgrey>当前等级部署后增加<@ba.delc>{score}</>建造评分，激活后产出<@ba.velc>{electric_value}</>能源值\n基地效果：和任何<补给车轨道>或<补给车站台>相邻时额外增加建造评分</>	<생산 라인>류 건물\n범위 내에 <철광석 처리 센터>가 있으면 활성화하여 에너지 생산 가능\n<@ba.dgrey>현재 레벨에서 배치 후 건설 평점 <@ba.delc>{score}</> 증가, 활성화 후 에너지 수치 <@ba.velc>{electric_value}</> 생산\n기지 효과: <보급차 궤도> 또는 <보급차 플랫폼>과 인접하면 건설 평점 추가 증가</>	claude
+<产线>类建筑\n范围内存在<木材处理中心>和<石材处理中心>时，可以激活并生产能源\n<@ba.dgrey>当前等级部署后增加<@ba.delc>{score}</>建造评分，激活后产出<@ba.velc>{electric_value}</>能源值（升级至LV2，分别增加到<@ba.delc>{next_score}</>和<@ba.velc>{next_electric_value}</>）\n基地效果：和任何<补给车轨道>或<补给车站台>相邻时额外增加建造评分</>	<생산 라인>류 건물\n범위 내에 <목재 처리 센터>와 <석재 처리 센터>가 있으면 활성화하여 에너지 생산 가능\n<@ba.dgrey>현재 레벨에서 배치 후 건설 평점 <@ba.delc>{score}</> 증가, 활성화 후 에너지 수치 <@ba.velc>{electric_value}</> 생산 (LV2로 레벨업 시 각각 <@ba.delc>{next_score}</> 및 <@ba.velc>{next_electric_value}</>로 증가)\n기지 효과: <보급차 궤도> 또는 <보급차 플랫폼>과 인접하면 건설 평점 추가 증가</>	claude
+<产线>类建筑\n范围内存在<木材处理中心>和<石材处理中心>时，可以激活并生产能源\n<@ba.dgrey>当前等级部署后增加<@ba.delc>{score}</>建造评分，激活后产出<@ba.velc>{electric_value}</>能源值（升级至LV3，分别增加到<@ba.delc>{next_score}</>和<@ba.velc>{next_electric_value}</>）\n基地效果：和任何<补给车轨道>或<补给车站台>相邻时额外增加建造评分</>	<생산 라인>류 건물\n범위 내에 <목재 처리 센터>와 <석재 처리 센터>가 있으면 활성화하여 에너지 생산 가능\n<@ba.dgrey>현재 레벨에서 배치 후 건설 평점 <@ba.delc>{score}</> 증가, 활성화 후 에너지 수치 <@ba.velc>{electric_value}</> 생산 (LV3로 레벨업 시 각각 <@ba.delc>{next_score}</> 및 <@ba.velc>{next_electric_value}</>로 증가)\n기지 효과: <보급차 궤도> 또는 <보급차 플랫폼>과 인접하면 건설 평점 추가 증가</>	claude
+<产线>类建筑\n范围内存在<木材处理中心>和<石材处理中心>时，可以激活并生产能源\n<@ba.dgrey>当前等级部署后增加<@ba.delc>{score}</>建造评分，激活后产出<@ba.velc>{electric_value}</>能源值（升级至LV4，分别增加到<@ba.delc>{next_score}</>和<@ba.velc>{next_electric_value}</>）\n基地效果：和任何<补给车轨道>或<补给车站台>相邻时额外增加建造评分</>	<생산 라인>류 건물\n범위 내에 <목재 처리 센터>와 <석재 처리 센터>가 있으면 활성화하여 에너지 생산 가능\n<@ba.dgrey>현재 레벨에서 배치 후 건설 평점 <@ba.delc>{score}</> 증가, 활성화 후 에너지 수치 <@ba.velc>{electric_value}</> 생산 (LV4로 레벨업 시 각각 <@ba.delc>{next_score}</> 및 <@ba.velc>{next_electric_value}</>로 증가)\n기지 효과: <보급차 궤도> 또는 <보급차 플랫폼>과 인접하면 건설 평점 추가 증가</>	claude
+<产线>类建筑\n范围内存在<木材处理中心>和<石材处理中心>时，可以激活并生产能源\n<@ba.dgrey>当前等级部署后增加<@ba.delc>{score}</>建造评分，激活后产出<@ba.velc>{electric_value}</>能源值（升级至LV5，分别增加到<@ba.delc>{next_score}</>和<@ba.velc>{next_electric_value}</>）\n基地效果：和任何<补给车轨道>或<补给车站台>相邻时额外增加建造评分</>	<생산 라인>류 건물\n범위 내에 <목재 처리 센터>와 <석재 처리 센터>가 있으면 활성화하여 에너지 생산 가능\n<@ba.dgrey>현재 레벨에서 배치 후 건설 평점 <@ba.delc>{score}</> 증가, 활성화 후 에너지 수치 <@ba.velc>{electric_value}</> 생산 (LV5로 레벨업 시 각각 <@ba.delc>{next_score}</> 및 <@ba.velc>{next_electric_value}</>로 증가)\n기지 효과: <보급차 궤도> 또는 <보급차 플랫폼>과 인접하면 건설 평점 추가 증가</>	claude
+<产线>类建筑\n范围内存在<木材处理中心>和<石材处理中心>时，可以激活并生产能源\n<@ba.dgrey>当前等级部署后增加<@ba.delc>{score}</>建造评分，激活后产出<@ba.velc>{electric_value}</>能源值\n基地效果：和任何<补给车轨道>或<补给车站台>相邻时额外增加建造评分</>	<생산 라인>류 건물\n범위 내에 <목재 처리 센터>와 <석재 처리 센터>가 있으면 활성화하여 에너지 생산 가능\n<@ba.dgrey>현재 레벨에서 배치 후 건설 평점 <@ba.delc>{score}</> 증가, 활성화 후 에너지 수치 <@ba.velc>{electric_value}</> 생산\n기지 효과: <보급차 궤도> 또는 <보급차 플랫폼>과 인접하면 건설 평점 추가 증가</>	claude
+<产线>类建筑\n范围内存在<石材处理中心>和<铁矿石处理中心>时，可以激活并生产能源\n<@ba.dgrey>当前等级部署后增加<@ba.delc>{score}</>建造评分，激活后产出<@ba.velc>{electric_value}</>能源值（升级至LV2，分别增加到<@ba.delc>{next_score}</>和<@ba.velc>{next_electric_value}</>）\n基地效果：和任何<补给车轨道>或<补给车站台>相邻时额外增加建造评分</>	<생산 라인>류 건물\n범위 내에 <석재 처리 센터>와 <철광석 처리 센터>가 있으면 활성화하여 에너지 생산 가능\n<@ba.dgrey>현재 레벨에서 배치 후 건설 평점 <@ba.delc>{score}</> 증가, 활성화 후 에너지 수치 <@ba.velc>{electric_value}</> 생산 (LV2로 레벨업 시 각각 <@ba.delc>{next_score}</> 및 <@ba.velc>{next_electric_value}</>로 증가)\n기지 효과: <보급차 궤도> 또는 <보급차 플랫폼>과 인접하면 건설 평점 추가 증가</>	claude
+<产线>类建筑\n范围内存在<石材处理中心>和<铁矿石处理中心>时，可以激活并生产能源\n<@ba.dgrey>当前等级部署后增加<@ba.delc>{score}</>建造评分，激活后产出<@ba.velc>{electric_value}</>能源值（升级至LV3，分别增加到<@ba.delc>{next_score}</>和<@ba.velc>{next_electric_value}</>）\n基地效果：和任何<补给车轨道>或<补给车站台>相邻时额外增加建造评分</>	<생산 라인>류 건물\n범위 내에 <석재 처리 센터>와 <철광석 처리 센터>가 있으면 활성화하여 에너지 생산 가능\n<@ba.dgrey>현재 레벨에서 배치 후 건설 평점 <@ba.delc>{score}</> 증가, 활성화 후 에너지 수치 <@ba.velc>{electric_value}</> 생산 (LV3로 레벨업 시 각각 <@ba.delc>{next_score}</> 및 <@ba.velc>{next_electric_value}</>로 증가)\n기지 효과: <보급차 궤도> 또는 <보급차 플랫폼>과 인접하면 건설 평점 추가 증가</>	claude
+<产线>类建筑\n范围内存在<石材处理中心>和<铁矿石处理中心>时，可以激活并生产能源\n<@ba.dgrey>当前等级部署后增加<@ba.delc>{score}</>建造评分，激活后产出<@ba.velc>{electric_value}</>能源值（升级至LV4，分别增加到<@ba.delc>{next_score}</>和<@ba.velc>{next_electric_value}</>）\n基地效果：和任何<补给车轨道>或<补给车站台>相邻时额外增加建造评分</>	<생산 라인>류 건물\n범위 내에 <석재 처리 센터>와 <철광석 처리 센터>가 있으면 활성화하여 에너지 생산 가능\n<@ba.dgrey>현재 레벨에서 배치 후 건설 평점 <@ba.delc>{score}</> 증가, 활성화 후 에너지 수치 <@ba.velc>{electric_value}</> 생산 (LV4로 레벨업 시 각각 <@ba.delc>{next_score}</> 및 <@ba.velc>{next_electric_value}</>로 증가)\n기지 효과: <보급차 궤도> 또는 <보급차 플랫폼>과 인접하면 건설 평점 추가 증가</>	claude
+<产线>类建筑\n范围内存在<石材处理中心>和<铁矿石处理中心>时，可以激活并生产能源\n<@ba.dgrey>当前等级部署后增加<@ba.delc>{score}</>建造评分，激活后产出<@ba.velc>{electric_value}</>能源值（升级至LV5，分别增加到<@ba.delc>{next_score}</>和<@ba.velc>{next_electric_value}</>）\n基地效果：和任何<补给车轨道>或<补给车站台>相邻时额外增加建造评分</>	<생산 라인>류 건물\n범위 내에 <석재 처리 센터>와 <철광석 처리 센터>가 있으면 활성화하여 에너지 생산 가능\n<@ba.dgrey>현재 레벨에서 배치 후 건설 평점 <@ba.delc>{score}</> 증가, 활성화 후 에너지 수치 <@ba.velc>{electric_value}</> 생산 (LV5로 레벨업 시 각각 <@ba.delc>{next_score}</> 및 <@ba.velc>{next_electric_value}</>로 증가)\n기지 효과: <보급차 궤도> 또는 <보급차 플랫폼>과 인접하면 건설 평점 추가 증가</>	claude
+<产线>类建筑\n范围内存在<石材处理中心>和<铁矿石处理中心>时，可以激活并生产能源\n<@ba.dgrey>当前等级部署后增加<@ba.delc>{score}</>建造评分，激活后产出<@ba.velc>{electric_value}</>能源值\n基地效果：和任何<补给车轨道>或<补给车站台>相邻时额外增加建造评分</>	<생산 라인>류 건물\n범위 내에 <석재 처리 센터>와 <철광석 처리 센터>가 있으면 활성화하여 에너지 생산 가능\n<@ba.dgrey>현재 레벨에서 배치 후 건설 평점 <@ba.delc>{score}</> 증가, 활성화 후 에너지 수치 <@ba.velc>{electric_value}</> 생산\n기지 효과: <보급차 궤도> 또는 <보급차 플랫폼>과 인접하면 건설 평점 추가 증가</>	claude
+<产线>类建筑\n范围内存在<木材处理中心>，<石材处理中心>和<铁矿石处理中心>时，可以激活并生产能源\n<@ba.dgrey>当前等级部署后增加<@ba.delc>{score}</>建造评分，激活后产出<@ba.velc>{electric_value}</>能源值（升级至LV2，分别增加到<@ba.delc>{next_score}</>和<@ba.velc>{next_electric_value}</>）\n基地效果：和任何<补给车轨道>或<补给车站台>相邻时额外增加建造评分</>	<생산 라인>류 건물\n범위 내에 <목재 처리 센터>, <석재 처리 센터>, <철광석 처리 센터>가 있으면 활성화하여 에너지 생산 가능\n<@ba.dgrey>현재 레벨에서 배치 후 건설 평점 <@ba.delc>{score}</> 증가, 활성화 후 에너지 수치 <@ba.velc>{electric_value}</> 생산 (LV2로 레벨업 시 각각 <@ba.delc>{next_score}</> 및 <@ba.velc>{next_electric_value}</>로 증가)\n기지 효과: <보급차 궤도> 또는 <보급차 플랫폼>과 인접하면 건설 평점 추가 증가</>	claude
+<产线>类建筑\n范围内存在<木材处理中心>，<石材处理中心>和<铁矿石处理中心>时，可以激活并生产能源\n<@ba.dgrey>当前等级部署后增加<@ba.delc>{score}</>建造评分，激活后产出<@ba.velc>{electric_value}</>能源值（升级至LV3，分别增加到<@ba.delc>{next_score}</>和<@ba.velc>{next_electric_value}</>）\n基地效果：和任何<补给车轨道>或<补给车站台>相邻时额外增加建造评分</>	<생산 라인>류 건물\n범위 내에 <목재 처리 센터>, <석재 처리 센터>, <철광석 처리 센터>가 있으면 활성화하여 에너지 생산 가능\n<@ba.dgrey>현재 레벨에서 배치 후 건설 평점 <@ba.delc>{score}</> 증가, 활성화 후 에너지 수치 <@ba.velc>{electric_value}</> 생산 (LV3로 레벨업 시 각각 <@ba.delc>{next_score}</> 및 <@ba.velc>{next_electric_value}</>로 증가)\n기지 효과: <보급차 궤도> 또는 <보급차 플랫폼>과 인접하면 건설 평점 추가 증가</>	claude
+<产线>类建筑\n范围内存在<木材处理中心>，<石材处理中心>和<铁矿石处理中心>时，可以激活并生产能源\n<@ba.dgrey>当前等级部署后增加<@ba.delc>{score}</>建造评分，激活后产出<@ba.velc>{electric_value}</>能源值（升级至LV4，分别增加到<@ba.delc>{next_score}</>和<@ba.velc>{next_electric_value}</>）\n基地效果：和任何<补给车轨道>或<补给车站台>相邻时额外增加建造评分</>	<생산 라인>류 건물\n범위 내에 <목재 처리 센터>, <석재 처리 센터>, <철광석 처리 센터>가 있으면 활성화하여 에너지 생산 가능\n<@ba.dgrey>현재 레벨에서 배치 후 건설 평점 <@ba.delc>{score}</> 증가, 활성화 후 에너지 수치 <@ba.velc>{electric_value}</> 생산 (LV4로 레벨업 시 각각 <@ba.delc>{next_score}</> 및 <@ba.velc>{next_electric_value}</>로 증가)\n기지 효과: <보급차 궤도> 또는 <보급차 플랫폼>과 인접하면 건설 평점 추가 증가</>	claude
+<产线>类建筑\n范围内存在<木材处理中心>，<石材处理中心>和<铁矿石处理中心>时，可以激活并生产能源\n<@ba.dgrey>当前等级部署后增加<@ba.delc>{score}</>建造评分，激活后产出<@ba.velc>{electric_value}</>能源值（升级至LV5，分别增加到<@ba.delc>{next_score}</>和<@ba.velc>{next_electric_value}</>）\n基地效果：和任何<补给车轨道>或<补给车站台>相邻时额外增加建造评分</>	<생산 라인>류 건물\n범위 내에 <목재 처리 센터>, <석재 처리 센터>, <철광석 처리 센터>가 있으면 활성화하여 에너지 생산 가능\n<@ba.dgrey>현재 레벨에서 배치 후 건설 평점 <@ba.delc>{score}</> 증가, 활성화 후 에너지 수치 <@ba.velc>{electric_value}</> 생산 (LV5로 레벨업 시 각각 <@ba.delc>{next_score}</> 및 <@ba.velc>{next_electric_value}</>로 증가)\n기지 효과: <보급차 궤도> 또는 <보급차 플랫폼>과 인접하면 건설 평점 추가 증가</>	claude
+<产线>类建筑\n范围内存在<木材处理中心>，<石材处理中心>和<铁矿石处理中心>时，可以激活并生产能源\n<@ba.dgrey>当前等级部署后增加<@ba.delc>{score}</>建造评分，激活后产出<@ba.velc>{electric_value}</>能源值\n基地效果：和任何<补给车轨道>或<补给车站台>相邻时额外增加建造评分</>	<생산 라인>류 건물\n범위 내에 <목재 처리 센터>, <석재 처리 센터>, <철광석 처리 센터>가 있으면 활성화하여 에너지 생산 가능\n<@ba.dgrey>현재 레벨에서 배치 후 건설 평점 <@ba.delc>{score}</> 증가, 활성화 후 에너지 수치 <@ba.velc>{electric_value}</> 생산\n기지 효과: <보급차 궤도> 또는 <보급차 플랫폼>과 인접하면 건설 평점 추가 증가</>	claude
+<农牧>类建筑\n<@ba.dgrey>部署后增加<@ba.delc>{score}</>建造评分\n基地效果：和<渠道>相邻时额外增加建造评分</>	<농축산>류 건물\n<@ba.dgrey>배치 후 건설 평점 <@ba.delc>{score}</> 증가\n기지 효과: <경로>와 인접하면 건설 평점 추가 증가</>	claude
+<产线>类建筑\n使范围内已激活的能源转化装置转化效率提升\n<@ba.dgrey>当前等级部署后增加<@ba.delc>{score}</>建造评分，提升倍率为<@ba.velc>{electric_amplify}</>（升级至LV2，分别增加到<@ba.delc>{next_score}</>和<@ba.velc>{next_electric_amplify}</>）\n基地效果：和任何<补给车轨道>或<补给车站台>相邻时额外增加建造评分</>	<생산 라인>류 건물\n범위 내 활성화된 에너지 변환 장치의 변환 효율 증가\n<@ba.dgrey>현재 레벨에서 배치 후 건설 평점 <@ba.delc>{score}</> 증가, 증가 배율 <@ba.velc>{electric_amplify}</> (LV2로 레벨업 시 각각 <@ba.delc>{next_score}</> 및 <@ba.velc>{next_electric_amplify}</>로 증가)\n기지 효과: <보급차 궤도> 또는 <보급차 플랫폼>과 인접하면 건설 평점 추가 증가</>	claude
+<产线>类建筑\n使范围内已激活的能源转化装置转化效率提升\n<@ba.dgrey>当前等级部署后增加<@ba.delc>{score}</>建造评分，提升倍率为<@ba.velc>{electric_amplify}</>（升级至LV3，分别增加到<@ba.delc>{next_score}</>和<@ba.velc>{next_electric_amplify}</>）\n基地效果：和任何<补给车轨道>或<补给车站台>相邻时额外增加建造评分</>	<생산 라인>류 건물\n범위 내 활성화된 에너지 변환 장치의 변환 효율 증가\n<@ba.dgrey>현재 레벨에서 배치 후 건설 평점 <@ba.delc>{score}</> 증가, 증가 배율 <@ba.velc>{electric_amplify}</> (LV3로 레벨업 시 각각 <@ba.delc>{next_score}</> 및 <@ba.velc>{next_electric_amplify}</>로 증가)\n기지 효과: <보급차 궤도> 또는 <보급차 플랫폼>과 인접하면 건설 평점 추가 증가</>	claude
+<产线>类建筑\n使范围内已激活的能源转化装置转化效率提升\n<@ba.dgrey>当前等级部署后增加<@ba.delc>{score}</>建造评分，提升倍率为<@ba.velc>{electric_amplify}</>（升级至LV4，分别增加到<@ba.delc>{next_score}</>和<@ba.velc>{next_electric_amplify}</>）\n基地效果：和任何<补给车轨道>或<补给车站台>相邻时额外增加建造评分</>	<생산 라인>류 건물\n범위 내 활성화된 에너지 변환 장치의 변환 효율 증가\n<@ba.dgrey>현재 레벨에서 배치 후 건설 평점 <@ba.delc>{score}</> 증가, 증가 배율 <@ba.velc>{electric_amplify}</> (LV4로 레벨업 시 각각 <@ba.delc>{next_score}</> 및 <@ba.velc>{next_electric_amplify}</>로 증가)\n기지 효과: <보급차 궤도> 또는 <보급차 플랫폼>과 인접하면 건설 평점 추가 증가</>	claude
+<产线>类建筑\n使范围内已激活的能源转化装置转化效率提升\n<@ba.dgrey>当前等级部署后增加<@ba.delc>{score}</>建造评分，提升倍率为<@ba.velc>{electric_amplify}</>（升级至LV5，分别增加到<@ba.delc>{next_score}</>和<@ba.velc>{next_electric_amplify}</>）\n基地效果：和任何<补给车轨道>或<补给车站台>相邻时额外增加建造评分</>	<생산 라인>류 건물\n범위 내 활성화된 에너지 변환 장치의 변환 효율 증가\n<@ba.dgrey>현재 레벨에서 배치 후 건설 평점 <@ba.delc>{score}</> 증가, 증가 배율 <@ba.velc>{electric_amplify}</> (LV5로 레벨업 시 각각 <@ba.delc>{next_score}</> 및 <@ba.velc>{next_electric_amplify}</>로 증가)\n기지 효과: <보급차 궤도> 또는 <보급차 플랫폼>과 인접하면 건설 평점 추가 증가</>	claude
+<产线>类建筑\n使范围内已激活的能源转化装置转化效率提升\n<@ba.dgrey>当前等级部署后增加<@ba.delc>{score}</>建造评分，提升倍率为<@ba.velc>{electric_amplify}</>\n基地效果：和任何<补给车轨道>或<补给车站台>相邻时额外增加建造评分</>	<생산 라인>류 건물\n범위 내 활성화된 에너지 변환 장치의 변환 효율 증가\n<@ba.dgrey>현재 레벨에서 배치 후 건설 평점 <@ba.delc>{score}</> 증가, 증가 배율 <@ba.velc>{electric_amplify}</>\n기지 효과: <보급차 궤도> 또는 <보급차 플랫폼>과 인접하면 건설 평점 추가 증가</>	claude
+<产线>类建筑\n使范围内已激活的能源转化装置转化效率大幅提升\n<@ba.dgrey>当前等级部署后增加<@ba.delc>{score}</>建造评分，提升倍率为<@ba.velc>{electric_amplify}</>（升级至LV2，分别增加到<@ba.delc>{next_score}</>和<@ba.velc>{next_electric_amplify}</>）\n基地效果：和任何<补给车轨道>或<补给车站台>相邻时额外增加建造评分</>	<생산 라인>류 건물\n범위 내 활성화된 에너지 변환 장치의 변환 효율 대폭 증가\n<@ba.dgrey>현재 레벨에서 배치 후 건설 평점 <@ba.delc>{score}</> 증가, 증가 배율 <@ba.velc>{electric_amplify}</> (LV2로 레벨업 시 각각 <@ba.delc>{next_score}</> 및 <@ba.velc>{next_electric_amplify}</>로 증가)\n기지 효과: <보급차 궤도> 또는 <보급차 플랫폼>과 인접하면 건설 평점 추가 증가</>	claude
+<产线>类建筑\n使范围内已激活的能源转化装置转化效率大幅提升\n<@ba.dgrey>当前等级部署后增加<@ba.delc>{score}</>建造评分，提升倍率为<@ba.velc>{electric_amplify}</>（升级至LV3，分别增加到<@ba.delc>{next_score}</>和<@ba.velc>{next_electric_amplify}</>）\n基地效果：和任何<补给车轨道>或<补给车站台>相邻时额外增加建造评分</>	<생산 라인>류 건물\n범위 내 활성화된 에너지 변환 장치의 변환 효율 대폭 증가\n<@ba.dgrey>현재 레벨에서 배치 후 건설 평점 <@ba.delc>{score}</> 증가, 증가 배율 <@ba.velc>{electric_amplify}</> (LV3로 레벨업 시 각각 <@ba.delc>{next_score}</> 및 <@ba.velc>{next_electric_amplify}</>로 증가)\n기지 효과: <보급차 궤도> 또는 <보급차 플랫폼>과 인접하면 건설 평점 추가 증가</>	claude
+<产线>类建筑\n使范围内已激活的能源转化装置转化效率大幅提升\n<@ba.dgrey>当前等级部署后增加<@ba.delc>{score}</>建造评分，提升倍率为<@ba.velc>{electric_amplify}</>（升级至LV4，分别增加到<@ba.delc>{next_score}</>和<@ba.velc>{next_electric_amplify}</>）\n基地效果：和任何<补给车轨道>或<补给车站台>相邻时额外增加建造评分</>	<생산 라인>류 건물\n범위 내 활성화된 에너지 변환 장치의 변환 효율 대폭 증가\n<@ba.dgrey>현재 레벨에서 배치 후 건설 평점 <@ba.delc>{score}</> 증가, 증가 배율 <@ba.velc>{electric_amplify}</> (LV4로 레벨업 시 각각 <@ba.delc>{next_score}</> 및 <@ba.velc>{next_electric_amplify}</>로 증가)\n기지 효과: <보급차 궤도> 또는 <보급차 플랫폼>과 인접하면 건설 평점 추가 증가</>	claude
+<产线>类建筑\n使范围内已激活的能源转化装置转化效率大幅提升\n<@ba.dgrey>当前等级部署后增加<@ba.delc>{score}</>建造评分，提升倍率为<@ba.velc>{electric_amplify}</>（升级至LV5，分别增加到<@ba.delc>{next_score}</>和<@ba.velc>{next_electric_amplify}</>）\n基地效果：和任何<补给车轨道>或<补给车站台>相邻时额外增加建造评分</>	<생산 라인>류 건물\n범위 내 활성화된 에너지 변환 장치의 변환 효율 대폭 증가\n<@ba.dgrey>현재 레벨에서 배치 후 건설 평점 <@ba.delc>{score}</> 증가, 증가 배율 <@ba.velc>{electric_amplify}</> (LV5로 레벨업 시 각각 <@ba.delc>{next_score}</> 및 <@ba.velc>{next_electric_amplify}</>로 증가)\n기지 효과: <보급차 궤도> 또는 <보급차 플랫폼>과 인접하면 건설 평점 추가 증가</>	claude
+<产线>类建筑\n使范围内已激活的能源转化装置转化效率大幅提升\n<@ba.dgrey>当前等级部署后增加<@ba.delc>{score}</>建造评分，提升倍率为<@ba.velc>{electric_amplify}</>\n基地效果：和任何<补给车轨道>或<补给车站台>相邻时额外增加建造评分</>	<생산 라인>류 건물\n범위 내 활성화된 에너지 변환 장치의 변환 효율 대폭 증가\n<@ba.dgrey>현재 레벨에서 배치 후 건설 평점 <@ba.delc>{score}</> 증가, 증가 배율 <@ba.velc>{electric_amplify}</>\n기지 효과: <보급차 궤도> 또는 <보급차 플랫폼>과 인접하면 건설 평점 추가 증가</>	claude
+<装饰>类建筑\n<@ba.dgrey>当前等级部署后增加<@ba.delc>{score}</>建造评分\n基地效果：和其他任意类型的建筑相邻时额外增加建造评分</>	<장식>류 건물\n<@ba.dgrey>현재 레벨에서 배치 후 건설 평점 <@ba.delc>{score}</> 증가\n기지 효과: 다른 모든 유형의 건물과 인접하면 건설 평점 추가 증가</>	claude
+<生活>类建筑\n<@ba.dgrey>部署后增加<@ba.delc>{score}</>建造评分\n和<道路>相邻时自身额外获得建造得分</>	<생활>류 건물\n<@ba.dgrey>배치 후 건설 평점 <@ba.delc>{score}</> 증가\n<길>과 인접하면 자신이 건설 득점 추가 획득</>	claude
+<生活>类建筑\n部署后建造得分{score}\n和<道路>相邻时自身额外获得建造得分	<생활>류 건물\n배치 후 건설 득점 {score}\n<길>과 인접하면 자신이 건설 득점 추가 획득	claude
+<生活>类建筑\n<@ba.dgrey>部署后增加<@ba.delc>{score}</>建造评分（升级至LV2，增加到<@ba.delc>{next_score}</>）\n基地效果：和<道路>相邻时额外增加建造评分\n关卡增益：基地内每部署1个<饮品供给站>，关卡内获得<@ba.vup>1</>个<特制水上平台>，最多<@ba.vup>2</>个</>	<생활>류 건물\n<@ba.dgrey>배치 후 건설 평점 <@ba.delc>{score}</> 증가 (LV2로 레벨업 시 <@ba.delc>{next_score}</>로 증가)\n기지 효과: <길>과 인접하면 건설 평점 추가 증가\n스테이지 강화: 기지 내에 <음료 보급소>를 1개 배치할 때마다 스테이지 내에서 <특제 수상 플랫폼> <@ba.vup>1</>개 획득, 최대 <@ba.vup>2</>개</>	claude
+<生活>类建筑\n<@ba.dgrey>部署后增加<@ba.delc>{score}</>建造评分\n基地效果：和<道路>相邻时额外增加建造评分\n关卡增益：基地内每部署1个<饮品供给站>，关卡内获得<@ba.vup>1</>个<特制水上平台>，最多<@ba.vup>2</>个</>	<생활>류 건물\n<@ba.dgrey>배치 후 건설 평점 <@ba.delc>{score}</> 증가\n기지 효과: <길>과 인접하면 건설 평점 추가 증가\n스테이지 강화: 기지 내에 <음료 보급소>를 1개 배치할 때마다 스테이지 내에서 <특제 수상 플랫폼> <@ba.vup>1</>개 획득, 최대 <@ba.vup>2</>개</>	claude
+<生活>类建筑\n<@ba.dgrey>部署后增加<@ba.delc>{score}</>建造评分（升级至LV2，增加到<@ba.delc>{next_score}</>）\n基地效果：和<道路>相邻时额外增加建造评分\n关卡增益：基地内每部署1个<食品供给站>，关卡内获得<@ba.vup>1</>个<安眠迷香>，最多<@ba.vup>2</>个</>	<생활>류 건물\n<@ba.dgrey>배치 후 건설 평점 <@ba.delc>{score}</> 증가 (LV2로 레벨업 시 <@ba.delc>{next_score}</>로 증가)\n기지 효과: <길>과 인접하면 건설 평점 추가 증가\n스테이지 강화: 기지 내에 <식품 공급소>를 1개 배치할 때마다 스테이지 내에서 <슬리핑 디퓨저> <@ba.vup>1</>개 획득, 최대 <@ba.vup>2</>개</>	claude
+<生活>类建筑\n<@ba.dgrey>部署后增加<@ba.delc>{score}</>建造评分\n基地效果：和<道路>相邻时额外增加建造评分\n关卡增益：基地内每部署1个<食品供给站>，关卡内获得<@ba.vup>1</>个<安眠迷香>，最多<@ba.vup>2</>个</>	<생활>류 건물\n<@ba.dgrey>배치 후 건설 평점 <@ba.delc>{score}</> 증가\n기지 효과: <길>과 인접하면 건설 평점 추가 증가\n스테이지 강화: 기지 내에 <식품 공급소>를 1개 배치할 때마다 스테이지 내에서 <슬리핑 디퓨저> <@ba.vup>1</>개 획득, 최대 <@ba.vup>2</>개</>	claude
+<生活>类建筑\n<@ba.dgrey>部署后增加<@ba.delc>{score}</>建造评分（升级至LV2，增加到<@ba.delc>{next_score}</>）\n基地效果：和<道路>相邻时额外增加建造评分\n关卡增益：基地内每部署1个<药品供给站>，关卡内获得<@ba.vup>1</>个<激励剂>，最多<@ba.vup>2</>个</>	<생활>류 건물\n<@ba.dgrey>배치 후 건설 평점 <@ba.delc>{score}</> 증가 (LV2로 레벨업 시 <@ba.delc>{next_score}</>로 증가)\n기지 효과: <길>과 인접하면 건설 평점 추가 증가\n스테이지 강화: 기지 내에 <약품 공급소>를 1개 배치할 때마다 스테이지 내에서 <격려제> <@ba.vup>1</>개 획득, 최대 <@ba.vup>2</>개</>	claude
+<生活>类建筑\n<@ba.dgrey>部署后增加<@ba.delc>{score}</>建造评分\n基地效果：和<道路>相邻时额外增加建造评分\n关卡增益：基地内每部署1个<药品供给站>，关卡内获得<@ba.vup>1</>个<激励剂>，最多<@ba.vup>2</>个</>	<생활>류 건물\n<@ba.dgrey>배치 후 건설 평점 <@ba.delc>{score}</> 증가\n기지 효과: <길>과 인접하면 건설 평점 추가 증가\n스테이지 강화: 기지 내에 <약품 공급소>를 1개 배치할 때마다 스테이지 내에서 <격려제> <@ba.vup>1</>개 획득, 최대 <@ba.vup>2</>개</>	claude
+<生活>类建筑\n<@ba.dgrey>部署后增加<@ba.delc>{score}</>建造评分（升级至LV2，增加到<@ba.delc>{next_score}</>）\n基地效果：和<道路>相邻时额外增加建造评分\n关卡增益：基地内每部署1个<工具供给站>，关卡内获得<@ba.vup>1</>个<高台工事>，最多<@ba.vup>2</>个</>	<생활>류 건물\n<@ba.dgrey>배치 후 건설 평점 <@ba.delc>{score}</> 증가 (LV2로 레벨업 시 <@ba.delc>{next_score}</>로 증가)\n기지 효과: <길>과 인접하면 건설 평점 추가 증가\n스테이지 강화: 기지 내에 <공구 보급소>를 1개 배치할 때마다 스테이지 내에서 <고지대 공사> <@ba.vup>1</>개 획득, 최대 <@ba.vup>2</>개</>	claude
+<生活>类建筑\n<@ba.dgrey>部署后增加<@ba.delc>{score}</>建造评分\n基地效果：和<道路>相邻时额外增加建造评分\n关卡增益：基地内每部署1个<工具供给站>，关卡内获得<@ba.vup>1</>个<高台工事>，最多<@ba.vup>2</>个</>	<생활>류 건물\n<@ba.dgrey>배치 후 건설 평점 <@ba.delc>{score}</> 증가\n기지 효과: <길>과 인접하면 건설 평점 추가 증가\n스테이지 강화: 기지 내에 <공구 보급소>를 1개 배치할 때마다 스테이지 내에서 <고지대 공사> <@ba.vup>1</>개 획득, 최대 <@ba.vup>2</>개</>	claude
+<生活>类建筑\n<@ba.dgrey>部署后增加<@ba.delc>{score}</>建造评分（升级至LV2，增加到<@ba.delc>{next_score}</>）\n基地效果：和<道路>相邻时额外增加建造评分\n关卡增益：基地内每部署1个<装备供给站>，关卡内获得<@ba.vup>1</>个<支援起重机>，最多<@ba.vup>2</>个</>	<생활>류 건물\n<@ba.dgrey>배치 후 건설 평점 <@ba.delc>{score}</> 증가 (LV2로 레벨업 시 <@ba.delc>{next_score}</>로 증가)\n기지 효과: <길>과 인접하면 건설 평점 추가 증가\n스테이지 강화: 기지 내에 <장비 보급소>를 1개 배치할 때마다 스테이지 내에서 <지원 - 크레인> <@ba.vup>1</>개 획득, 최대 <@ba.vup>2</>개</>	claude
+<生活>类建筑\n<@ba.dgrey>部署后增加<@ba.delc>{score}</>建造评分\n基地效果：和<道路>相邻时额外增加建造评分\n关卡增益：基地内每部署1个<装备供给站>，关卡内获得<@ba.vup>1</>个<支援起重机>，最多<@ba.vup>2</>个</>	<생활>류 건물\n<@ba.dgrey>배치 후 건설 평점 <@ba.delc>{score}</> 증가\n기지 효과: <길>과 인접하면 건설 평점 추가 증가\n스테이지 강화: 기지 내에 <장비 보급소>를 1개 배치할 때마다 스테이지 내에서 <지원 - 크레인> <@ba.vup>1</>개 획득, 최대 <@ba.vup>2</>개</>	claude
+<通路>类建筑\n通过任何<补给车轨道>与<补给车终点站台>相连时发出<补给车>\n<@ba.dgrey>部署后增加<@ba.delc>{score}</>建造评分\n基地效果：使相邻的<产线>类建筑额外增加建造评分，<补给车>运转时额外增加建造评分</>	<통로>류 건물\n<보급차 궤도>를 통해 <보급차 종착역 플랫폼>과 연결되면 <보급차> 출발\n<@ba.dgrey>배치 후 건설 평점 <@ba.delc>{score}</> 증가\n기지 효과: 인접한 <생산 라인>류 건물의 건설 평점 추가 증가, <보급차> 운행 시 건설 평점 추가 증가</>	claude
+<通路>类建筑\n可与任何<补给车轨道>相连\n<@ba.dgrey>部署后增加<@ba.delc>{score}</>建造评分\n基地效果：使相邻的<产线>类建筑额外增加建造评分，<补给车>运转时额外增加建造评分</>	<통로>류 건물\n모든 <보급차 궤도>와 연결 가능\n<@ba.dgrey>배치 후 건설 평점 <@ba.delc>{score}</> 증가\n기지 효과: 인접한 <생산 라인>류 건물의 건설 평점 추가 증가, <보급차> 운행 시 건설 평점 추가 증가</>	claude
+<通路>类建筑\n通过任何<补给车轨道>与<补给车出发站台>相连时，<补给车出发站台>发出<补给车>\n<@ba.dgrey>部署后增加<@ba.delc>{score}</>建造评分\n基地效果：使相邻的<产线>类建筑额外增加建造评分，<补给车>运转时额外增加建造评分</>	<통로>류 건물\n<보급차 궤도>를 통해 <보급차 출발 플랫폼>과 연결되면 <보급차 출발 플랫폼>에서 <보급차> 출발\n<@ba.dgrey>배치 후 건설 평점 <@ba.delc>{score}</> 증가\n기지 효과: 인접한 <생산 라인>류 건물의 건설 평점 추가 증가, <보급차> 운행 시 건설 평점 추가 증가</>	claude
+<通路>类建筑\n可连接<补给车出发站台>、<补给车中转站台>和<补给车终点站台>\n<@ba.dgrey>部署后增加<@ba.delc>{score}</>建造评分\n基地效果：使相邻的<产线>类建筑额外增加建造评分，<补给车>运转时额外增加建造评分</>	<통로>류 건물\n<보급차 출발 플랫폼>, <보급차 환승 플랫폼>, <보급차 종착역 플랫폼>을 연결 가능\n<@ba.dgrey>배치 후 건설 평점 <@ba.delc>{score}</> 증가\n기지 효과: 인접한 <생산 라인>류 건물의 건설 평점 추가 증가, <보급차> 운행 시 건설 평점 추가 증가</>	claude
+<产线>类建筑\n可用于激活<木材能源转化装置>、<木石能源转化装置>、<高效能源转化装置>\n<@ba.dgrey>部署后增加<@ba.delc>{score}</>建造评分</>	<생산 라인>류 건물\n<목재 에너지 전환 장치>, <목재·석재 에너지 변환 장치>, <고효율 에너지 변환 장치> 활성화에 사용 가능\n<@ba.dgrey>배치 후 건설 평점 <@ba.delc>{score}</> 증가</>	claude
+<产线>类建筑\n可用于激活<石材能源转化装置>、<木石能源转化装置>、<高效能源转化装置>\n<@ba.dgrey>部署后增加<@ba.delc>{score}</>建造评分</>	<생산 라인>류 건물\n<석재 에너지 변환 장치>, <목재·석재 에너지 변환 장치>, <고효율 에너지 변환 장치> 활성화에 사용 가능\n<@ba.dgrey>배치 후 건설 평점 <@ba.delc>{score}</> 증가</>	claude
+<产线>类建筑\n可用于激活<铁矿石能源转化装置>、<石铁能源转化装置>、<高效能源转化装置>\n<@ba.dgrey>部署后增加<@ba.delc>{score}</>建造评分</>	<생산 라인>류 건물\n<철광석 에너지 변환 장치>, <석재·철 에너지 변환 장치>, <고효율 에너지 변환 장치> 활성화에 사용 가능\n<@ba.dgrey>배치 후 건설 평점 <@ba.delc>{score}</> 증가</>	claude
+<产线>类建筑\n基地部署有<核心能源基站>时，才能将能源转化为建设元件；升级后可额外转化为建设装置\n<@ba.dgrey>当前等级部署后增加<@ba.delc>{score}</>建造评分，产出<@ba.velc>{electric_value}</>能源，并以<@ba.velc>{efficiency:0%}</>的效率产出建设元件（升级至LV2可以提高转化效率与建造评分）\n基地效果：和任何<补给车轨道>或<补给车站台>相邻时额外增加建造评分</>	<생산 라인>류 건물\n기지에 <코어 에너지 스테이션>이 배치되어 있어야 에너지를 건설 부품으로 변환 가능; 레벨업 후 건설 장치로도 추가 변환 가능\n<@ba.dgrey>현재 레벨에서 배치 후 건설 평점 <@ba.delc>{score}</> 증가, 에너지 <@ba.velc>{electric_value}</> 생산, <@ba.velc>{efficiency:0%}</>의 효율로 건설 부품 생산 (LV2로 레벨업 시 변환 효율과 건설 평점 증가)\n기지 효과: <보급차 궤도> 또는 <보급차 플랫폼>과 인접하면 건설 평점 추가 증가</>	claude
+<产线>类建筑\n基地部署有<核心能源基站>时，才能将能源转化为建设元件；升级后可额外转化为建设装置\n<@ba.dgrey>当前等级部署后增加<@ba.delc>{score}</>建造评分，产出<@ba.velc>{electric_value}</>能源，并以<@ba.velc>{efficiency:0%}</>的效率产出建设元件（升级至LV3可以提高转化效率与建造评分，并能够转化建设装置）\n基地效果：和任何<补给车轨道>或<补给车站台>相邻时额外增加建造评分</>	<생산 라인>류 건물\n기지에 <코어 에너지 스테이션>이 배치되어 있어야 에너지를 건설 부품으로 변환 가능; 레벨업 후 건설 장치로도 추가 변환 가능\n<@ba.dgrey>현재 레벨에서 배치 후 건설 평점 <@ba.delc>{score}</> 증가, 에너지 <@ba.velc>{electric_value}</> 생산, <@ba.velc>{efficiency:0%}</>의 효율로 건설 부품 생산 (LV3로 레벨업 시 변환 효율과 건설 평점 증가, 건설 장치 변환 가능)\n기지 효과: <보급차 궤도> 또는 <보급차 플랫폼>과 인접하면 건설 평점 추가 증가</>	claude
+<产线>类建筑\n基地部署有<核心能源基站>时，才能将能源转化为建设元件；升级后可额外转化为建设装置\n<@ba.dgrey>当前等级部署后增加<@ba.delc>{score}</>建造评分，产出<@ba.velc>{electric_value}</>能源，并以<@ba.velc>{efficiency:0%}</>的效率产出建设元件，以<@ba.velc>{efficiency_ex:0%}</>的效率产出建设装置（升级至LV4可以提高转化效率与建造评分）\n基地效果：和任何<补给车轨道>或<补给车站台>相邻时额外增加建造评分</>	<생산 라인>류 건물\n기지에 <코어 에너지 스테이션>이 배치되어 있어야 에너지를 건설 부품으로 변환 가능; 레벨업 후 건설 장치로도 추가 변환 가능\n<@ba.dgrey>현재 레벨에서 배치 후 건설 평점 <@ba.delc>{score}</> 증가, 에너지 <@ba.velc>{electric_value}</> 생산, <@ba.velc>{efficiency:0%}</>의 효율로 건설 부품 생산, <@ba.velc>{efficiency_ex:0%}</>의 효율로 건설 장치 생산 (LV4로 레벨업 시 변환 효율과 건설 평점 증가)\n기지 효과: <보급차 궤도> 또는 <보급차 플랫폼>과 인접하면 건설 평점 추가 증가</>	claude
+<产线>类建筑\n基地部署有<核心能源基站>时，才能将能源转化为建设元件；升级后可额外转化为建设装置\n<@ba.dgrey>当前等级部署后增加<@ba.delc>{score}</>建造评分，产出<@ba.velc>{electric_value}</>能源，并以<@ba.velc>{efficiency:0%}</>的效率产出建设元件，以<@ba.velc>{efficiency_ex:0%}</>的效率产出建设装置（升级至LV5可以提高转化效率与建造评分）\n基地效果：和任何<补给车轨道>或<补给车站台>相邻时额外增加建造评分</>	<생산 라인>류 건물\n기지에 <코어 에너지 스테이션>이 배치되어 있어야 에너지를 건설 부품으로 변환 가능; 레벨업 후 건설 장치로도 추가 변환 가능\n<@ba.dgrey>현재 레벨에서 배치 후 건설 평점 <@ba.delc>{score}</> 증가, 에너지 <@ba.velc>{electric_value}</> 생산, <@ba.velc>{efficiency:0%}</>의 효율로 건설 부품 생산, <@ba.velc>{efficiency_ex:0%}</>의 효율로 건설 장치 생산 (LV5로 레벨업 시 변환 효율과 건설 평점 증가)\n기지 효과: <보급차 궤도> 또는 <보급차 플랫폼>과 인접하면 건설 평점 추가 증가</>	claude
+<产线>类建筑\n基地部署有<核心能源基站>时，才能将能源转化为建设元件；升级后可额外转化为建设装置\n<@ba.dgrey>当前等级部署后增加<@ba.delc>{score}</>建造评分，产出<@ba.velc>{electric_value}</>能源，并以<@ba.velc>{efficiency:0%}</>的效率产出建设元件，以<@ba.velc>{efficiency_ex:0%}</>的效率产出建设装置\n基地效果：和任何<补给车轨道>或<补给车站台>相邻时额外增加建造评分</>	<생산 라인>류 건물\n기지에 <코어 에너지 스테이션>이 배치되어 있어야 에너지를 건설 부품으로 변환 가능; 레벨업 후 건설 장치로도 추가 변환 가능\n<@ba.dgrey>현재 레벨에서 배치 후 건설 평점 <@ba.delc>{score}</> 증가, 에너지 <@ba.velc>{electric_value}</> 생산, <@ba.velc>{efficiency:0%}</>의 효율로 건설 부품 생산, <@ba.velc>{efficiency_ex:0%}</>의 효율로 건설 장치 생산\n기지 효과: <보급차 궤도> 또는 <보급차 플랫폼>과 인접하면 건설 평점 추가 증가</>	claude
+部署在<待清理地块>上将其清理	<정리할 구역>에 배치하여 해당 구역을 정리	claude
+圈养在兽栏时提供{score}建造评分	축사에서 우리 사육 시 건설 평점 {score} 제공	claude
+未来扩展占位	향후 확장용 자리 표시	claude
+圈养在大型兽栏时提供{score}建造评分	대형 축사에서 우리 사육 시 건설 평점 {score} 제공	claude
+一段时间内干员更容易受到攻击并免疫<$ba.stun>晕眩</>，受到伤害时会反弹相当于干员攻击力一定比例的伤害，并回复一定技力	일정 시간 동안 오퍼레이터가 더 쉽게 공격받고 <$ba.stun>기절</>에 면역, 대미지를 받으면 오퍼레이터 공격력의 일정 비율만큼 대미지를 반사하고 SP를 일정량 회복	claude
+干员转向至翔虫部署时的朝向，随后对前方一定范围内的敌人造成伤害并<$ba.sluggish>停顿</>一段时间	오퍼레이터가 밧줄벌레를 배치할 때의 방향으로 방향 전환한 후, 전방 일정 범위 내의 적에게 대미지를 주고 일정 시간 <$ba.sluggish>정지</>시킴	claude
+对选中干员攻击范围内所有敌人造成一次伤害并<$ba.root>束缚</>一段时间	선택한 오퍼레이터의 공격 범위 내 모든 적에게 대미지를 1회 주고 일정 시간 <$ba.root>속박</>	claude
+部署后，让所有进入御龙状态的影丝蛛传送到目标位置并<$ba.root>束缚</>3个敌人	배치 후 조룡 상태인 모든 영사주를 목표 위치로 전송하고 적 3명을 <$ba.root>속박</>	claude
+部署后，让一只进入御龙状态的岩甲兽传送到目标位置并在周围4个可部署地面生成高台	배치 후 조룡 상태인 록아머비스트 1마리를 목표 위치로 전송하고, 주변의 배치 가능한 지면 4칸에 고지대 생성	claude
+消耗50点部署费用开启，战斗后获得1个零件	배치 코스트 50을 소모하여 개방, 전투 후 부품 1개 획득	claude
+对全场我方单位造成少量法术伤害，并使源阶方损失8%生命	필드의 모든 아군 유닛에게 소량의 마법 대미지를 주고, 원계방의 HP를 8% 감소시킴	claude
+击破后，可部署干员偷取1-2个商店物品，部署的干员无法再部署	격파 후 오퍼레이터를 배치하여 상점 물품을 1-2개 탈취 가능, 배치한 오퍼레이터는 다시 배치 불가	claude
+会被“玻利瓦尔，症结之核”释放的“灾厄之口”转化为“崩解”	'볼리바르, 병폐의 핵심'이 사용하는 '재액의 입'에 의해 '붕괴'로 변환됨	claude
+会被“玻利瓦尔，症结之核”释放的“灾厄之口”摧毁	'볼리바르, 병폐의 핵심'이 사용하는 '재액의 입'에 의해 파괴됨	claude
+“再度绽放”部署后会持续引导10秒，持续使其中的敌人停顿并每秒造成3500点真实伤害	'다시 피어나다'는 배치 후 10초간 지속적으로 시전되며, 범위 내 적을 계속 정지시키고 매초 3500의 트루 대미지를 줌	claude
+发射一道寒霜冲击波，使周围我方单位陷入<$ba.cold>寒冷</>状态10秒	서리 충격파를 발사하여 주변 아군 유닛을 10초간 <$ba.cold>냉기</> 상태로 만듦	claude
+消耗一定部署费用立刻生成3名<@ba.enemy>塑能基质</>	일정량의 배치 코스트를 소모하여 즉시 <@ba.enemy>가소성 에너지 기질</> 3명 생성	claude
+使<“再吃一口”源石虫>在部署的位置出现并向部署朝向的方向移动	<'한 입만 더' 원석충>이 배치한 위치에 나타나 배치 방향으로 이동하게 함	claude
+部署后使<“再吃一口”源石虫><@ba.vup>{duration:0}</>秒内不会被比其等级高的鱼击败	배치 후 <'한 입만 더' 원석충>이 <@ba.vup>{duration:0}</>초 동안 자신보다 레벨이 높은 물고기에게 패배하지 않음	claude
+部署后使所有敌人移动速度<@ba.vup>{move_speed:0%}</>，持续<@ba.vup>{duration:0}</>秒	배치 후 모든 적의 이동 속도 <@ba.vup>{move_speed:0%}</>, <@ba.vup>{duration:0}</>초 지속	claude
+被攻击数次后向周围涂上纯白水汽，范围逐渐扩大	여러 번 공격받으면 주변에 순백의 수증기를 뿌리며, 범위가 점차 확대됨	claude
+会被沉沦之人攻击	침몰한 자에게 공격받음	claude
+立即获得3点部署费用	즉시 배치 코스트 3 획득	claude
+使关卡强制结束，让探索开启不同的方向	스테이지를 강제로 종료시키고, 탐색이 다른 방향으로 펼쳐지게 함	claude
+桃色Miruku	모모이로Miruku	claude
+折射镜	굴절경	claude
+织布机loom	직조기loom	claude
+过失帝国	과실제국	claude
+M1917史密斯维森	M1917스미스웨슨	claude
+抽象Rotate	추상Rotate	claude
+竜崎いち	류자키 이치	claude
+海猫络合物	해묘락합물	claude
+下野宏铭	시모노 히로아키	claude
+一立里子	이치리츠 리코	claude
+阿鬼	아귀	claude
+谜肘	미주	claude
+我妻洛酱	아처락장	claude
+板板	판판	claude
+臼	구	claude
+戏言咸咸	희언함함	claude
+咩煲	미보	claude
+一千	일천	claude
+鸭	압	claude
+釜飯轟々丸	가마메시 고고마루	claude
+九日九号	구일구호	claude
+伍秋秋秋秋	오추추추추	claude
+将	장	claude
+树豚	수돈	claude
+水滴鱼	물방울 물고기	claude
+IRIS_呓	IRIS_예	claude
+百慕大飞鱼	버뮤다 날치	claude
+虬墨一型	규묵일형	claude
+藻	조	claude
+二开	이개	claude
+STAR影法师	STAR영법사	claude
+三目YYB	삼목YYB	claude
+斑雀	반작	claude
+温泉瓜	온천과	claude
+〇亻	O인	claude
+虎三	호삼	claude
+赤岸K	적안K	claude
+松尾 省吾	마츠오 쇼고	claude
+野崎つばた	노자키 츠바타	claude
+八号地球	팔호지구	claude
+二色こぺ	니시키 코페	claude
+时辰	시진	claude
+Liyu黎	Liyu려	claude
+科学	과학	claude
+渣念	사념	claude
+山×2	산×2	claude
+直立行走	직립보행	claude
+色塩	이로시오	claude
+上埜	우에노	claude
+致恶剂	치악제	claude
+梓兰在泡影国狩猎“异兽”时换上的装备。\n以炎火村的设计为蓝本，加上本人的调整，可以说是为她量身定制。	오키드가 포영국에서 '괴수'를 사냥할 때 갈아입은 장비.\n카무라 마을의 디자인을 바탕으로 본인의 조정을 더해, 그녀를 위한 맞춤 제작이라 할 수 있다.	claude
+梓兰依然没有喜欢上狩猎。\n但她至少愿意承认，穿上这身装备后的自己，心态上要更自由一些。	오키드는 여전히 사냥을 좋아하게 되지 않았다.\n하지만 적어도 이 장비를 입은 자신이 마음만큼은 좀 더 자유로워졌다는 것은 인정할 생각이다.	claude
+u介	u개	claude
+多元菌	다원균	claude
+轟将	굉장	claude
+KuroBlood、一千	KuroBlood, 일천	claude
+嘎嘎人	가가인	claude
+安洁莉娜在出发去雷姆必拓前特意定做的服装。\n兼顾透气和防晒性能的材质几分钟就定好了，唯独配色让她苦恼了一下午才定下来。	안젤리나가 림 빌리턴으로 떠나기 전에 일부러 맞춤 제작한 의상.\n통기성과 자외선 차단 성능을 모두 갖춘 소재는 몇 분 만에 정했지만, 배색만큼은 오후 내내 고민한 끝에야 정할 수 있었다.	claude
+一如既往，安洁莉娜轻盈地穿梭在高耸的建筑之间。\n忘掉复杂的计算和分析吧，此刻她来决定谁将受到天空张开双臂的欢迎。	언제나 그렇듯, 안젤리나는 높이 솟은 건물들 사이를 가볍게 누빈다.\n복잡한 계산과 분석은 잊어버리자. 지금 이 순간, 하늘이 두 팔 벌려 맞이할 이가 누구인지는 그녀가 정한다.	claude
+黒星紅白	쿠로보시 코우하쿠	claude
+海猫络合物、唯@W	해묘락합물, 유@W	claude
+尾鱼	미어	claude
+幻象黑兔、Mag42	환상흑토, Mag42	claude
+<color name=#ffffff>忒斯特收藏系列/幽然灵竹。由异国国主的礼服微调而成的着装。无需神秘的力量，泡普卡在经历时光的洗礼之后，逐渐有了新的改变。</color>	<color name=#ffffff>테스트 컬렉션 시리즈/그윽한 신령 대나무. 이국 국왕의 예복을 살짝 손봐 만든 의상. 신비한 힘이 없어도, 포푸카는 세월의 세례를 거친 뒤 점차 새롭게 변해 갔다.</color>	claude
+忒斯特收藏系列/幽然灵竹。由异国国主的礼服微调而成的着装。无需神秘的力量，泡普卡在经历时光的洗礼之后，逐渐有了新的改变。	테스트 컬렉션 시리즈/그윽한 신령 대나무. 이국 국왕의 예복을 살짝 손봐 만든 의상. 신비한 힘이 없어도, 포푸카는 세월의 세례를 거친 뒤 점차 새롭게 변해 갔다.	claude
+泡普卡的私服之一。	포푸카의 사복 중 하나.	claude
+此刻的她，与那不曾相见的镜中影，两个人的成长不会只是泡影一场。	지금의 그녀와 한 번도 마주한 적 없는 렌즈 속 그림자, 두 사람의 성장은 결코 한낱 물거품으로 끝나지 않으리라.	claude
+<color name=#ffffff>忒斯特收藏系列/暮时宝光。森内彻获得了无数财富，却最终步入孤独时的着装。修身西装搭配金紫色内衬的外套，虽然华贵气质外显，却藏不住内心的疲惫。</color>	<color name=#ffffff>테스트 컬렉션 시리즈/황혼의 보광. 모리우치 토오루가 무수한 재화를 손에 넣었지만 끝내 고독에 빠져들었을 때의 의상. 슬림핏 정장에 금색과 보라색 안감의 코트를 매치해 화려한 기품이 드러나지만, 내면의 피로는 감추지 못한다.</color>	claude
+忒斯特收藏系列/暮时宝光。森内彻获得了无数财富，却最终步入孤独时的着装。修身西装搭配金紫色内衬的外套，虽然华贵气质外显，却藏不住内心的疲惫。	테스트 컬렉션 시리즈/황혼의 보광. 모리우치 토오루가 무수한 재화를 손에 넣었지만 끝내 고독에 빠져들었을 때의 의상. 슬림핏 정장에 금색과 보라색 안감의 코트를 매치해 화려한 기품이 드러나지만, 내면의 피로는 감추지 못한다.	claude
+松桐的私服之一。	마츠키리의 사복 중 하나.	claude
+他面对着铳口露出微笑，但那嘴角之后藏着的究竟是从容还是无奈，就连他自己都无从知晓。	그는 총구를 마주하고 미소를 지었지만, 그 입꼬리 뒤에 숨겨진 것이 여유인지 체념인지는 그 자신조차 알 수 없다.	claude
+<color name=#ffffff>EPOQUE系列新款/失焦。忍冬于叙拉古观看歌剧时的穿着。新型的合成面料在闪光灯下呈现耀眼的光泽，从各个角度反射出相似却不同的色彩。</color>	<color name=#ffffff>EPOQUE 시리즈 신상/초점 상실. 불피스폴리아가 시라쿠사에서 오페라를 관람할 때 입은 옷. 신형 합성 원단이 플래시 아래에서 눈부신 광택을 띠며, 각도마다 비슷하면서도 다른 색채를 반사한다.</color>	claude
+EPOQUE系列新款/失焦。忍冬于叙拉古观看歌剧时的穿着。新型的合成面料在闪光灯下呈现耀眼的光泽，从各个角度反射出相似却不同的色彩。	EPOQUE 시리즈 신상/초점 상실. 불피스폴리아가 시라쿠사에서 오페라를 관람할 때 입은 옷. 신형 합성 원단이 플래시 아래에서 눈부신 광택을 띠며, 각도마다 비슷하면서도 다른 색채를 반사한다.	claude
+忍冬的私服之一。	불피스폴리아의 사복 중 하나.	claude
+小报记者、仇家、缉凶警探……许多人曾试图拍下她的真实瞬间。但真正的英格丽女士从不会困于单一的焦平面，她存在于焦点之外。	타블로이드 기자, 원수, 범인을 쫓는 형사…… 많은 이들이 그녀의 진짜 순간을 포착하려 했다. 하지만 진정한 잉그리드 여사는 결코 하나의 초점면에 갇히지 않는다. 그녀는 초점 밖에 존재한다.	claude
+<color name=#ffffff>EPOQUE系列新款/底绒舞会。Miss.Christine出席晚间舞会时的装扮。朦胧轻纱搭配金色星芒挂饰，将其优雅慵懒的气质展露无遗。</color>	<color name=#ffffff>EPOQUE 시리즈 신상/속털 무도회. Miss.Christine이 저녁 무도회에 참석할 때의 차림. 몽롱한 얇은 베일에 금빛 별 모양 장식을 더해, 그녀의 고상하고 나른한 분위기를 남김없이 드러낸다.</color>	claude
+EPOQUE系列新款/底绒舞会。Miss.Christine出席晚间舞会时的装扮。朦胧轻纱搭配金色星芒挂饰，将其优雅慵懒的气质展露无遗。	EPOQUE 시리즈 신상/속털 무도회. Miss.Christine이 저녁 무도회에 참석할 때의 차림. 몽롱한 얇은 베일에 금빛 별 모양 장식을 더해, 그녀의 고상하고 나른한 분위기를 남김없이 드러낸다.	claude
+Miss.Christine的装扮之一。	Miss.Christine의 차림 중 하나.	claude
+欢乐之日的夜空如同底绒一般低调、隐蔽和温暖。Miss.Christine悄然出场，俘获一众目光。今夜被邀请的均是优雅之士，请务必注意，不要使用闪光灯。	즐거운 날의 밤하늘은 속털처럼 차분하고, 은밀하며, 따뜻하다. Miss.Christine이 조용히 등장해 모든 시선을 사로잡는다. 오늘 밤 초대받은 이들은 모두 고상한 분들이니, 플래시는 절대 사용하지 않도록 주의해 주시길.	claude
+<color name=#ffffff>EPOQUE系列新款/后来的故事。阿黛尔最喜欢的一套便服。柔软舒适的居家服和绵绒拖鞋所带来的令人安心的触感，能唤起她最珍视的回忆。</color>	<color name=#ffffff>EPOQUE 시리즈 신상/그 후의 이야기. 아델이 가장 좋아하는 평상복. 부드럽고 편안한 홈웨어와 폭신한 슬리퍼가 주는 안심되는 촉감은 그녀가 가장 소중히 여기는 추억을 불러일으킨다.</color>	claude
+EPOQUE系列新款/后来的故事。阿黛尔最喜欢的一套便服。柔软舒适的居家服和绵绒拖鞋所带来的令人安心的触感，能唤起她最珍视的回忆。	EPOQUE 시리즈 신상/그 후의 이야기. 아델이 가장 좋아하는 평상복. 부드럽고 편안한 홈웨어와 폭신한 슬리퍼가 주는 안심되는 촉감은 그녀가 가장 소중히 여기는 추억을 불러일으킨다.	claude
+“爸爸，妈妈，一起坐下吧。这些都是我自己记录下的故事，现在就讲给你们听。”	'아빠, 엄마, 같이 앉아요. 이건 전부 제가 직접 기록한 이야기예요. 지금 들려 드릴게요.'	claude
+<color name=#ffffff>EPOQUE系列新款/清新布景。蒂比参加迷你剧演出时的着装。清凉的夏装，附带一顶带着阳光味道的草帽，让镜头捕捉下少女最自然的姿态。</color>	<color name=#ffffff>EPOQUE 시리즈 신상/산뜻한 배경. 티피가 미니 드라마에 출연할 때 입은 의상. 시원한 여름옷에 햇살 냄새가 나는 밀짚모자를 곁들여, 렌즈가 소녀의 가장 자연스러운 모습을 담아내게 한다.</color>	claude
+EPOQUE系列新款/清新布景。蒂比参加迷你剧演出时的着装。清凉的夏装，附带一顶带着阳光味道的草帽，让镜头捕捉下少女最自然的姿态。	EPOQUE 시리즈 신상/산뜻한 배경. 티피가 미니 드라마에 출연할 때 입은 의상. 시원한 여름옷에 햇살 냄새가 나는 밀짚모자를 곁들여, 렌즈가 소녀의 가장 자연스러운 모습을 담아내게 한다.	claude
+蒂比的私服之一。	티피의 사복 중 하나.	claude
+今天的蒂比不是在幕后忙来忙去的工作人员，在这个布景里，她是唯一的主角。	오늘의 티피는 무대 뒤에서 바쁘게 뛰어다니는 스태프가 아니다. 이 배경 속에서 그녀는 유일한 주인공이다.	claude
+<color name=#ffffff>EPOQUE系列新款/轻闲快照。绮良前往御机城街头游玩时的着装。舒适的针织背心，吸睛的迷你裙，还有可爱的多彩发饰，这张快照一定大受好评。</color>	<color name=#ffffff>EPOQUE 시리즈 신상/여유로운 스냅샷. 키라라가 어기성 거리로 놀러 갈 때 입은 의상. 편안한 니트 조끼, 시선을 사로잡는 미니스커트, 그리고 귀여운 알록달록한 머리 장식까지, 이 스냅샷은 분명 큰 호평을 받을 것이다.</color>	claude
+EPOQUE系列新款/轻闲快照。绮良前往御机城街头游玩时的着装。舒适的针织背心，吸睛的迷你裙，还有可爱的多彩发饰，这张快照一定大受好评。	EPOQUE 시리즈 신상/여유로운 스냅샷. 키라라가 어기성 거리로 놀러 갈 때 입은 의상. 편안한 니트 조끼, 시선을 사로잡는 미니스커트, 그리고 귀여운 알록달록한 머리 장식까지, 이 스냅샷은 분명 큰 호평을 받을 것이다.	claude
+“刚才去的那家三色冰淇淋店真不错，把照片发给宴，有机会和她一起再去一次吧！”	'방금 간 삼색 아이스크림 가게 정말 괜찮았어. 사진을 우타게한테 보내고, 기회 되면 같이 한 번 더 가야지!'	claude
+<color name=#ffffff>EPOQUE系列新款/慵怠哼唱。以柔软的轻型布料制作，在不影响灵活的前提下，增加了独具特色的小领结作为颈饰，是没有工作闲逛时的首选穿搭。</color>	<color name=#ffffff>EPOQUE 시리즈 신상/나른한 흥얼거림. 부드럽고 가벼운 원단으로 만들었으며, 활동성을 해치지 않는 선에서 독특한 작은 리본 타이를 목 장식으로 더했다. 일 없이 한가롭게 돌아다닐 때 가장 먼저 고르는 코디.</color>	claude
+EPOQUE系列新款/慵怠哼唱。以柔软的轻型布料制作，在不影响灵活的前提下，增加了独具特色的小领结作为颈饰，是没有工作闲逛时的首选穿搭。	EPOQUE 시리즈 신상/나른한 흥얼거림. 부드럽고 가벼운 원단으로 만들었으며, 활동성을 해치지 않는 선에서 독특한 작은 리본 타이를 목 장식으로 더했다. 일 없이 한가롭게 돌아다닐 때 가장 먼저 고르는 코디.	claude
+空构的私服之一。	스푸리아의 사복 중 하나.	claude
+没有工作的日子，她也会带着悉心装点一番的无人机走出房间，哼着歌去悠闲地享受一个不用出外勤的午后。	일이 없는 날이면 그녀도 정성껏 꾸민 드론을 데리고 방을 나서, 콧노래를 부르며 외근 없는 오후를 느긋하게 즐긴다.	claude
+<color name=#ffffff>0011子品牌，飙系列新款/一闪极意。为能在街头一扫邪气的凛然之人所设计的服饰。镇邪符纸在蓝焰的光芒下更加显眼，映照出她快意无畏的鬼族英姿。</color>	<color name=#ffffff>0011 서브 브랜드, 질풍 시리즈 신상/일섬의 극의. 거리에서 사악한 기운을 단번에 쓸어버릴 수 있는 늠름한 이를 위해 디자인된 의상. 액막이 부적이 푸른 불꽃의 빛 아래 더욱 눈에 띄며, 거침없고 두려움 없는 오니족의 늠름한 자태를 비춘다.</color>	claude
+0011子品牌，飙系列新款/一闪极意。为能在街头一扫邪气的凛然之人所设计的服饰。镇邪符纸在蓝焰的光芒下更加显眼，映照出她快意无畏的鬼族英姿。	0011 서브 브랜드, 질풍 시리즈 신상/일섬의 극의. 거리에서 사악한 기운을 단번에 쓸어버릴 수 있는 늠름한 이를 위해 디자인된 의상. 액막이 부적이 푸른 불꽃의 빛 아래 더욱 눈에 띄며, 거침없고 두려움 없는 오니족의 늠름한 자태를 비춘다.	claude
+斩业星熊的私服之一。	호시구마 더 브리처의 사복 중 하나.	claude
+想来一次街头飙车追捕，还是一场公园武艺死斗？挑战由你来选，但是否留情由她来决定。	거리에서 폭주 추격전을 벌이고 싶은가, 아니면 공원에서 무예 사투를 벌이고 싶은가? 도전은 당신이 고르지만, 봐줄지 말지는 그녀가 정한다.	claude
+莱伊的夏日装扮之一。	레이의 여름 차림 중 하나.	claude
+潮湿的空气捎来夏日的温度，微弱的虫鸣渲染平静的时刻。骑着单车从人声鼎沸的海边来到隐秘的休息处，她任自己的思绪与回忆在景色中静静流淌。	습한 공기가 여름의 온기를 실어 오고, 희미한 벌레 소리가 고요한 순간을 물들인다. 자전거를 타고 사람들로 북적이는 해변에서 은밀한 휴식처로 온 그녀는, 자신의 생각과 추억이 풍경 속에서 조용히 흘러가도록 내버려 둔다.	claude
+陨星的夏日装扮之一。	메테오라이트의 여름 차림 중 하나.	claude
+这是她第一次放松警惕如此悠闲吗？看看星月下凉风中她露出的笑容，答案就不言自明了。	그녀가 경계를 풀고 이렇게 여유를 즐기는 건 이번이 처음일까? 별과 달 아래 시원한 바람 속에서 그녀가 짓는 미소를 보면, 답은 말할 필요도 없다.	claude
+<color name=#ffffff>MARTHE [珊瑚海岸/CoralCoast]悠然假日系列泳衣59款。舒适放松，透气轻盈。让您可以在闲适的环境中享受最完美的沙滩体验。</color>	<color name=#ffffff>MARTHE [코랄코스트/CoralCoast] 여유로운 휴일 시리즈 수영복 59번 모델. 편안하고 여유로우며, 통기성이 좋고 가볍다. 한가로운 환경에서 가장 완벽한 해변을 즐겨 보세요.</color>	claude
+卡达的夏日装扮之一。	클릭의 여름 차림 중 하나.	claude
+对卡达来说，比起自己经历的夏日风景和放松时光，能与其他干员一起拍摄出史上最好玩的假日记录视频，才是她来到这片沙滩的原因。	클릭에게 있어 이 해변에 온 이유는 직접 겪는 여름 풍경이나 휴식 시간보다도, 다른 오퍼레이터들과 함께 역사상 가장 재미있는 휴가 기록 영상을 찍는 것이었다.	claude
+隐现的夏日装扮之一。	인사이더의 여름 차림 중 하나.	claude
+难得的夏日假期里这些东西必不可少：吊床、杂志，还有一杯二十分甜的消暑汽水。	모처럼의 여름휴가에 이것들은 빠질 수 없다: 해먹, 잡지, 그리고 더할 나위 없이 달콤한 청량 탄산음료 한 잔.	claude
+<color name=#ffffff>MARTHE [珊瑚海岸/CoralCoast]悠然假日系列泳衣91款。舒适放松，透气轻盈。让您可以在闲适的环境中享受最完美的沙滩体验。</color>	<color name=#ffffff>MARTHE [코랄코스트/CoralCoast] 여유로운 휴일 시리즈 수영복 91번 모델. 편안하고 여유로우며, 통기성이 좋고 가볍다. 한가로운 환경에서 가장 완벽한 해변을 즐겨 보세요.</color>	claude
+协律的夏日装扮之一。	아코르트의 여름 차림 중 하나.	claude
+碧波与海风的二重奏，搭配上远处羽兽的和声，这一次不用录音器，她用双耳记录下这首美妙的夏日之曲。	푸른 물결과 바닷바람의 이중주에 저 멀리 파울비스트의 화음이 더해진다. 이번에는 녹음기 없이, 그녀는 두 귀로 이 아름다운 여름의 곡을 기록한다.	claude
+香煎蟹黄	향전해황	claude
+<color name=#ffffff>MARTHE运动系列新款/硬派速度。专为竞技摩托赛手设计的骑行服，采用防风面料，并在关节处进行加固处理，在保证舒适的同时提供顶级安全防护。</color>	<color name=#ffffff>MARTHE 스포츠 시리즈 신상/하드코어 스피드. 경주용 오토바이 레이서를 위해 디자인된 라이딩 슈트. 방풍 원단을 사용하고 관절 부위를 보강하여, 편안함을 보장하는 동시에 최고 수준의 안전 보호를 제공한다.</color>	claude
+MARTHE运动系列新款/硬派速度。专为竞技摩托赛手设计的骑行服，采用防风面料，并在关节处进行加固处理，在保证舒适的同时提供顶级安全防护。	MARTHE 스포츠 시리즈 신상/하드코어 스피드. 경주용 오토바이 레이서를 위해 디자인된 라이딩 슈트. 방풍 원단을 사용하고 관절 부위를 보강하여, 편안함을 보장하는 동시에 최고 수준의 안전 보호를 제공한다.	claude
+山的运动装之一。	마운틴의 운동복 중 하나.	claude
+暂歇的骑手虽然看起来波澜不惊，但等他戴上头盔，宁静的夜里就将刻下引擎与灵魂的轰鸣声。	잠시 쉬고 있는 라이더는 평온해 보이지만, 그가 헬멧을 쓰는 순간 고요한 밤에 엔진과 영혼의 굉음이 새겨질 것이다.	claude
+<color name=#ffffff>MARTHE运动系列新款/跃动节拍。特殊弹力纤维制成的啦啦队服，在保障轻便灵活的同时兼顾了透气舒适性。挥舞花球的钼铅将注定是全场的焦点。</color>	<color name=#ffffff>MARTHE 스포츠 시리즈 신상/약동하는 비트. 특수 탄성 섬유로 만든 치어리더복으로, 가볍고 유연하면서도 통기성과 편안함까지 갖췄다. 폼폼을 흔드는 울페나이트는 분명 모두의 시선이 쏠리는 초점이 될 것이다.</color>	claude
+MARTHE运动系列新款/跃动节拍。特殊弹力纤维制成的啦啦队服，在保障轻便灵活的同时兼顾了透气舒适性。挥舞花球的钼铅将注定是全场的焦点。	MARTHE 스포츠 시리즈 신상/약동하는 비트. 특수 탄성 섬유로 만든 치어리더복으로, 가볍고 유연하면서도 통기성과 편안함까지 갖췄다. 폼폼을 흔드는 울페나이트는 분명 모두의 시선이 쏠리는 초점이 될 것이다.	claude
+钼铅的运动装之一。	울페나이트의 운동복 중 하나.	claude
+欢迎我们的啦啦队长！有钼铅在，就永远不会冷场！	우리의 치어리더 리더를 환영합니다! 울페나이트가 있는 한 분위기가 식을 일은 없죠!	claude
+百慕大飞鱼、Mag42	버뮤다 날치, Mag42	claude
+<color name=#ffffff>生命之地[识荒者/Rewilder]系列经典款/新地形。采用特别材质制作，包含各项功能性设计，足以应对多种自然环境变化，满足各类需求。</color>	<color name=#ffffff>비타필드 [리와일더/Rewilder] 시리즈 클래식/새로운 지형. 특수 소재로 제작되었으며 다양한 기능성 디자인을 갖춰, 여러 자연환경 변화에 충분히 대응하고 각종 요구를 충족한다.</color>	claude
+生命之地[识荒者/Rewilder]系列经典款/新地形。采用特别材质制作，包含各项功能性设计，足以应对多种自然环境变化，满足各类需求。	비타필드 [리와일더/Rewilder] 시리즈 클래식/새로운 지형. 특수 소재로 제작되었으며 다양한 기능성 디자인을 갖춰, 여러 자연환경 변화에 충분히 대응하고 각종 요구를 충족한다.	claude
+稀音注视着原野，“镜头”为她寻找着旧日城市的遗迹。人改造自然，自然抚去人的痕迹，历史在此堆积出纹理，经由“镜头”被稀音捕捉。	씬은 들판을 응시하고, '렌즈'는 그녀를 위해 옛 도시의 유적을 찾는다. 사람은 자연을 개조하고, 자연은 사람의 흔적을 쓸어 지운다. 역사는 이곳에 결을 쌓아 올리고, 그것은 '렌즈'를 거쳐 씬에게 포착된다.	claude
+<color name=#ffffff>生命之地[识荒者/Rewilder]系列经典款/千尺俯瞰。采用特别材质制作，包含各项功能性设计，足以应对多种自然环境变化，满足各类需求。</color>	<color name=#ffffff>비타필드 [리와일더/Rewilder] 시리즈 클래식/천 척 위의 부감. 특수 소재로 제작되었으며 다양한 기능성 디자인을 갖춰, 여러 자연환경 변화에 충분히 대응하고 각종 요구를 충족한다.</color>	claude
+生命之地[识荒者/Rewilder]系列经典款/千尺俯瞰。采用特别材质制作，包含各项功能性设计，足以应对多种自然环境变化，满足各类需求。	비타필드 [리와일더/Rewilder] 시리즈 클래식/천 척 위의 부감. 특수 소재로 제작되었으며 다양한 기능성 디자인을 갖춰, 여러 자연환경 변화에 충분히 대응하고 각종 요구를 충족한다.	claude
+虽然已经飞过了数不清的岛屿和山头，但他的探索欲望还远没有被满足。转动一下控制气球的舵轮，夜幕降临之前，再记录一片林地的风景吧。	이미 수많은 섬과 산봉우리를 날아 넘었지만, 그의 탐색 욕구는 아직 한참 채워지지 않았다. 기구를 조종하는 타륜을 돌려, 밤이 찾아오기 전에 숲지의 풍경을 하나 더 기록해 보자.	claude
+红色彗星	붉은 혜성	claude
+<color name=#ffffff>斗争血脉系列/天穹肇始。危难与困境从来都不会只停留在某个瞬间，真正的卫士守护着永恒交替的昼夜，一刻不休。信仰搅拌机，正为此而生。</color>	<color name=#ffffff>투쟁의 혈맥 시리즈/창공의 시작. 위기와 역경은 결코 어느 한순간에만 머무르지 않는다. 진정한 수호자는 영원히 교차하는 낮과 밤을 한시도 쉬지 않고 지킨다. 산크타 믹사파라토는 바로 이를 위해 태어났다.</color>	claude
+斗争血脉系列/天穹肇始。危难与困境从来都不会只停留在某个瞬间，真正的卫士守护着永恒交替的昼夜，一刻不休。信仰搅拌机，正为此而生。	투쟁의 혈맥 시리즈/창공의 시작. 위기와 역경은 결코 어느 한순간에만 머무르지 않는다. 진정한 수호자는 영원히 교차하는 낮과 밤을 한시도 쉬지 않고 지킨다. 산크타 믹사파라토는 바로 이를 위해 태어났다.	claude
+信仰搅拌机在重要时刻的装扮之一。	산크타 믹사파라토가 중요한 순간에 입는 차림 중 하나.	claude
+你即是无辜者的光，你即是有罪者的夜，你虽行于大地，却是天穹之威。	그대는 무고한 자의 빛이요, 죄지은 자의 밤이니, 비록 대지를 걸을지라도 창공의 위엄이로다.	claude
+<color name=#ffffff>音律联觉特供款/曙光祝颂。笼罩在时光之上的层层阴云已然破开，装饰着晨星的披风内衬象征着得到净化的天际，而她佩戴的头饰绽放出了灿然的曙光。</color>	<color name=#ffffff>앰비언스 시네스티시아 특별판/여명의 송가. 시간 위를 뒤덮었던 겹겹의 먹구름은 이미 걷혔다. 샛별로 장식된 망토 안감은 정화된 하늘을 상징하고, 그녀가 쓴 머리 장식은 찬란한 여명을 피워 낸다.</color>	claude
+音律联觉特供款/曙光祝颂。笼罩在时光之上的层层阴云已然破开，装饰着晨星的披风内衬象征着得到净化的天际，而她佩戴的头饰绽放出了灿然的曙光。	앰비언스 시네스티시아 특별판/여명의 송가. 시간 위를 뒤덮었던 겹겹의 먹구름은 이미 걷혔다. 샛별로 장식된 망토 안감은 정화된 하늘을 상징하고, 그녀가 쓴 머리 장식은 찬란한 여명을 피워 낸다.	claude
+圣聆初雪的演出服之一。	프라마닉스 더 프레리타의 공연복 중 하나.	claude
+为困于阴霾与风雪中无法前进的人们，带来抚慰心灵的颂歌，和光明再临的宣告。	음울함과 눈보라 속에 갇혀 나아가지 못하는 이들에게, 마음을 어루만지는 송가와 빛이 다시 찾아온다는 선언을 전한다.	claude
+<color name=#ffffff>《怪物猎人》合作服装/露营时间喵！为喜欢在山野林间活动的隐秘队量身定做的服装，活动性和透气性极佳。</color>	<color name=#ffffff>'몬스터 헌터' 콜라보 의상/캠핑 시간이다냥! 숲과 들판에서 활동하기를 좋아하는 정찰대를 위해 맞춤 제작한 의상으로, 활동성과 통기성이 매우 뛰어나다.</color>	claude
+《怪物猎人》合作服装/露营时间喵！为喜欢在山野林间活动的隐秘队量身定做的服装，活动性和透气性极佳。	'몬스터 헌터' 콜라보 의상/캠핑 시간이다냥! 숲과 들판에서 활동하기를 좋아하는 정찰대를 위해 맞춤 제작한 의상으로, 활동성과 통기성이 매우 뛰어나다.	claude
+罗德岛隐秘队的便装之一。	로도스 아일랜드 정찰대의 평상복 중 하나.	claude
+政宗最近的兴趣是用泰拉的食材研究全新的兔团子配方，至于成果，看义经的表情就知道了。	마사무네의 요즘 관심사는 테라의 식재료로 완전히 새로운 토끼 경단 레시피를 연구하는 것이다. 그 성과가 어떤지는 요시츠네의 표정을 보면 알 수 있다.	claude
+<color name=#ffffff>由阿米娅参与设计的CASC合作服装/触及星辰。配备精密的生命保障系统，兼顾维生性能与舒适性，足以应对外层空间的极端环境。</color>	<color name=#ffffff>아미야가 디자인에 참여한 CASC 콜라보 의상/별에 닿다. 정밀한 생명 유지 시스템을 갖춰 생존 성능과 편안함을 모두 겸비했으며, 우주 공간의 극한 환경에도 충분히 대응할 수 있다.</color>	claude
+由阿米娅参与设计的CASC合作服装/触及星辰。配备精密的生命保障系统，兼顾维生性能与舒适性，足以应对外层空间的极端环境。	아미야가 디자인에 참여한 CASC 콜라보 의상/별에 닿다. 정밀한 생명 유지 시스템을 갖춰 생존 성능과 편안함을 모두 겸비했으며, 우주 공간의 극한 환경에도 충분히 대응할 수 있다.	claude
+CASC合作的服装。	CASC 콜라보 의상.	claude
+她曾梦见过星星的模样。那群星长眠的深空彼岸，或许有一日会留下她的足迹。	그녀는 별의 모습을 꿈꾼 적이 있다. 뭇별이 잠든 깊은 우주의 저편에, 언젠가 그녀의 발자취가 남게 될지도 모른다.	claude
+大川ぶくぶ	오오카와 부쿠부	claude
+<color name=#ffffff>成就之星系列/绝对主角。维什戴尔在特别游戏活动中的变格形象。从脾气上能看得出她确实还是那个维什戴尔。</color>	<color name=#ffffff>어치브먼트 스타 시리즈/절대 주인공. 위셔델이 특별 게임 이벤트에서 선보인 변형된 모습. 성격을 보면 그녀가 확실히 그 위셔델이라는 걸 알 수 있다.</color>	claude
+成就之星系列/绝对主角。维什戴尔在特别游戏活动中的变格形象。从脾气上能看得出她确实还是那个维什戴尔。	어치브먼트 스타 시리즈/절대 주인공. 위셔델이 특별 게임 이벤트에서 선보인 변형된 모습. 성격을 보면 그녀가 확실히 그 위셔델이라는 걸 알 수 있다.	claude
+维什戴尔的角色扮演服饰之一。	위셔델의 코스프레 의상 중 하나.	claude
+据她本人评价，这是有史以来最诡异的角色设计。	본인의 평가에 따르면, 이건 역사상 가장 기괴한 캐릭터 디자인이라고 한다.	claude
+<color name=#ffffff>成就之星系列/蔷薇之谜。刺玫为电玩展的参展游戏《翡绿迷宫》拍摄海报时的着装。她所扮演的公主完成了授剑礼，蔷薇骑士自此拥有了一颗翡绿之心。</color>	<color name=#ffffff>어치브먼트 스타 시리즈/장미의 수수께끼. 벤델라가 게임쇼 출품작 '비취빛 미궁'의 포스터를 촬영할 때 입은 의상. 그녀가 연기한 공주가 서검식을 마치자, 장미 기사는 그때부터 비취빛 마음을 품게 되었다.</color>	claude
+成就之星系列/蔷薇之谜。刺玫为电玩展的参展游戏《翡绿迷宫》拍摄海报时的着装。她所扮演的公主完成了授剑礼，蔷薇骑士自此拥有了一颗翡绿之心。	어치브먼트 스타 시리즈/장미의 수수께끼. 벤델라가 게임쇼 출품작 '비취빛 미궁'의 포스터를 촬영할 때 입은 의상. 그녀가 연기한 공주가 서검식을 마치자, 장미 기사는 그때부터 비취빛 마음을 품게 되었다.	claude
+刺玫的角色扮演服饰之一。	벤델라의 코스프레 의상 중 하나.	claude
+“找到她……保护她。”迷宫的园丁把守着唯一的出口，盔甲下的蔷薇花苞始终指着那位公主所在的方向。	'그녀를 찾아라…… 그녀를 지켜라.' 미궁의 정원사는 유일한 출구를 지키고 있으며, 갑옷 아래의 장미 꽃봉오리는 언제나 그 공주가 있는 방향을 가리키고 있다.	claude
+<color name=#ffffff>0011子品牌，韵系列新款/撷香霭。以炎国产出的绸缎制成的传统踏青服装。在寒冷北地长大的人，也能感受到仲夏云雾的温暖氛围。</color>	<color name=#ffffff>0011 서브 브랜드, 운율 시리즈 신상/향기 어린 안개를 따다. 염국에서 생산된 비단으로 만든 전통 봄나들이 의상. 추운 북쪽 땅에서 자란 사람도 한여름 운무의 따스한 분위기를 느낄 수 있다.</color>	claude
+0011子品牌，韵系列新款/撷香霭。以炎国产出的绸缎制成的传统踏青服装。在寒冷北地长大的人，也能感受到仲夏云雾的温暖氛围。	0011 서브 브랜드, 운율 시리즈 신상/향기 어린 안개를 따다. 염국에서 생산된 비단으로 만든 전통 봄나들이 의상. 추운 북쪽 땅에서 자란 사람도 한여름 운무의 따스한 분위기를 느낄 수 있다.	claude
+折桠的私服之一。	베토치키의 사복 중 하나.	claude
+采撷一缕氤氲香雾，存入篮中，让它陪伴你从雪原走向山川湖泊。等你驻足歇息时，会发现篮中艾叶尚青，水露未干。	자욱한 향기 어린 안개 한 줄기를 따서 바구니에 담아, 설원에서 산천과 호수로 향하는 당신의 길에 함께하게 하라. 당신이 발걸음을 멈추고 쉴 때, 바구니 속 쑥잎은 여전히 푸르고 이슬은 아직 마르지 않았음을 알게 되리라.	claude
+<color name=#ffffff>0011子品牌，韵系列新款/渡澄空。炎国匠人为云迹特别设计的服饰，宽松款裙装搭配纨扇和飘带，让她无论在哪一片天空中都能怡然自在。</color>	<color name=#ffffff>0011 서브 브랜드, 운율 시리즈 신상/맑은 하늘을 건너다. 염국 장인이 콘트레일을 위해 특별히 디자인한 의상. 넉넉한 치마에 비단 부채와 리본을 더해, 그녀가 어느 하늘에서든 유유자적할 수 있게 한다.</color>	claude
+0011子品牌，韵系列新款/渡澄空。炎国匠人为云迹特别设计的服饰，宽松款裙装搭配纨扇和飘带，让她无论在哪一片天空中都能怡然自在。	0011 서브 브랜드, 운율 시리즈 신상/맑은 하늘을 건너다. 염국 장인이 콘트레일을 위해 특별히 디자인한 의상. 넉넉한 치마에 비단 부채와 리본을 더해, 그녀가 어느 하늘에서든 유유자적할 수 있게 한다.	claude
+云迹的私服之一。	콘트레일의 사복 중 하나.	claude
+此刻，跨过无数羽兽连成的桥梁，她将与最令人惊叹的天空景色相遇。	지금 이 순간, 무수한 파울비스트가 이어 만든 다리를 건너, 그녀는 가장 경탄스러운 하늘의 풍경과 만나게 된다.	claude
+<color name=#ffffff>0011子品牌，韵系列新款/照寰瀛。百灶的裁衣师傅为炎国经典戏曲所制的戏服。繁复而典雅的剪裁，配合一盏盈盈的提灯，更显节日之厚重。</color>	<color name=#ffffff>0011 서브 브랜드, 운율 시리즈 신상/온 세상을 비추다. 백조의 재단사가 염국의 고전 희곡을 위해 만든 무대 의상. 정교하고 우아한 재단에 은은히 빛나는 등롱 하나를 더해, 명절의 무게감을 한층 더 드러낸다.</color>	claude
+0011子品牌，韵系列新款/照寰瀛。百灶的裁衣师傅为炎国经典戏曲所制的戏服。繁复而典雅的剪裁，配合一盏盈盈的提灯，更显节日之厚重。	0011 서브 브랜드, 운율 시리즈 신상/온 세상을 비추다. 백조의 재단사가 염국의 고전 희곡을 위해 만든 무대 의상. 정교하고 우아한 재단에 은은히 빛나는 등롱 하나를 더해, 명절의 무게감을 한층 더 드러낸다.	claude
+录武官的私服之一。	녹무관의 사복 중 하나.	claude
+当披肩搭在肩上时，受邀出演的云青萍才意识到这身衣服承载的重量。他举起提灯，摆出儿时所见演员的动作，台下便是满堂彩。	숄을 어깨에 걸쳤을 때, 출연 초대를 받은 운청평은 그제야 이 옷이 지닌 무게를 깨달았다. 그가 등롱을 들고 어릴 적 본 배우의 동작을 취하자, 객석에서 우레와 같은 갈채가 쏟아졌다.	claude
+<color name=#ffffff>错位巡礼新定义[第零位相/PhaseZero]系列特别款/真我自扼。正午的烈阳之下，橄榄广场的羽兽鸣啭中，上演着让围观者通晓哲理的夺目艺术。</color>	<color name=#ffffff>미스얼라인드 사이트시어 새로운 정의 [제로 페이즈/PhaseZero] 시리즈 스페셜/스스로를 옭아맨 참된 나. 정오의 뜨거운 태양 아래, 올리브 광장에 울려 퍼지는 파울비스트의 지저귐 속에서, 구경꾼들에게 철학적 이치를 깨닫게 하는 눈부신 예술이 펼쳐진다.</color>	claude
+错位巡礼新定义[第零位相/PhaseZero]系列特别款/真我自扼。正午的烈阳之下，橄榄广场的羽兽鸣啭中，上演着让围观者通晓哲理的夺目艺术。	미스얼라인드 사이트시어 새로운 정의 [제로 페이즈/PhaseZero] 시리즈 스페셜/스스로를 옭아맨 참된 나. 정오의 뜨거운 태양 아래, 올리브 광장에 울려 퍼지는 파울비스트의 지저귐 속에서, 구경꾼들에게 철학적 이치를 깨닫게 하는 눈부신 예술이 펼쳐진다.	claude
+酒神的私服之一。	트라고디아의 사복 중 하나.	claude
+你突然忘记了自己为何来到此地，也想不起在阳光下注视这场表演的初衷。但这就是寻找真我的旅程，不知哪一个他的声音，在不经意间传到了你的耳中。	당신은 문득 자신이 왜 이곳에 왔는지 잊어버리고, 햇살 아래에서 이 공연을 지켜보던 이유도 떠올리지 못한다. 하지만 이것이 바로 참된 나를 찾는 여정. 어느 '그'의 것인지 모를 목소리가 무심결에 당신의 귀에 닿는다.	claude
+<color name=#ffffff>错位巡礼新定义[第零位相/PhaseZero]系列特别款/万籁俱寂。靛蓝之宫的内殿里，雅致的服饰下，是无需言语便可让谒见者知晓前路的深邃之智。</color>	<color name=#ffffff>미스얼라인드 사이트시어 새로운 정의 [제로 페이즈/PhaseZero] 시리즈 스페셜/만물이 고요히 잠들다. 쪽빛 궁전의 내전, 우아한 의복 아래에는 말 없이도 알현하는 자에게 앞길을 깨닫게 하는 심오한 지혜가 있다.</color>	claude
+错位巡礼新定义[第零位相/PhaseZero]系列特别款/万籁俱寂。靛蓝之宫的内殿里，雅致的服饰下，是无需言语便可让谒见者知晓前路的深邃之智。	미스얼라인드 사이트시어 새로운 정의 [제로 페이즈/PhaseZero] 시리즈 스페셜/만물이 고요히 잠들다. 쪽빛 궁전의 내전, 우아한 의복 아래에는 말 없이도 알현하는 자에게 앞길을 깨닫게 하는 심오한 지혜가 있다.	claude
+真言的私服之一。	만트라의 사복 중 하나.	claude
+夜色无边，永不停歇的喧嚷自头脑中远去。群星各归其位，万物各湮其声，而她终于在这全然陌生的寂静里，第一次真正沉睡，也第一次真正醒来。	끝없는 밤빛 속에서, 결코 그치지 않던 소란이 머릿속에서 멀어져 간다. 뭇별은 제자리로 돌아가고 만물은 저마다 소리를 거두니, 그녀는 마침내 이 낯선 정적 속에서 처음으로 진정 잠들고, 처음으로 진정 깨어난다.	claude
+失眠老蟹	실면노해	claude
+<color name=#ffffff>错位巡礼新定义[第零位相/PhaseZero]系列特别款/来日欢歌。回廊的雕饰之间，升起的夜幕之下，流转着让来访者不思归去的欢乐曲调。</color>	<color name=#ffffff>미스얼라인드 사이트시어 새로운 정의 [제로 페이즈/PhaseZero] 시리즈 스페셜/다가올 날의 환희의 노래. 회랑의 조각 장식 사이, 내려앉은 밤의 장막 아래, 방문객이 돌아갈 생각을 잊게 만드는 즐거운 선율이 흐른다.</color>	claude
+错位巡礼新定义[第零位相/PhaseZero]系列特别款/来日欢歌。回廊的雕饰之间，升起的夜幕之下，流转着让来访者不思归去的欢乐曲调。	미스얼라인드 사이트시어 새로운 정의 [제로 페이즈/PhaseZero] 시리즈 스페셜/다가올 날의 환희의 노래. 회랑의 조각 장식 사이, 내려앉은 밤의 장막 아래, 방문객이 돌아갈 생각을 잊게 만드는 즐거운 선율이 흐른다.	claude
+烈夏的私服之一。	레토의 사복 중 하나.	claude
+离开这里，明天是否又要面对无法逃避的苦涩？“只要记得歌谣唱起的方法，任何消沉都不过是一时云烟”，她拨响琴弦，用歌声对你的问题做出了回答。	이곳을 떠나면 내일 또다시 피할 수 없는 쓴맛을 마주해야 할까? '노래 부르는 법만 기억한다면, 어떤 침울함도 한때의 구름과 연기에 불과해.' 그녀는 현을 튕기며 노래로 당신의 물음에 답했다.	claude
+<color name=#ffffff>小马宝莉合作服装/率直诚实之人。她们热情又可靠，像阳光下散发清香气味的苹果一样，时刻用笑容感染他人，给予大家勇气。</color>	<color name=#ffffff>마이 리틀 포니 콜라보 의상/솔직하고 정직한 사람. 그녀들은 열정적이고 믿음직하며, 햇살 아래 상큼한 향기를 풍기는 사과처럼 언제나 미소로 다른 이들을 물들이고 모두에게 용기를 준다.</color>	claude
+小马宝莉合作服装/率直诚实之人。她们热情又可靠，像阳光下散发清香气味的苹果一样，时刻用笑容感染他人，给予大家勇气。	마이 리틀 포니 콜라보 의상/솔직하고 정직한 사람. 그녀들은 열정적이고 믿음직하며, 햇살 아래 상큼한 향기를 풍기는 사과처럼 언제나 미소로 다른 이들을 물들이고 모두에게 용기를 준다.	claude
+娜仁图亚的私服之一。	나란투야의 사복 중 하나.	claude
+即使身处困境，她们也会敞开心扉，坦荡荡地展露出最真实的自己。她们一直都是这样诚实。	역경 속에 있어도 그녀들은 마음의 문을 열고 가장 진실한 자신을 떳떳하게 드러낸다. 그녀들은 언제나 이렇게 정직하다.	claude
+<color name=#ffffff>小马宝莉合作服装/求知的魔法。深夜之时，她们还在知识的魔法世界中遨游。她们背负起应尽的责任，为了自己，也为了身边的人。</color>	<color name=#ffffff>마이 리틀 포니 콜라보 의상/지식을 갈구하는 마법. 깊은 밤에도 그녀들은 여전히 지식이라는 마법의 세계를 누빈다. 그녀들은 다해야 할 책임을 짊어진다. 자신을 위해, 그리고 곁에 있는 이들을 위해.</color>	claude
+小马宝莉合作服装/求知的魔法。深夜之时，她们还在知识的魔法世界中遨游。她们背负起应尽的责任，为了自己，也为了身边的人。	마이 리틀 포니 콜라보 의상/지식을 갈구하는 마법. 깊은 밤에도 그녀들은 여전히 지식이라는 마법의 세계를 누빈다. 그녀들은 다해야 할 책임을 짊어진다. 자신을 위해, 그리고 곁에 있는 이들을 위해.	claude
+即使无人知晓，也要默默积攒知识和经验，绝不停下脚步，而朋友正是让她们能坚持下去的魔法。	아무도 모른다 해도 묵묵히 지식과 경험을 쌓으며 결코 걸음을 멈추지 않는다. 그리고 친구야말로 그녀들이 버틸 수 있게 해 주는 마법이다.	claude
+<color name=#ffffff>小马宝莉合作服装/善良坚强之心。她们都有软弱、害怕的时候，但是她们最终一定会挺身而出，为了重要之人付出自己的全部。</color>	<color name=#ffffff>마이 리틀 포니 콜라보 의상/선량하고 굳센 마음. 그녀들에게도 약해지고 두려운 순간이 있지만, 결국에는 반드시 앞으로 나서서 소중한 이를 위해 자신의 전부를 바친다.</color>	claude
+小马宝莉合作服装/善良坚强之心。她们都有软弱、害怕的时候，但是她们最终一定会挺身而出，为了重要之人付出自己的全部。	마이 리틀 포니 콜라보 의상/선량하고 굳센 마음. 그녀들에게도 약해지고 두려운 순간이 있지만, 결국에는 반드시 앞으로 나서서 소중한 이를 위해 자신의 전부를 바친다.	claude
+瑕光的私服之一。	블레미샤인의 사복 중 하나.	claude
+如同金色的光芒一般驱散迷雾的不是剑，不是盾，也不是法杖，而是她们内心深处的善良。	금빛 광채처럼 안개를 걷어 내는 것은 검도, 방패도, 지팡이도 아닌, 그녀들 마음 깊은 곳의 선량함이다.	claude
+<color name=#ffffff>女神异闻录3 Reload合作服装/见证荣光。结城理在校园戏剧节上演出时穿着的服装。拒绝审判的执行者走出殿堂，等待他的是自由与真正的荣光。</color>	<color name=#ffffff>페르소나3 Reload 콜라보 의상/영광을 목격하다. 유키 마코토가 교내 연극제 공연에서 입은 의상. 심판을 거부한 집행인이 전당을 걸어 나오고, 그를 기다리는 것은 자유와 진정한 영광이다.</color>	claude
+女神异闻录3 Reload合作服装/见证荣光。结城理在校园戏剧节上演出时穿着的服装。拒绝审判的执行者走出殿堂，等待他的是自由与真正的荣光。	페르소나3 Reload 콜라보 의상/영광을 목격하다. 유키 마코토가 교내 연극제 공연에서 입은 의상. 심판을 거부한 집행인이 전당을 걸어 나오고, 그를 기다리는 것은 자유와 진정한 영광이다.	claude
+结城理在戏剧演出中穿着的服装。	유키 마코토가 연극 공연에서 입은 의상.	claude
+真正的荣光无需仰望，慷慨公正的太阳将它洒向每一个人。	진정한 영광은 우러러볼 필요가 없다. 관대하고 공정한 태양이 그것을 모든 이에게 비추어 주니까.	claude
+<color name=#ffffff>女神异闻录3 Reload合作服装/静思真谛。埃癸斯在校园戏剧节上演出时穿着的服装。修士的生活漫长平静，她观察植物的生长，寻觅一个未知问题为何的答案。</color>	<color name=#ffffff>페르소나3 Reload 콜라보 의상/진리를 사색하다. 아이기스가 교내 연극제 공연에서 입은 의상. 수도사의 삶은 길고 평온하다. 그녀는 식물의 성장을 관찰하며, 무엇인지도 모를 질문에 대한 답을 찾는다.</color>	claude
+女神异闻录3 Reload合作服装/静思真谛。埃癸斯在校园戏剧节上演出时穿着的服装。修士的生活漫长平静，她观察植物的生长，寻觅一个未知问题为何的答案。	페르소나3 Reload 콜라보 의상/진리를 사색하다. 아이기스가 교내 연극제 공연에서 입은 의상. 수도사의 삶은 길고 평온하다. 그녀는 식물의 성장을 관찰하며, 무엇인지도 모를 질문에 대한 답을 찾는다.	claude
+埃癸斯在戏剧演出中穿着的服装。	아이기스가 연극 공연에서 입은 의상.	claude
+有的答案足可追寻一生，是一日日清晨的浇灌与惦念让它长成。	어떤 답은 평생을 쫓을 만한 가치가 있다. 그것을 자라게 하는 것은 하루하루 아침마다 주는 물과 마음속 그리움이다.	claude
+<color name=#ffffff>女神异闻录3 Reload合作服装/戍卫晨昏。岳羽由加莉在校园戏剧节上演出时穿着的服装。戍卫队员在白墙顶端远眺，安宁的暮色是她在漫长旅途后获得的奖赏。</color>	<color name=#ffffff>페르소나3 Reload 콜라보 의상/새벽과 황혼을 지키다. 타케바 유카리가 교내 연극제 공연에서 입은 의상. 호위대원이 하얀 성벽 꼭대기에서 먼 곳을 바라본다. 평온한 황혼은 그녀가 긴 여정 끝에 얻은 보상이다.</color>	claude
+女神异闻录3 Reload合作服装/戍卫晨昏。岳羽由加莉在校园戏剧节上演出时穿着的服装。戍卫队员在白墙顶端远眺，安宁的暮色是她在漫长旅途后获得的奖赏。	페르소나3 Reload 콜라보 의상/새벽과 황혼을 지키다. 타케바 유카리가 교내 연극제 공연에서 입은 의상. 호위대원이 하얀 성벽 꼭대기에서 먼 곳을 바라본다. 평온한 황혼은 그녀가 긴 여정 끝에 얻은 보상이다.	claude
+岳羽由加莉在戏剧演出中穿着的服装。	타케바 유카리가 연극 공연에서 입은 의상.	claude
+朝暮晨昏，云流风转，白墙将许多温热的生活围拢，那就叫做城市。	아침과 저녁, 새벽과 황혼, 구름이 흐르고 바람이 돈다. 하얀 성벽이 수많은 따스한 삶을 감싸 안으니, 그것을 도시라 부른다.	claude
+<color name=#ffffff>女神异闻录3 Reload合作服装/飞越甜蜜之城。虎狼丸在拉特兰时常穿着的服装。全城的甜品都飞上了天空，围绕着虎狼丸，殷切盼望他能尝上一口——什么，是梦？！</color>	<color name=#ffffff>페르소나3 Reload 콜라보 의상/달콤한 도시를 날아 넘어. 코로마루가 라테라노에서 자주 입는 의상. 도시의 모든 디저트가 하늘로 날아올라 코로마루를 둘러싸고, 그가 한 입 맛보기를 간절히 바란다——뭐, 꿈이라고?!</color>	claude
+女神异闻录3 Reload合作服装/飞越甜蜜之城。虎狼丸在拉特兰时常穿着的服装。全城的甜品都飞上了天空，围绕着虎狼丸，殷切盼望他能尝上一口——什么，是梦？！	페르소나3 Reload 콜라보 의상/달콤한 도시를 날아 넘어. 코로마루가 라테라노에서 자주 입는 의상. 도시의 모든 디저트가 하늘로 날아올라 코로마루를 둘러싸고, 그가 한 입 맛보기를 간절히 바란다——뭐, 꿈이라고?!	claude
+虎狼丸在拉特兰获得的服装。	코로마루가 라테라노에서 얻은 의상.	claude
+他们都做着梦中之梦，醒来时嘴角犹噙着微笑，这便是一场好眠。	그들은 모두 꿈속의 꿈을 꾸고, 깨어날 때에도 입가에 여전히 미소를 머금고 있다. 이것이야말로 단잠이다.	claude
+<color name=#ffffff>国家图书馆合作服装/源远流长。黍在天师府工作时穿着的服装。古卷在她的面前展开，代代相传的智慧浮现纸上，一如脚下长河奔流不息，一径向前。</color>	<color name=#ffffff>국립도서관 콜라보 의상/유구한 흐름. 수가 천사부에서 일할 때 입는 의상. 고서가 그녀 앞에 펼쳐지고, 대대로 전해진 지혜가 종이 위에 떠오른다. 마치 발아래의 긴 강이 쉼 없이 흘러 오로지 앞으로 나아가듯이.</color>	claude
+国家图书馆合作服装/源远流长。黍在天师府工作时穿着的服装。古卷在她的面前展开，代代相传的智慧浮现纸上，一如脚下长河奔流不息，一径向前。	국립도서관 콜라보 의상/유구한 흐름. 수가 천사부에서 일할 때 입는 의상. 고서가 그녀 앞에 펼쳐지고, 대대로 전해진 지혜가 종이 위에 떠오른다. 마치 발아래의 긴 강이 쉼 없이 흘러 오로지 앞으로 나아가듯이.	claude
+“春雨少，用水浇；夏雨多，开渠道。”黍还记得很久以前她和人们一同将这则农谚记录在书卷上的情景。如今，当年的纸张已经泛黄，而她脚下稻谷青青，浓绿一片。	'봄비가 적으면 물을 대고, 여름비가 많으면 도랑을 낸다.' 수는 아주 오래전 사람들과 함께 이 농사 속담을 책에 기록하던 광경을 아직 기억한다. 이제 그때의 종이는 누렇게 바랬지만, 그녀의 발아래에는 벼가 푸르게 자라 온통 짙은 초록빛이다.	claude
+<color name=#ffffff>国家图书馆合作服装/夜行烛火。煌在游历炎国各方异域时所穿的服装。书中山海万象，手中炽焰长明，奇珍瑞兽相伴身侧，她踏焰前行。</color>	<color name=#ffffff>국립도서관 콜라보 의상/야행 촛불. 블레이즈가 염국 각지의 이역을 유람할 때 입은 의상. 책 속에는 산과 바다의 삼라만상이, 손에는 꺼지지 않는 불꽃이 있고, 진귀하고 상서로운 짐승들이 곁을 함께하니, 그녀는 불꽃을 밟으며 나아간다.</color>	claude
+国家图书馆合作服装/夜行烛火。煌在游历炎国各方异域时所穿的服装。书中山海万象，手中炽焰长明，奇珍瑞兽相伴身侧，她踏焰前行。	국립도서관 콜라보 의상/야행 촛불. 블레이즈가 염국 각지의 이역을 유람할 때 입은 의상. 책 속에는 산과 바다의 삼라만상이, 손에는 꺼지지 않는 불꽃이 있고, 진귀하고 상서로운 짐승들이 곁을 함께하니, 그녀는 불꽃을 밟으며 나아간다.	claude
+顺着书上的描述，跨越五方山川，渡去四海之外，煌终于见到了传说中的生物。“你的名字应该是，呃......这个古字怎么念来着？”	책 속의 묘사를 따라 오방의 산천을 넘고 사해 너머로 건너가, 블레이즈는 마침내 전설 속의 생물을 만났다. '네 이름은 분명, 어...... 이 옛 글자를 어떻게 읽더라?'	claude
+<color name=#ffffff>国家图书馆合作服装/盛世之象。诗怀雅在参加文化庆典时穿着的服装。医、技、艺、工，各个展位被她装点得琳琅满目，她将历史穿在身上，盛迎天下贵宾。</color>	<color name=#ffffff>국립도서관 콜라보 의상/태평성대의 모습. 스와이어가 문화 축제에 참가할 때 입은 의상. 의술, 기술, 예술, 공예, 각 부스는 그녀의 손길로 진귀한 것들이 가득하게 꾸며졌다. 그녀는 역사를 몸에 두르고 천하의 귀빈을 성대히 맞이한다.</color>	claude
+国家图书馆合作服装/盛世之象。诗怀雅在参加文化庆典时穿着的服装。医、技、艺、工，各个展位被她装点得琳琅满目，她将历史穿在身上，盛迎天下贵宾。	국립도서관 콜라보 의상/태평성대의 모습. 스와이어가 문화 축제에 참가할 때 입은 의상. 의술, 기술, 예술, 공예, 각 부스는 그녀의 손길로 진귀한 것들이 가득하게 꾸며졌다. 그녀는 역사를 몸에 두르고 천하의 귀빈을 성대히 맞이한다.	claude
+琳琅诗怀雅的私服之一。	스와이어 디 엘리건트 위트의 사복 중 하나.	claude
+“古人编纂典籍记录知识，今人承继智慧，我要做的就是贯通融会，古为今用，让龙门再多点新光景！怎么样，不赖吧？”	'옛사람들은 전적을 편찬해 지식을 기록했고, 오늘날 사람들은 그 지혜를 이어받았지. 내가 할 일은 그걸 두루 융합해서 옛것을 오늘에 활용하고, 용문에 새로운 풍경을 더 많이 만드는 거야! 어때, 괜찮지?'	claude
+唯@W、NoriZC	유@W, NoriZC	claude
+在集成战略：沉沦者的黑流树海的常规行动中，到达3层	통합 전략: 침몰자의 블랙 플로우의 일반 작전에서 3층 도달	claude
+在集成战略：沉沦者的黑流树海的常规行动保密等级·1及以上，通关任意结局	통합 전략: 침몰자의 블랙 플로우의 일반 작전 보안 등급·1 이상에서 임의의 엔딩 클리어	claude
+在集成战略：沉沦者的黑流树海的常规行动保密等级·1及以上，到达5层	통합 전략: 침몰자의 블랙 플로우의 일반 작전 보안 등급·1 이상에서 5층 도달	claude
+在集成战略：沉沦者的黑流树海的常规行动保密等级·1及以上，累计通过5次任意战斗节点	통합 전략: 침몰자의 블랙 플로우의 일반 작전 보안 등급·1 이상에서 임의의 전투 노드 누적 5회 통과	claude
+在集成战略：沉沦者的黑流树海的常规行动保密等级·2及以上，通关任意结局	통합 전략: 침몰자의 블랙 플로우의 일반 작전 보안 등급·2 이상에서 임의의 엔딩 클리어	claude
+在集成战略：沉沦者的黑流树海的常规行动保密等级·3及以上，通关任意结局	통합 전략: 침몰자의 블랙 플로우의 일반 작전 보안 등급·3 이상에서 임의의 엔딩 클리어	claude
+在集成战略：沉沦者的黑流树海的常规行动保密等级·4及以上，通关任意结局	통합 전략: 침몰자의 블랙 플로우의 일반 작전 보안 등급·4 이상에서 임의의 엔딩 클리어	claude
+在集成战略：沉沦者的黑流树海的常规行动保密等级·2及以上，累计通过5次任意战斗节点	통합 전략: 침몰자의 블랙 플로우의 일반 작전 보안 등급·2 이상에서 임의의 전투 노드 누적 5회 통과	claude

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">명방 한글 오버레이</string>
+    <string name="a11y_description">명일방주(중국 서버, 빌리빌리판) 게임 창을 캡처해 중국어를 읽고, 그 위에 한국어 번역 상자를 띄웁니다. 게임 창만 캡처하며, 다른 앱 화면은 캡처하지 않습니다. 앱 안에서 번역을 끄면 캡처도 멈춥니다.</string>
+</resources>

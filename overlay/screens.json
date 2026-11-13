@@ -1,0 +1,531 @@
+{
+ "_설명": "게임 화면 지도. anchors는 그 화면에만 나오는 고정 문구(OCR 줄에 포함되면 그 화면으로 판정, 위에서부터 먼저 맞는 것). path는 들어가는 방법(버튼 위치는 게임 화면 1600x900 기준). tables는 그 화면 글자가 주로 나오는 데이터 표. labels는 OCR이 못 읽는 그림 글자(로고·세로 글자)를 그 화면일 때 정해진 자리에 그린다. box는 게임 화면 1600x900 기준, 다른 크기면 비율대로 옮김. refs는 labels 위치를 맞추는 기준 글자(가운데 좌표). 홈 메뉴판은 마우스를 따라 기울어 움직이므로, 지금 화면에서 읽힌 refs 글자들이 움직인 만큼 labels도 옮긴다.",
+ "screens": [
+  {
+   "id": "dialog_confirm",
+   "name": "확인 창",
+   "anchors": [
+    "是否确认"
+   ],
+   "path": "여러 곳 (예: 기반시설에서 나갈 때)",
+   "tables": [
+    "i18n"
+   ]
+  },
+  {
+   "id": "help_popup",
+   "name": "도움말 창",
+   "anchors": [
+    "可以随时查看本说明"
+   ],
+   "path": "각 화면 왼쪽 위 (i) 버튼",
+   "tables": [
+    "i18n"
+   ]
+  },
+  {
+   "id": "settings",
+   "name": "설정",
+   "anchors": [
+    "重置设置",
+    "条款查看",
+    "游戏设置",
+    "登录管理"
+   ],
+   "path": "홈 → 왼쪽 위 톱니바퀴"
+  },
+  {
+   "id": "mail",
+   "name": "우편",
+   "anchors": [
+    "邮件夹",
+    "未读邮件",
+    "收取所有邮件",
+    "删除已读邮件"
+   ],
+   "path": "홈 → 왼쪽 위 편지 아이콘"
+  },
+  {
+   "id": "medals",
+   "name": "훈장 (光荣之路)",
+   "anchors": [
+    "隐藏已无法获得的蚀刻章",
+    "履历奖章",
+    "总收集数"
+   ],
+   "path": "파일 → 光荣之路",
+   "tables": [
+    "excel/medal_table"
+   ],
+   "notes": "훈장 설명의 획득 방법 끝에 진행도 '(0/1)'이 붙음. 훈장 설명에 이벤트 이름이 나오므로 이벤트 화면보다 먼저 판정."
+  },
+  {
+   "id": "title",
+   "name": "타이틀",
+   "anchors": [
+    "清除缓存",
+    "网络检测"
+   ],
+   "path": "게임 시작",
+   "tables": [
+    "i18n",
+    "excel/display_meta_table"
+   ]
+  },
+  {
+   "id": "quick_nav",
+   "name": "빠른 이동 메뉴",
+   "anchors": [
+    "首页"
+   ],
+   "path": "어디서나 위쪽 집 모양 버튼 (392,87 화면좌표 / 게임 335,47)",
+   "tables": [
+    "i18n"
+   ],
+   "links": {
+    "首页": "home",
+    "编队": "squad",
+    "干员": "operator_list",
+    "档案": "archives",
+    "终端": "terminal",
+    "基建": "base",
+    "公开招募": "recruit",
+    "干员寻访": "headhunt",
+    "采购中心": "store",
+    "任务 아이콘": "missions",
+    "好友 아이콘": "friends"
+   }
+  },
+  {
+   "id": "home",
+   "name": "홈",
+   "anchors": [
+    "角色管理",
+    "理智/"
+   ],
+   "path": "빠른 이동 → 首页",
+   "links": {
+    "终端": "terminal",
+    "编队": "squad",
+    "干员": "operator_list",
+    "采购中心": "store",
+    "公开招募": "recruit",
+    "干员寻访": "headhunt",
+    "任务": "missions",
+    "基建": "base",
+    "好友": "friends",
+    "档案": "archives"
+   },
+   "labels": [
+    {
+     "zh": "终端",
+     "ko": "단말기",
+     "box": [
+      1058,
+      148,
+      1135,
+      298
+     ],
+     "vertical": true,
+     "template": "templates/home_0.png"
+    },
+    {
+     "zh": "编队",
+     "ko": "편성",
+     "box": [
+      828,
+      372,
+      885,
+      472
+     ],
+     "vertical": true,
+     "template": "templates/home_1.png"
+    },
+    {
+     "zh": "采购中心",
+     "ko": "구매 센터",
+     "box": [
+      998,
+      552,
+      1082,
+      620
+     ],
+     "template": "templates/home_2.png"
+    },
+    {
+     "zh": "好友",
+     "ko": "친구",
+     "box": [
+      470,
+      676,
+      502,
+      720
+     ],
+     "vertical": true,
+     "template": "templates/home_3.png"
+    },
+    {
+     "zh": "档案",
+     "ko": "파일",
+     "box": [
+      470,
+      748,
+      502,
+      797
+     ],
+     "vertical": true,
+     "template": "templates/home_4.png"
+    },
+    {
+     "zh": "当前",
+     "ko": "현재",
+     "box": [
+      1153,
+      228,
+      1212,
+      262
+     ],
+     "template": "templates/home_5.png"
+    }
+   ],
+   "refs": {
+    "全部完成": [
+     1201,
+     284
+    ],
+    "理智/210": [
+     946,
+     283
+    ],
+    "干员": [
+     1155,
+     427
+    ],
+    "角色管理": [
+     1155,
+     486
+    ],
+    "公开招募": [
+     1220,
+     624
+    ],
+    "干员寻访": [
+     1421,
+     632
+    ],
+    "任务": [
+     890,
+     731
+    ],
+    "基建": [
+     1159,
+     752
+    ]
+   }
+  },
+  {
+   "id": "is3_recorder",
+   "name": "통합 전략 3 · 카이룰라 레코더",
+   "anchors": [
+    "深蓝记录仪",
+    "壳中回响",
+    "刻时碑林"
+   ],
+   "path": "단말기 → 장기 탐색 → 통합 전략 → 미즈키 & 카이룰라 아버 → 레코더",
+   "notes": "메뉴 이름은 그림 글자(데이터에 없음): 나무위키 표기 (extra/community_namu.tsv)"
+  },
+  {
+   "id": "is3_symbols",
+   "name": "통합 전략 3 · 기호 인식 공간",
+   "anchors": [
+    "符号认知空间"
+   ],
+   "path": "카이룰라 레코더 → 符号认知空间",
+   "notes": "계시/거부반응/위매니의 부름. 효과 줄과 인용문 줄이 따로 번역됨"
+  },
+  {
+   "id": "is4_archive",
+   "name": "통합 전략 4 · 겨울밤 전시장",
+   "anchors": [
+    "密文板研究",
+    "仪式用品索引",
+    "坍缩范式辑录"
+   ],
+   "path": "통합 전략 → 탐험가의 은빛 서리 끝자락 → 전시장",
+   "notes": "1~3은 나무위키 표기, 나중에 추가된 4~7은 직접 번역"
+  },
+  {
+   "id": "terminal",
+   "name": "단말기",
+   "anchors": [
+    "前往上一次作战",
+    "数据增补仪"
+   ],
+   "path": "홈 → 终端",
+   "tables": [
+    "excel/activity_table",
+    "excel/stage_table",
+    "excel/zone_table"
+   ],
+   "links": {
+    "아래 탭1 终端": "terminal",
+    "탭2 曲谱": "terminal_sidestory",
+    "탭3 资源收集": "terminal_resource",
+    "탭4 常态事务": "terminal_routine",
+    "탭5 长期探索": "terminal_longterm",
+    "탭6 周期挑战": "terminal_challenge"
+   }
+  },
+  {
+   "id": "terminal_sidestory",
+   "name": "단말기 · 사이드 스토리(曲谱)",
+   "anchors": [
+    "乐章收录",
+    "Story Line"
+   ],
+   "path": "단말기 → 아래 탭2",
+   "tables": [
+    "excel/zone_table",
+    "excel/activity_table"
+   ],
+   "links": {
+    "乐章收录": "sidestory_collection"
+   }
+  },
+  {
+   "id": "sidestory_collection",
+   "name": "사이드 스토리 전체 목록(乐章收录)",
+   "anchors": [
+    "完成进度",
+    "奖励进度",
+    "默认进度"
+   ],
+   "path": "曲谱 → 오른쪽 위 乐章收录"
+  },
+  {
+   "id": "terminal_resource",
+   "name": "단말기 · 자원 수집",
+   "anchors": [
+    "常驻开放",
+    "SCHEDULE",
+    "资源收集"
+   ],
+   "path": "단말기 → 아래 탭3",
+   "tables": [
+    "excel/zone_table",
+    "excel/stage_table"
+   ]
+  },
+  {
+   "id": "terminal_routine",
+   "name": "단말기 · 상시 업무",
+   "anchors": [
+    "剿灭作战",
+    "保全派驻",
+    "请确认当前待办事务"
+   ],
+   "path": "단말기 → 아래 탭4"
+  },
+  {
+   "id": "terminal_longterm",
+   "name": "단말기 · 장기 탐색",
+   "anchors": [
+    "生息演算",
+    "查看全部主题"
+   ],
+   "path": "단말기 → 아래 탭5",
+   "tables": [
+    "excel/roguelike_topic_table",
+    "excel/sandbox_perm_table"
+   ]
+  },
+  {
+   "id": "terminal_challenge",
+   "name": "단말기 · 시즌 챌린지",
+   "anchors": [
+    "全息作战矩阵",
+    "危机合约",
+    "矢量突破"
+   ],
+   "path": "단말기 → 아래 탭6",
+   "tables": [
+    "excel/crisis_v2_table",
+    "excel/vec_break"
+   ]
+  },
+  {
+   "id": "event_museum",
+   "name": "이벤트 · 폴리비전 박물관: 진화",
+   "anchors": [
+    "博物馆兑换台",
+    "累计最高分"
+   ],
+   "path": "홈 → 오른쪽 위 이벤트 배너",
+   "tables": [
+    "excel/activity_table"
+   ]
+  },
+  {
+   "id": "operator_list",
+   "name": "오퍼레이터 목록",
+   "anchors": [
+    "自定义排序",
+    "稀有度"
+   ],
+   "path": "홈 → 干员",
+   "tables": [
+    "excel/character_table"
+   ],
+   "links": {
+    "오퍼레이터 카드": "operator_detail"
+   }
+  },
+  {
+   "id": "operator_detail",
+   "name": "오퍼레이터 상세",
+   "anchors": [
+    "精英化",
+    "信赖值",
+    "攻击范围"
+   ],
+   "path": "오퍼레이터 목록 → 카드",
+   "tables": [
+    "excel/character_table",
+    "excel/uniequip_table",
+    "excel/skill_table"
+   ],
+   "notes": "좌우로 밀면 다른 오퍼레이터로 넘어감. (i)는 도움말."
+  },
+  {
+   "id": "archives",
+   "name": "파일",
+   "anchors": [
+    "情报处理室",
+    "敌方档案库",
+    "模组陈列室"
+   ],
+   "path": "홈 → 档案",
+   "links": {
+    "情报处理室": "story_review",
+    "关系网": "?",
+    "表象载体": "?",
+    "光荣之路": "?",
+    "敌方档案库": "?",
+    "训练场": "?",
+    "模组陈列室": "?"
+   }
+  },
+  {
+   "id": "story_review",
+   "name": "정보 처리실",
+   "anchors": [
+    "公共事务实录",
+    "特别行动记述"
+   ],
+   "path": "파일 → 情报处理室",
+   "links": {
+    "特别行动记述": "story_review_events"
+   }
+  },
+  {
+   "id": "story_review_events",
+   "name": "특별행동기술 (이벤트 스토리 다시보기)",
+   "anchors": [
+    "前往记录修复",
+    "剧情进度"
+   ],
+   "path": "정보 처리실 → 特别行动记述",
+   "tables": [
+    "excel/story_review_table",
+    "story"
+   ],
+   "notes": "가로로 끌어서 넘김. 마지막은 从林症结. 콜라보(페르소나 등)는 없음."
+  },
+  {
+   "id": "squad",
+   "name": "편성",
+   "anchors": [
+    "快捷编队"
+   ],
+   "path": "홈 → 编队"
+  },
+  {
+   "id": "base",
+   "name": "기반시설",
+   "anchors": [
+    "控制中枢",
+    "进驻总览",
+    "建造模式"
+   ],
+   "path": "홈 → 基建",
+   "tables": [
+    "excel/building_data"
+   ],
+   "notes": "나갈 때 '是否确认离开罗德岛基建' 확인 창이 뜸."
+  },
+  {
+   "id": "recruit",
+   "name": "공개모집",
+   "anchors": [
+    "开始招募干员",
+    "聘用候选人",
+    "联络次数"
+   ],
+   "path": "홈 → 公开招募",
+   "tables": [
+    "excel/gacha_table"
+   ]
+  },
+  {
+   "id": "headhunt",
+   "name": "헤드헌팅",
+   "anchors": [
+    "寻访一次",
+    "寻访十次"
+   ],
+   "path": "홈 → 干员寻访",
+   "tables": [
+    "excel/gacha_table"
+   ]
+  },
+  {
+   "id": "store",
+   "name": "구매센터",
+   "anchors": [
+    "可露希尔推荐",
+    "源石交易所",
+    "信用交易所",
+    "凭证交易所"
+   ],
+   "path": "홈 → 采购中心",
+   "tables": [
+    "excel/shop_client_table",
+    "excel/skin_table"
+   ],
+   "notes": "왼쪽 목록은 스킨 브랜드 이름(时代=에포크, 斗争血脉=블러드라인 오브 컴뱃 등)."
+  },
+  {
+   "id": "missions",
+   "name": "임무",
+   "anchors": [
+    "日常任务",
+    "周常任务",
+    "主线任务"
+   ],
+   "path": "홈 → 任务",
+   "tables": [
+    "excel/mission_table"
+   ]
+  },
+  {
+   "id": "friends",
+   "name": "친구",
+   "anchors": [
+    "个人名片",
+    "好友列表",
+    "添加好友"
+   ],
+   "path": "홈 → 好友"
+  }
+ ]
+}

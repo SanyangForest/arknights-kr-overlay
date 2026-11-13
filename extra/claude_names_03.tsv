@@ -1,0 +1,839 @@
+zh	ko	source
+浮空信件	공중 부양 편지	claude
+信使安洁莉娜	전달자 안젤리나	claude
+冠鸣龙王	관명 용왕	claude
+碎壳螈\n	껍질깨기 도롱뇽\n	claude
+大名碎壳螈	다이묘 껍질깨기 도롱뇽	claude
+横纲盗壳虫	요코즈나 껍질도둑 벌레	claude
+荒神大喰怪	아라가미 대식괴	claude
+反壳龟·缚	역껍질 거북·속박	claude
+影丝蛛·怨	그림자실 거미·원한	claude
+咒鬼·真	저주귀·진	claude
+岩甲兽·咒	록아머비스트·저주	claude
+滴答冰淇淋	뚝뚝 아이스크림	claude
+刺溜冰淇淋	주르륵 아이스크림	claude
+吵闹收音机	시끄러운 라디오	claude
+沉默收音机	침묵하는 라디오	claude
+蹦跶羽兽	깡충깡충 파울비스트	claude
+蹒跚羽兽	비틀비틀 파울비스트	claude
+失恋花束	실연 꽃다발	claude
+离婚花束	이혼 꽃다발	claude
+结巴铳	말더듬이 총	claude
+咆哮铳	울부짖음 총	claude
+伤眼路灯	눈아픈 가로등	claude
+吓人路灯	무서운 가로등	claude
+几点了钟	몇 시야 시계	claude
+不知道钟	몰라 시계	claude
+没办法车	어쩔 수 없어 차	claude
+生气车	화난 차	claude
+困惑车	당황한 차	claude
+难过车	슬픈 차	claude
+无聊车	지루한 차	claude
+挥铳圣像	총을 휘두르는 성상	claude
+塑能基质	가소성 에너지 기질	claude
+远航灯	먼 항해의 등불	claude
+“远海遗声”灯	'먼 바다의 여음' 등불	claude
+训练用手弩	훈련용 석궁	claude
+“驯服大海”弩	'바다를 길들이다' 석궁	claude
+三曲足仪仗盾	트리스켈리온 의장 방패	claude
+“永恒奔跑”仪仗盾	'영원한 질주' 의장 방패	claude
+迎宾花瓶	환영 꽃병	claude
+“千帆来朝”花瓶	'천 개의 돛이 모여드는' 꽃병	claude
+禁术学徒	금술 견습생	claude
+老练禁术学徒	노련한 금술 견습생	claude
+忏悔香炉	참회 향로	claude
+“心诚则灵”香炉	'정성이면 통한다' 향로	claude
+戴罪空盔甲	죄를 짊어진 빈 갑옷	claude
+炼金术师净手盆	연금술사의 세면대	claude
+“至伟之术”净手盆	'지고의 기술' 세면대	claude
+空值体	널 개체	claude
+颂水贤者	물을 찬미하는 현자	claude
+聆风猎手	바람을 듣는 사냥꾼	claude
+撼地遗众	대지를 뒤흔드는 유민	claude
+猎犬proto	사냥개 Proto	claude
+赤金条	순금괴	claude
+源阶粒素	원계 입자소	claude
+“火种”	'불씨'	claude
+灼目神使	눈부신 신의 사도	claude
+黯锋助祭	어둠칼날 부제	claude
+魔球帮击球手	마구파 볼 히터	claude
+魔球帮诡秘击球手	마구파 음흉한 볼 히터	claude
+魔球帮守门员	마구파 골키퍼	claude
+魔球帮诡秘守门员	마구파 음흉한 골키퍼	claude
+魔球帮击人手	마구파 바디 히터	claude
+魔球帮诡秘击人手	마구파 음흉한 바디 히터	claude
+门神会击球手	수문신회 볼 히터	claude
+门神会忠诚击球手	수문신회 충성스러운 볼 히터	claude
+门神会守门员	수문신회 골키퍼	claude
+门神会全能守门员	수문신회 만능 골키퍼	claude
+门神会击人手	수문신회 바디 히터	claude
+门神会忠诚击人手	수문신회 충성스러운 바디 히터	claude
+直球队击球手	직구팀 볼 히터	claude
+直球队坚定击球手	직구팀 굳건한 볼 히터	claude
+直球队守门员	직구팀 골키퍼	claude
+直球队坚定守门员	직구팀 굳건한 골키퍼	claude
+直球队击人手	직구팀 바디 히터	claude
+直球队坚定击人手	직구팀 굳건한 바디 히터	claude
+充能飘浮球	충전 부유구	claude
+决胜时刻球	결정적 순간의 공	claude
+“酣睡飞行员”	'곤히 잠든 조종사'	claude
+“超惊喜信件”	'초 서프라이즈 편지'	claude
+“死志的凝结”	'결사의 응결'	claude
+圣徒瓦列里奥	성도 발레리오	claude
+“大总统”汉科	'대총통' 한코	claude
+德莱昂	데 레온	claude
+“征服者”德莱昂	'정복자' 데 레온	claude
+埃尔伯特	엘버트	claude
+“异端”埃尔伯特	'이단' 엘버트	claude
+卡德霍，黑流之源	카데호, 블랙 플로우의 근원	claude
+痛楚化身	고통의 화신	claude
+洛伦茨，扰动之谬	로렌츠, 교란의 오류	claude
+源阶方	원계방	claude
+玻利瓦尔，症结之核	볼리바르, 병폐의 핵심	claude
+未名的荒原	이름 없는 황야	claude
+沉沦之人	침몰한 자	claude
+艾穆拉伊，祝日降临	에무라이, 축일 강림	claude
+托斯卡特尔，末日敕令	톡스카틀, 종말의 칙령	claude
+“枯槁者”维奇科	'메마른 자' 비치코	claude
+“再灌注”	'재관류'	claude
+“过灌注”	'과관류'	claude
+“新绿”	'신록'	claude
+管钳	파이프 렌치	claude
+拟树虫	의목충	claude
+噪鳞	소음 비늘	claude
+遗落的岩石像	버려진 암석상	claude
+宝箱寄居磐蟹	보물 상자 기생 메탈 크랩	claude
+巨型拟树虫	거대 의목충	claude
+遗落的巨型岩石像	버려진 거대 암석상	claude
+狂噪鳞	광폭 소음 비늘	claude
+震风虫	진풍 벌레	claude
+怪异引雷装置	괴이한 낙뢰 유도 장치	claude
+冰翼兽	얼음날개 짐승	claude
+“再吃一口”源石虫	'한 입만 더' 원석충	claude
+闪耀源石	빛나는 오리지늄	claude
+“大吨位！”源石虫	'초대형!' 원석충	claude
+源石碎块	오리지늄 파편	claude
+“抢零食！”鳞兽	'간식 뺏기!' 린수	claude
+喷泉“甜蜜气泡”	분수 '달콤한 기포'	claude
+风情街“飘游客”	테마 거리 '떠도는 관광객'	claude
+风情街“热情导游”	테마 거리 '열정 가이드'	claude
+云众演员	구름 엑스트라	claude
+归航寻访	귀항 헤드헌팅	claude
+术法充盈	술법 충만	claude
+触发型效果	촉발성 효과	claude
+狂躁损伤	광조 손상	claude
+缚地	지면 속박	claude
+对空庇护	대공 가호	claude
+泡影国狩猎小队	포영국 사냥 소대	claude
+通向初心	초심으로 가는 길	claude
+可信赖的同伴	믿을 수 있는 동료	claude
+A1的基石	A1의 초석	claude
+观形察意	형태를 보고 뜻을 살피다	claude
+乌影迷踪	검은 그림자의 종적	claude
+女士与鼷兽	숙녀와 무스비스트	claude
+她的骄傲	그녀의 자부심	claude
+“天空征服者”展会	'하늘의 정복자' 전시회	claude
+请闭上眼	눈을 감아 주세요	claude
+信诺	언약	claude
+无所遁形	숨을 곳은 없다	claude
+“继续下潜！”	'계속 잠수해!'	claude
+齐奏落下	합주가 막을 내리다	claude
+热腾腾大包	따끈따끈 왕만두	claude
+清爽运动饮料	상쾌한 스포츠음료	claude
+海底捞面	해저 건짐면	claude
+“流金影”	'흐르는 금빛 그림자'	claude
+“共光华”	'함께하는 광채'	claude
+“举清辉”	'맑은 달빛을 들고'	claude
+“拾秋实”	'가을 열매를 줍다'	claude
+弓吟空跃寻访凭证	활시위 울리는 도약 헤드헌팅 허가증	claude
+搭车漫游寻访凭证	히치하이킹 여행 헤드헌팅 허가증	claude
+一逢满月十连寻访凭证	보름달이 뜨면 헤드헌팅 10회 허가증	claude
+一逢满月寻访凭证	보름달이 뜨면 헤드헌팅 허가증	claude
+时装回顾展·IV	컬렉션 리뷰전·IV	claude
+奇象时装回顾展	기묘한 컬렉션 리뷰전	claude
+时装回顾展·V	컬렉션 리뷰전·V	claude
+“幸福在途”补给包	'행복은 길 위에' 보급 팩	claude
+“神秘动物的口袋”	'신비한 동물의 주머니'	claude
+2026感谢庆典物资补给	2026 감사 축제 보급 물자	claude
+罗德岛隐秘队的信物	로도스 아일랜드 정찰대의 증표	claude
+虎狼丸的信物	코로마루의 증표	claude
+雷狼龙S空爆的信物	진오우S 캐터펄트의 증표	claude
+佩德洛的信物	페드로의 증표	claude
+嘉辛塔的信物	재신타의 증표	claude
+时隙的信物	타임슬롯의 증표	claude
+埃癸斯的信物	아이기스의 증표	claude
+岳羽由加莉的信物	타케바 유카리의 증표	claude
+德·托莱多的信物	데 톨레도의 증표	claude
+旅骨的信物	홈바운드의 증표	claude
+焰狐龙梓兰的信物	음양인 오키드의 증표	claude
+谬因的信物	아프리사의 증표	claude
+机械师的信物	메카니스트의 증표	claude
+予愿安洁莉娜的信物	안젤리나 더 멜로우 위시의 증표	claude
+珊比的信物	섬피의 증표	claude
+结城理的信物	유키 마코토의 증표	claude
+克莱门莎的信物	클레멘티아의 증표	claude
+深巡的私人信件	언더플로우의 개인 편지	claude
+莎草的私人信件	파피루스의 개인 편지	claude
+凯瑟琳的私人信件	캐서린의 개인 편지	claude
+生路家具收藏包	삶의 길 가구 컬렉션 팩	claude
+太阳甩在身后家具收藏包	태양을 뿌리쳐라 가구 컬렉션 팩	claude
+追迹日落以西家具收藏包	위대한 서곡의 끝 가구 컬렉션 팩	claude
+KFC积分	KFC 포인트	claude
+表情套组：博士士	이모티콘 세트: 박사사	claude
+表情套组：米米子	이모티콘 세트: 미미코	claude
+表情套组：维维美	이모티콘 세트: 비비미	claude
+温泉度假村体验券	온천 리조트 체험권	claude
+贴纸包/重启锚点	스티커 팩/리런치 앵커	claude
+锦标积分券	토너먼트 포인트권	claude
+烈竹	열죽	claude
+萤虫	반딧불이	claude
+火竹炭	화죽탄	claude
+熔火冰晶	녹아내린 불꽃 빙결정	claude
+雷狼龙的碧玉	진오우의 벽옥	claude
+怪物线索1	괴물 단서 1	claude
+怪物线索2	괴물 단서 2	claude
+怪物线索3	괴물 단서 3	claude
+怪物线索4	괴물 단서 4	claude
+怪物线索5	괴물 단서 5	claude
+怪物线索6	괴물 단서 6	claude
+怪物线索7	괴물 단서 7	claude
+怪物线索8	괴물 단서 8	claude
+怪物线索9	괴물 단서 9	claude
+怪物线索10	괴물 단서 10	claude
+猎犬食糜	하운드 다짐육	claude
+确定性混沌寻访凭证	결정론적 혼돈 헤드헌팅 허가증	claude
+确定性混沌十连寻访凭证	결정론적 혼돈 헤드헌팅 10회 허가증	claude
+源流样本	원류 샘플	claude
+沿途的点滴	길 위의 추억 조각	claude
+特辑/夏日音轨	특집/여름날 트랙	claude
+旧磁带	낡은 카세트테이프	claude
+绒绒欢乐像	복슬복슬 기쁨의 상	claude
+月行水上家具收藏包	물 위를 걷는 달 가구 컬렉션 팩	claude
+贴纸包/黑流树海	스티커 팩/블랙 플로우	claude
+海渊巡游寻访凭证	심해 순회 헤드헌팅 허가증	claude
+海渊巡游十连寻访凭证	심해 순회 헤드헌팅 10회 허가증	claude
+“未来瞻望镜”	'미래 전망경'	claude
+建筑名称	건물 이름	claude
+外勤储备中心	외근 비축 센터	claude
+“盲斗”	'눈먼 전투'	claude
+“盲遇”	'눈먼 조우'	claude
+逐影之礼	그림자 추적의 예물	claude
+锦标奖杯	토너먼트 트로피	claude
+训练效果	훈련 효과	claude
+旅行者的背包	여행자의 배낭	claude
+愿望清单	소망 목록	claude
+数据配置	데이터 설정	claude
+群集生物	군집 생물	claude
+画像记录我的昵称信息	초상화 기록에 내 닉네임 정보 표시	claude
+“多伦乡村拼盘”	'도런 시골 모둠 요리'	claude
+“格里布熏鳞色拉”	'그리브 훈제 비늘 샐러드'	claude
+“斯沃玛三分钟浓汤”	'스보마 3분 진한 수프'	claude
+“多索雷斯风情塔可”	'도솔레스풍 타코'	claude
+“提亚卡乌式炸蕉果”	'티아카우식 플랜틴 튀김'	claude
+“约翰老妈厚切汉堡”	'마마존스 두툼한 버거'	claude
+“雷神工业火炙巨羽兽”	'레이시언 공업 거대 파울비스트 불구이'	claude
+“阿尔斯特华夫冰淇淋”	'알스터 와플 아이스크림'	claude
+“审判庭特制火腿薄片”	'재판소 특제 햄 슬라이스'	claude
+“塔山炸沙虫腿”	'타산 모래벌레 다리 튀김'	claude
+“杜林十号烈酒”	'두린 10호 독주'	claude
+“欢乐之歌年轮蛋糕”	'환희의 노래 바움쿠헨'	claude
+“盒牌商务健康盒饭”	'박스 브랜드 비즈니스 건강 도시락'	claude
+“皇家科学院营养套餐”	'왕립 과학원 영양 세트'	claude
+“正宗叶氏清凉药茶”	'정통 예씨 청량 약차'	claude
+“莱塔尼亚乐声烤肉”	'라이타니엔 선율 바비큐'	claude
+“特辣毛血旺”	'특제 매운 마오쉐왕'	claude
+“秘制菌菇烤肉拼盘”	'비법 버섯 구이 모둠'	claude
+“圣山奶酪火锅”	'성산 치즈 퐁뒤'	claude
+“芥末酸奶烩驮兽肉”	'머스터드 요구르트 버든비스트 고기 조림'	claude
+“夜游船”	'밤놀이 배'	claude
+“没错，我要带它回家！”	'맞아, 이걸 집에 데려갈 거야!'	claude
+“小黑”	'소흑'	claude
+“艾露猫们的感谢状”	'아이루들의 감사장'	claude
+“浴火的狩猎矛”	'불에 단련된 사냥 창'	claude
+“混乱之友”	'혼란의 친구'	claude
+“热辣克里斯达尔”	'핫 크리슈타와'	claude
+泰拉饭专家	테라밥 전문가	claude
+“队友的信任”	'동료의 신뢰'	claude
+“演出的回忆”	'공연의 추억'	claude
+“最佳拍档”	'베스트 파트너'	claude
+“月下雷鸣”	'달 아래 천둥'	claude
+忠实伙伴	충실한 동료	claude
+终有一别	언젠가의 이별	claude
+涤墨作战蚀刻章套组	세묵 작전 훈장 세트	claude
+直到大地变成一颗酸橙蚀刻章套组	대지가 오렌지 한 알이 될 때까지 훈장 세트	claude
+矢量突破#3 拟生态蚀刻章套组	벡터 돌파#3 생명 의태 훈장 세트	claude
+昨日海蚀刻章套组	어제의 바다 훈장 세트	claude
+重启锚点蚀刻章套组	리런치 앵커 훈장 세트	claude
+沉沦者的黑流树海蚀刻章套组	침몰자의 블랙 플로우 훈장 세트	claude
+当前助理	현재 매니저	claude
+闲暇娱乐	여가 오락	claude
+脱水仙人掌干	말린 선인장	claude
+风干大蕉果	말린 플랜틴	claude
+商队盒饭	상단 도시락	claude
+半盒沙虫罐头	반쯤 남은 모래벌레 통조림	claude
+维多利亚军粮	빅토리아 군량	claude
+废旧地图	낡은 지도	claude
+单筒望远镜	단안 망원경	claude
+全息粉粉沙盒	홀로그램 핑크핑크 샌드박스	claude
+单人睡袋	1인용 침낭	claude
+破烂帐篷	너덜너덜한 텐트	claude
+萨米大“蜡烛”	사미 대형 '양초'	claude
+兔子棚屋	토끼 오두막	claude
+噪音引擎	소음 엔진	claude
+豌豆花盆	완두콩 화분	claude
+综合园艺成果	종합 원예 성과	claude
+炭化烤肉棒	탄화된 꼬치구이	claude
+压缩糖砖	압축 설탕 벽돌	claude
+易爆建材箱	폭발성 건축자재 상자	claude
+珠宝水果拼盘	보석 과일 모둠	claude
+恐魔金像	공포 마물 금상	claude
+小财神雕像	작은 재물신 조각상	claude
+“嘎呜”挂饰	'가우' 걸이	claude
+米格鲁的饼干	비글의 쿠키	claude
+一杯红茶	홍차 한 잔	claude
+熏黑的信号灯	그을린 신호등	claude
+老式电报机	구식 전신기	claude
+无线通讯器	무선 통신기	claude
+手绘雪雉传单	손그림 스노우상트 전단	claude
+真理的书单	이스티나의 도서 목록	claude
+教官的爱鞭	교관의 사랑의 매	claude
+咪波·运输型	미보·운송형	claude
+萨卡兹监工哨子	살카즈 감독관 호루라기	claude
+忧伤的驮兽	우울한 버든비스트	claude
+奇怪的$墨镜	이상한 $선글라스	claude
+破片地雷	파편 지뢰	claude
+《防身手册》	《호신 수첩》	claude
+芙蓉的健康餐	히비스커스의 건강식	claude
+牧兽的排泄物	스톡비스트의 배설물	claude
+锉刀	줄칼	claude
+废铁陷阱	고철 함정	claude
+无名诗集	무명 시집	claude
+劣化组织	열화 조직	claude
+小号黄色安全帽	소형 노란 안전모	claude
+战壕沙袋	참호 모래주머니	claude
+防割断纤维背心	방검 섬유 조끼	claude
+《打架手册》	《싸움 수첩》	claude
+《独臂电锯》	《외팔 전기톱》	claude
+齿轮式外骨骼	기어식 외골격	claude
+锈蚀银枪	녹슨 은창	claude
+液压气瓶	유압 가스통	claude
+超弹力合金弹簧	초탄성 합금 스프링	claude
+难闻的治疗粉	고약한 냄새의 힐링 파우더	claude
+白垩色治疗针	백악색 힐링 주사	claude
+便宜食用盐	값싼 식용 소금	claude
+辅助麻痹工具	보조 마비 도구	claude
+血腥链锯	피투성이 전기톱	claude
+另一颗铆钉	또 하나의 리벳	claude
+活性粉尘	활성 분진	claude
+源石射灯	오리지늄 스포트라이트	claude
+源石环境发生器	오리지늄 환경 발생기	claude
+无主的萨克斯	주인 없는 색소폰	claude
+手工小包	수제 작은 가방	claude
+*一点*加班费	*약간의* 야근 수당	claude
+可露希尔的怜悯	클로저의 연민	claude
+“日光灯”	'형광등'	claude
+丰蹄能量饮料	풍성한 발굽 에너지음료	claude
+辣椒老妈	고추 엄마	claude
+脑力药片	두뇌 알약	claude
+迷幻的藏宝图	환각의 보물 지도	claude
+染血的传单	피 묻은 전단	claude
+辉煌工匠包	찬란한 장인 가방	claude
+Logos的骨笔	Logos의 뼈 펜	claude
+无限续杯瓶	무한 리필 병	claude
+左半边椰子壳	왼쪽 반쪽 코코넛 껍데기	claude
+右半边椰子壳	오른쪽 반쪽 코코넛 껍데기	claude
+倒转的怀表	거꾸로 가는 회중시계	claude
+“手铳”	'권총'	claude
+沉重的铁皮箱	무거운 철제 상자	claude
+漆黑的钥匙	칠흑의 열쇠	claude
+鸟卜探索仪	조점 탐색기	claude
+超高级沙发	초고급 소파	claude
+立体投影仪	입체 프로젝터	claude
+一台旧冰箱	낡은 냉장고 한 대	claude
+个人避难所	개인 대피소	claude
+虚空发生器	공허 발생기	claude
+“坏家伙”来了！	'나쁜 친구들'이 왔다!	claude
+鬼血	귀신의 피	claude
+冰封的异爪	얼어붙은 이형 발톱	claude
+巫王旋角	위치킹의 나선 뿔	claude
+浅海轻唱	얕은 바다의 나지막한 노래	claude
+无主巨物	주인 없는 거물	claude
+飞翔的怪盗	비상하는 괴도	claude
+被遗弃者	버려진 자	claude
+鸭爵的嘲讽	덕로드의 조롱	claude
+鸭爵的挑战	덕로드의 도전	claude
+鸭爵的保安	덕로드의 보안요원	claude
+蜜饼洞穴	꿀과자 동굴	claude
+蜜饼山脉	꿀과자 산맥	claude
+千条道路	천 갈래의 길	claude
+云霄迷宫	하늘 높은 미궁	claude
+意识帝国的古老疆土	의식 제국의 오래된 강토	claude
+好好睡一觉	푹 한숨 잔다	claude
+获得补给	보급을 얻는다	claude
+一点迷雾而已，没什么问题	안개가 좀 낀 것뿐이야, 별문제 없어	claude
+还是另寻他路	역시 다른 길을 찾는다	claude
+参与他们的晚会	그들의 파티에 참가한다	claude
+婉拒好意	호의를 완곡히 거절한다	claude
+给一点小费	팁을 조금 준다	claude
+给很多小费	팁을 많이 준다	claude
+不给小费	팁을 주지 않는다	claude
+来！一起热闹！	자! 다 같이 즐기자!	claude
+还是别惹事了	괜히 일 벌이지 말자	claude
+驻足观望	발걸음을 멈추고 지켜본다	claude
+好好劝劝他	잘 타이른다	claude
+拼了命也要给他撬开	목숨 걸고서라도 비틀어 연다	claude
+至少能靠着休息一会儿	최소한 기대서 잠시 쉴 수는 있다	claude
+委托信件	편지를 맡긴다	claude
+委托加急信件	속달 편지를 맡긴다	claude
+别想了，快去帮帮她	생각할 것 없어, 어서 도와주자	claude
+有点可疑，还是别靠近了	좀 수상해, 가까이 가지 말자	claude
+拿走你的神秘奖品	신비한 경품을 챙긴다	claude
+说实话，没听说过	솔직히, 들어본 적 없다	claude
+骗他，瞎指一个方向	속여서 아무 방향이나 가리킨다	claude
+反问他，知不知道罗德岛在哪	로도스 아일랜드가 어디 있는지 아냐고 되묻는다	claude
+倒着转的表？买了！	거꾸로 가는 시계? 산다!	claude
+卖不出去还这么贵？	팔리지도 않는데 이렇게 비싸?	claude
+准备应战！	응전 준비!	claude
+全队后撤！	전원 후퇴!	claude
+买一点补给	보급품을 조금 산다	claude
+买一点特产	특산품을 조금 산다	claude
+和他们一起唱歌	그들과 함께 노래한다	claude
+喝点饮料	음료를 마신다	claude
+和他们一起跳舞	그들과 함께 춤춘다	claude
+干嘛跟着我？	왜 날 따라오는 거야?	claude
+你想来就来想走就走？	오고 싶으면 오고 가고 싶으면 가겠다고?	claude
+不要以为换个人我就怕你！	사람 바뀌었다고 내가 겁먹을 줄 알아!	claude
+算了，请他喝杯汽水吧	아냐, 됐어. 탄산음료나 한 잔 사 주자	claude
+强行制伏发酒疯的人	술주정꾼을 강제로 제압한다	claude
+“歌声还不错朋友！”	'노래 꽤 잘하는데, 친구!'	claude
+你的确想起了某人	확실히 누군가가 떠올랐다	claude
+提出你的需求	요구 사항을 말한다	claude
+休息比麻烦事重要些	귀찮은 일보다 휴식이 더 중요하다	claude
+他值得体面的下葬	그는 품위 있게 묻힐 자격이 있다	claude
+拿走他的财富	그의 재화를 챙긴다	claude
+来都来了，没有理由放弃	여기까지 왔는데, 포기할 이유는 없다	claude
+风险和收益是并存的	위험과 수익은 공존하는 법	claude
+还没到放弃的时候！	아직 포기할 때가 아니야!	claude
+拿起藏宝图	보물 지도를 집어 든다	claude
+四处搜索	주변을 수색한다	claude
+他们已经用不到这个箱子了	그들에겐 이제 이 상자가 필요 없다	claude
+希望他们安息	그들의 안식을 빈다	claude
+小心地保存这件物品	이 물건을 조심히 보관한다	claude
+我不该掺和进来的！	끼어드는 게 아니었어!	claude
+拆开看看	뜯어 본다	claude
+真是太有趣了！	정말 재밌네!	claude
+选一只源石虫押注	원석충 한 마리에 건다	claude
+随手拿点东西离开现场	아무거나 챙겨서 현장을 떠난다	claude
+你们也太无聊了	너희 정말 따분하다	claude
+来，买一个看看有什么	자, 하나 사서 뭐가 들었는지 보자	claude
+拿走盒子里的东西	상자 안의 물건을 챙긴다	claude
+要不要再试一试？	한 번 더 해 볼까?	claude
+大喝2瓶	2병 들이켠다	claude
+豪饮3瓶	3병 호쾌하게 마신다	claude
+狂饮6瓶	6병 폭음한다	claude
+回到酒桌	술자리로 돌아간다	claude
+都是好事	다 좋은 일이다	claude
+欢乐云游	즐거운 유랑	claude
+整装出勤	채비를 갖추고 출근	claude
+苦难之路	고난의 길	claude
+迷尘幻梦	미혹의 먼지, 환상의 꿈	claude
+茫然行者	망연한 필그림	claude
+归于荒野	황야로 돌아가다	claude
+“橙黄色的美梦”	'주황빛 단꿈'	claude
+神秘头像	신비한 프로필 사진	claude
+人力管理	인력 관리	claude
+资深调查员	베테랑 조사원	claude
+行商知己	상인의 절친	claude
+狂飙大师	질주의 달인	claude
+清仓高手	재고 정리 고수	claude
+半程伙伴	반쪽 여정의 동료	claude
+好园丁	좋은 정원사	claude
+犬口生还	하운드의 입에서 생환	claude
+断獠牙	부러진 엄니	claude
+向前走？	앞으로 나아가다?	claude
+未冷的	식지 않은	claude
+南方往事	남방의 지난 일	claude
+循光	빛을 따라	claude
+沉沦于黑流，浮起幻梦或骸骨	블랙 플로우에 가라앉아, 환몽 혹은 해골로 떠오르다	claude
+一棵发光的小树	빛나는 작은 나무	claude
+特科马没有新鲜事	테코마에 새로운 일은 없다	claude
+佩洛梦漫记	페로 꿈 여행기	claude
+无暇赴宴	연회에 갈 틈이 없다	claude
+死者来信	망자의 편지	claude
+钟摆不停	멈추지 않는 진자	claude
+热狗	핫도그	claude
+焚烧童话	불타는 동화	claude
+最伟大的庄园	가장 위대한 장원	claude
+待发现的过去	발견을 기다리는 과거	claude
+未定型的现在	정해지지 않은 현재	claude
+疑云中的未来	의혹 속의 미래	claude
+快速参考	빠른 참고	claude
+黑流数据库	블랙 플로우 데이터베이스	claude
+解码进展	해독 진행도	claude
+永无安宁	영원히 안식은 없다	claude
+痛苦将息	고통이 잦아들다	claude
+混沌源阶理论	혼돈 원계 이론	claude
+失恒常量	항상성을 잃은 상수	claude
+畸症	기형증	claude
+陌生旅伴	낯선 길동무	claude
+安保措施	보안 조치	claude
+死箱	죽은 상자	claude
+活木	살아 있는 나무	claude
+败叶	낙엽	claude
+无效验尸	무효 검시	claude
+搏杀	사투	claude
+共斗	공투	claude
+血夜回魂	피의 밤 회혼	claude
+毛绒游戏	봉제 인형 게임	claude
+在劫难逃	피할 수 없는 재앙	claude
+咩的朋友	메에의 친구	claude
+外显尖牙	드러난 송곳니	claude
+一视同仁	모두 평등하게	claude
+易燃隐患	인화성 위험	claude
+灰坑	잿구덩이	claude
+玻利瓦尔肤层	볼리바르 피부층	claude
+甜美的伤口	달콤한 상처	claude
+血色空脉	핏빛 빈 맥	claude
+卡德霍之颅	카데호의 두개골	claude
+源流交汇处	원류 합류점	claude
+盲目者所见	맹목자가 본 것	claude
+尝试探索树的内部	나무 내부를 탐색해 본다	claude
+尝试探索树的源头	나무의 근원을 탐색해 본다	claude
+你们约好了会合的地点	너희는 합류 지점을 약속했다	claude
+赶跑它	쫓아낸다	claude
+安慰它	위로한다	claude
+强行驱赶	강제로 쫓아낸다	claude
+让它闭嘴	입 다물게 한다	claude
+装没听到	못 들은 척한다	claude
+为客户群体发声！	고객층을 대변한다!	claude
+呛一句	한마디 쏘아붙인다	claude
+故意挑事	일부러 시비를 건다	claude
+区区打手！	고작 너클러 따위가!	claude
+兴趣缺缺	흥미 없다	claude
+区区商人！	고작 상인 따위가!	claude
+扎穿货车车胎	화물차 타이어를 찔러 터뜨린다	claude
+阻拦到底	끝까지 저지한다	claude
+果断求饶	재빨리 목숨을 구걸한다	claude
+就挑衅，怎么了？	도발했다, 왜 그래?	claude
+不理会她	그녀를 무시한다	claude
+拿出诚意	성의를 보인다	claude
+休想骗我	날 속일 생각 마	claude
+我不要困在这里！	여기 갇히기 싫어!	claude
+获得了奖励	보상을 얻었다	claude
+帮它梳理绒毛	털을 빗겨 준다	claude
+唱一首摇篮曲	자장가를 불러 준다	claude
+拿走看上去像是苹果的食物	사과처럼 보이는 음식을 가져간다	claude
+拿走看上去像是鱼的食物	생선처럼 보이는 음식을 가져간다	claude
+我不饿	배고프지 않다	claude
+想要一个能节省力气的	힘을 아낄 수 있는 게 갖고 싶어	claude
+想要一个可以保值的	가치가 유지되는 게 갖고 싶어	claude
+想要一个树海特色纪念品	숲 특색 기념품이 갖고 싶어	claude
+没什么想买的	딱히 사고 싶은 건 없다	claude
+上去帮个小忙	가서 좀 도와준다	claude
+推翻石磨	맷돌을 뒤엎는다	claude
+敲一次	한 번 두드린다	claude
+敲三次	세 번 두드린다	claude
+不感兴趣	관심 없다	claude
+拽出衣服寻找可用物资	옷을 끌어내 쓸 만한 물자를 찾는다	claude
+割下怪花	괴상한 꽃을 베어 낸다	claude
+砍断藤蔓	덩굴을 끊어 낸다	claude
+帮助蛇	뱀을 돕는다	claude
+帮助鹰	독수리를 돕는다	claude
+清理门上的人形藤蔓	문 위의 인간형 덩굴을 정리한다	claude
+试图和人形藤蔓交流	인간형 덩굴과 소통을 시도한다	claude
+掏出笼控器控制猎狗	케이지 컨트롤러를 꺼내 사냥개를 통제한다	claude
+和猎狗战斗到底	사냥개와 끝까지 싸운다	claude
+尝试驱赶猎狗	사냥개를 쫓아내 본다	claude
+将种子埋在此处	씨앗을 이곳에 묻는다	claude
+快逃	어서 도망친다	claude
+我不会跳舞	난 춤 못 춰	claude
+不想再跳了	더는 추고 싶지 않아	claude
+紧紧拥抱愈创木	유창목을 꼭 끌어안는다	claude
+让这里有一个秋千	여기에 그네를 놓는다	claude
+比对像素小猫和树干刻痕	픽셀 고양이와 나무줄기 자국을 대조한다	claude
+检测此地有无危险	이곳에 위험이 있는지 검사한다	claude
+闭上眼感受宁静	눈을 감고 고요함을 느낀다	claude
+合格的帮手应当仔细挑选	쓸 만한 조력자는 신중히 골라야 한다	claude
+前行的速度更重要	나아가는 속도가 더 중요하다	claude
+加入队伍，接取悬赏	팀에 합류해 현상 의뢰를 받는다	claude
+离开队伍	팀을 떠난다	claude
+守卫和平！	평화를 지킨다!	claude
+从长计议	길게 보고 생각한다	claude
+去看看小狗	강아지를 보러 간다	claude
+跟随小狗	강아지를 따라간다	claude
+请小狗告知营地位置	강아지에게 야영지 위치를 묻는다	claude
+直视对方	상대를 직시한다	claude
+回避视线	시선을 피한다	claude
+走近金块	금덩이에 다가간다	claude
+放弃金块	금덩이를 포기한다	claude
+争夺	쟁탈한다	claude
+离开黑池	검은 연못을 떠난다	claude
+进入下一区域	다음 구역으로 들어간다	claude
+坐下休息	앉아서 쉰다	claude
+采样金色泉水	금빛 샘물을 채취한다	claude
+向泉水许愿	샘물에 소원을 빈다	claude
+查看无人机	드론을 살펴본다	claude
+抚摸静止的小动物	멈춰 있는 작은 동물을 쓰다듬는다	claude
+整理行囊	짐을 정리한다	claude
+尝试发出求援信号	구조 신호를 보내 본다	claude
+抚摸小狗的脑袋	강아지 머리를 쓰다듬는다	claude
+闭眼感受	눈을 감고 느낀다	claude
+拾起松鼠落下的橡实	다람쥐가 떨어뜨린 도토리를 줍는다	claude
+四处看看	주변을 둘러본다	claude
+帮忙采摘	채집을 돕는다	claude
+目送豹子们远去	표범들이 떠나는 것을 지켜본다	claude
+安静观察	조용히 관찰한다	claude
+我受雇于梅兰德	난 멜란더에게 고용됐다	claude
+我是一名独立探险家	난 독립 탐험가다	claude
+我是联合政府派来的	난 연합 정부에서 파견됐다	claude
+修正结果，必须找到目标	결과를 수정한다, 반드시 목표를 찾아야 한다	claude
+这是什么戏法？	이게 무슨 속임수지?	claude
+她在说什么疯话？	무슨 미친 소리를 하는 거야?	claude
+你将见证一场毁灭，抑或新生	너는 파멸, 혹은 새로운 탄생을 목격하게 될 것이다	claude
+等等，这东西不太对劲	잠깐, 이거 좀 이상한데	claude
+这块石板在“打印”怪物？	이 석판이 괴물을 '출력'하고 있다고?	claude
+倾囊资助	가진 것을 털어 후원한다	claude
+我有一些头绪	짚이는 데가 있다	claude
+不必依靠外物	외부의 힘에 기댈 필요 없다	claude
+建立信仰抵御黑风	신앙을 세워 검은 바람을 막는다	claude
+建立文化抵御黑焰	문화를 세워 검은 불꽃을 막는다	claude
+建立认同抵御黑流	정체성을 세워 블랙 플로우를 막는다	claude
+未编号物	미번호 물품	claude
+调查预付款	조사 선급금	claude
+空间租赁	공간 임대	claude
+退行补偿	퇴행 보상	claude
+林间代步	숲속 이동 수단	claude
+巢寄生	탁란	claude
+无法发动引擎	엔진 시동 불가	claude
+远离这个疯子	이 미치광이에게서 멀어진다	claude
+复原“文明”	'문명'을 복원한다	claude
+等待结果	결과를 기다린다	claude
+这个按钮是做什么用的？	이 버튼은 뭐 하는 거지?	claude
+这也太可疑了	이건 너무 수상한데	claude
+这下有麻烦了	이제 큰일 났다	claude
+查看那张粗糙的涂鸦	그 조잡한 낙서를 살펴본다	claude
+这下要发财了	이제 부자 되겠다	claude
+端详那册精致的图纸	그 정교한 도면집을 자세히 본다	claude
+这会带来什么影响？	이게 어떤 영향을 줄까?	claude
+对这些毫无兴趣	이런 건 전혀 관심 없다	claude
+小心地移除电极	조심스럽게 전극을 제거한다	claude
+看来他已经恢复如初	그는 원래대로 회복된 것 같다	claude
+呼唤救援队来帮忙	구조대를 불러 도움을 청한다	claude
+秘境行商	비경 상인	claude
+曲折密道	구불구불한 비밀 통로	claude
+传送	전송	claude
+险路小径	험한 오솔길	claude
+应急助力	긴급 조력	claude
+羽瞰点	조감점	claude
+“空白”	'공백'	claude
+浅文明之地	얕은 문명의 땅	claude
+信息丢失	정보 유실	claude
+行动力	행동력	claude
+零件箱容量	부품 상자 용량	claude
+本源研修分队	본원 연구 분대	claude
+地质调查分队	지질 조사 분대	claude
+团结阵线分队	단결 전선 분대	claude
+踏足遍历分队	답사 편력 분대	claude
+襁褓三头犬	포대기 속 삼두견	claude
+开局助力	시작 조력	claude
+测试用气泡	테스트용 기포	claude
+种子	씨앗	claude
+血蕈	피버섯	claude
+雾滚草	안개 회전초	claude
+回声玉米	메아리 옥수수	claude
+浪花	물보라	claude
+霜晶树	서리수정 나무	claude
+多生苔藓	무성한 이끼	claude
+枯苔藓球	마른 이끼 공	claude
+板藤	판자 덩굴	claude
+恋家果	집그리움 열매	claude
+光彩松露	광채 송로버섯	claude
+笼控器	케이지 컨트롤러	claude
+薄葬草	박장초	claude
+生逝	삶과 죽음	claude
+血橙	블러드 오렌지	claude
+旅行绒	여행 솜털	claude
+恋心草	연심초	claude
+无缘果	인연 없는 열매	claude
+种荚	씨앗 꼬투리	claude
+报废轮子	폐기 바퀴	claude
+报废假肢	폐기 의족	claude
+标准引擎	표준 엔진	claude
+重弹簧	중량 스프링	claude
+气垫底座	에어쿠션 받침	claude
+试作外骨骼	시제 외골격	claude
+一次性喷气背包	일회용 제트팩	claude
+老妈妈的融雪	노모의 녹은 눈	claude
+坎诺特的触须	캔낫의 촉수	claude
+“简易遥控器”	'간이 리모컨'	claude
+紧急逃生座椅	긴급탈출 좌석	claude
+力反馈方向盘	포스 피드백 핸들	claude
+鸣笛	경적	claude
+坎诺特特快	캔낫 특급	claude
+白模鸟	무도색 새	claude
+白模狗	무도색 개	claude
+白模鱼	무도색 물고기	claude
+涂装黎博利	도색 리베리	claude
+涂装佩洛	도색 페로	claude
+涂装阿戈尔	도색 에기르	claude
+洛伦茨之眼	로렌츠의 눈	claude
+白模坎诺特	무도색 캔낫	claude
+涂装坎诺特	도색 캔낫	claude
+钝爪-屡战	무딘 발톱-연전	claude
+薄行囊	얇은 행낭	claude
+悲伤的红	슬픈 빨강	claude
+空床	빈 침대	claude
+迷藏	숨바꼭질	claude
+复得之轮	되찾은 바퀴	claude
+果腹	허기 달래기	claude
+囊中骨	주머니 속 뼈	claude
+林中小手	숲속의 작은 손	claude
+血孩子	피의 아이	claude
+厄运火杆	액운의 불막대	claude
+猎印	사냥 인장	claude
+源私钥	근원 개인 키	claude
+黑流树海笔记	블랙 플로우 노트	claude
+装饰性佯谬	장식성 역설	claude
+“鸡尾酒针”	'칵테일 주사'	claude
+羽蛇翁	깃털뱀 노인	claude
+鸭力板	덕력판	claude
+树海贵宾套餐	숲 VIP 세트	claude
+《去踏足》	《밟으러 가자》	claude
+可疑的集点卡	수상한 스탬프 카드	claude
+似曾相识棋盒	데자뷔 체스 상자	claude
+红日冠冕	붉은 태양 왕관	claude
+黑夜披肩	검은 밤 숄	claude
+伪翅	가짜 날개	claude
+“撕咬的渴望”	'물어뜯고 싶은 갈망'	claude
+异香角	기이한 향의 뿔	claude
+渴血钳兽	피에 굶주린 글룸핀서	claude
+“庇护”	'가호'	claude
+种植者保单	재배자 보험 증서	claude
+战术背心	전술 조끼	claude
+赐福新生	축복받은 새로운 탄생	claude
+他缚	타인의 속박	claude
+染血辞典	피 묻은 사전	claude
+液体化肥	액체 비료	claude
+热辣可可	매콤 코코아	claude
+止痛片	진통제	claude
+窜天源石虫	하늘로 솟는 원석충	claude
+贴地炸	땅불꽃	claude
+翱翼	비상 날개	claude
+虬蜕	규룡의 허물	claude
+天师锦囊	도사의 비책 주머니	claude
+冰中火	얼음 속 불꽃	claude
+河谷祭祈	협곡 제례 기도	claude
+猎犬病特效药	하운드병 특효약	claude
+特种作战防暴盾	특수 작전 진압 방패	claude
+猎犬咖啡	하운드 커피	claude
+竞技场贵宾券	투기장 VIP권	claude
+黄金平原	황금 평원	claude
+第一法则	제1법칙	claude
+特勤任务影像	특근 임무 영상	claude
+探测先锋	탐측 선봉	claude
+开拓之手	개척의 손	claude
+诛戮之手	살육의 손	claude
+坚御之手	견고한 방어의 손	claude
+慑空之手	하늘을 위압하는 손	claude
+护愈之手	치유의 손	claude
+剿袭之手	토벌의 손	claude
+钝爪-先机	무딘 발톱-선수	claude
+折戟-避锋	부러진 창-예봉 회피	claude
+铁卫-轻行	프로텍터-가벼운 걸음	claude
+残弩-神准	부서진 석궁-백발백중	claude
+断杖-同调	부러진 지팡이-콜백	claude
+医者-地缘策略	의사-지정학 전략	claude
+基础物联终端	기초 IoT 단말기	claude
+高级物联终端	고급 IoT 단말기	claude
+植浆	식물 수액	claude
+犬植浆	하운드 식물 수액	claude
+垂降劫掠装置	레펠 약탈 장치	claude
+仇名录	원수 명부	claude
+沙盘α	사판α	claude
+沙盘β	사판β	claude
+怦然信标	두근두근 비콘	claude
+击坠“神明”	'신'을 격추하다	claude
+湮没“光明”	'광명'을 지우다	claude
+焚毁“文明”	'문명'을 불태우다	claude
+谒日之祈	태양 알현의 기도	claude
+祭日之契	태양 제사의 계약	claude
+破碎噩兆	부서진 흉조	claude
+生命蓝图	생명의 청사진	claude
+步数发放	걸음 수 지급	claude
+步数奖励1	걸음 수 보상 1	claude
+步数奖励2	걸음 수 보상 2	claude
+步数奖励3	걸음 수 보상 3	claude
+瞭望塔行动力	정찰탑 행동력	claude
+遭遇战诅咒扣行动力	조우전 저주 행동력 차감	claude
+RL近战干员	RL 근거리 오퍼레이터	claude
+RL狙击干员	RL 스나이퍼 오퍼레이터	claude
+RL医疗干员	RL 메딕 오퍼레이터	claude
+RL术师干员	RL 캐스터 오퍼레이터	claude
+白模鸟被动效果	무도색 새 패시브 효과	claude
+白模狗被动效果	무도색 개 패시브 효과	claude
+白模鱼被动效果	무도색 물고기 패시브 효과	claude
+涂装黎博利被动效果	도색 리베리 패시브 효과	claude
+涂装佩洛被动效果	도색 페로 패시브 효과	claude
+涂装阿戈尔被动效果	도색 에기르 패시브 효과	claude
+流窜“居民”	떠도는 '주민'	claude
+线人与线索	첩보원과 단서	claude
+谜题与谜底	수수께끼와 해답	claude
+光明之末	광명의 끝	claude
+神明之殇	신의 죽음	claude
+文明之烬	문명의 잿더미	claude
+藏果地	열매 저장소	claude
+奇美拉削弱buffA	키메라 디버프 buffA	claude
+奇美拉削弱buffB	키메라 디버프 buffB	claude
+奇美拉削弱buffC	키메라 디버프 buffC	claude
+二结局激活1	제2엔딩 활성화 1	claude
+二结局激活2	제2엔딩 활성화 2	claude
+二结局激活3	제2엔딩 활성화 3	claude
+二结局激活4	제2엔딩 활성화 4	claude
+命运所指解锁	운명의 암시 해제	claude
+触发命运所指解锁	운명의 암시 해제 발동	claude
+佣兵商店打折	용병 상점 할인	claude
+二结局前置事件标记	제2엔딩 선행 사건 표시	claude
+二结局转变弹窗	제2엔딩 전환 팝업	claude
+厄灾先兆效果1	재앙의 전조 효과 1	claude
+厄灾先兆效果2	재앙의 전조 효과 2	claude
+厄灾先兆效果3	재앙의 전조 효과 3	claude
+厄灾先兆效果4	재앙의 전조 효과 4	claude
+厄灾先兆效果5	재앙의 전조 효과 5	claude
+厄灾先兆效果6	재앙의 전조 효과 6	claude
+厄灾先兆效果7	재앙의 전조 효과 7	claude
+厄灾先兆效果8	재앙의 전조 효과 8	claude
+厄灾先兆效果9	재앙의 전조 효과 9	claude
+厄灾先兆效果10	재앙의 전조 효과 10	claude
+厄灾先兆效果11	재앙의 전조 효과 11	claude
+厄灾先兆效果12	재앙의 전조 효과 12	claude
+当层视野全开	현재 층 비전 전체 개방	claude
+探险家死亡1	탐험가 사망 1	claude
+探险家死亡2	탐험가 사망 2	claude
+探险家1不出现	탐험가 1 미등장	claude
+发放加工品	가공품 지급	claude
+四结局激活	제4엔딩 활성화	claude
+坏天气生成	악천후 생성	claude
+改良	개량	claude
+修正	수정	claude
+增益	강화	claude
+自然物	자연물	claude
+加工品	가공품	claude
+概念体	개념체	claude
+育儿袋	육아낭	claude
+声带	성대	claude
+脊髓	척수	claude
+额叶	전두엽	claude
+分裂	분열	claude
+羽毛	깃털	claude
+鳃	아가미	claude
+蹄	발굽	claude
+前肢	앞다리	claude
+卵生	난생	claude
+血液	혈액	claude
+手掌	손바닥	claude
+喙	부리	claude
+牙齿	이빨	claude
+翅膀	날개	claude
+胎生	태생	claude
+顶冠	볏	claude
+鳍	지느러미	claude
