@@ -1,0 +1,24 @@
+{
+  "format": 1,
+  "repo": "SanyangForest/arknights-kr-overlay",
+  "dict": {
+    "version": "202611140007",
+    "built": "2026-11-14 00:07",
+    "entries": 558367,
+    "full": {
+      "url": "https://github.com/SanyangForest/arknights-kr-overlay/releases/download/d202611140007/dict-202611140007.db.gz",
+      "sha256": "98a057423807c2fd731ffd0c31ae0a9d5c9e2c4ecf64c59d49c5c77b6cc2337d",
+      "size": 65242607,
+      "db_size": 165294080
+    },
+    "min_patch_from": "202611140007",
+    "patches": []
+  },
+  "apk": {
+    "versionCode": 34,
+    "versionName": "0.34",
+    "url": "https://github.com/SanyangForest/arknights-kr-overlay/releases/download/d202611140007/akkr-overlay-0.34.apk",
+    "sha256": "a5cdbe26d254d7d973729ef8cf37736665455b05fb3bf6ac00c42089fd0f0d90",
+    "size": 16338722
+  }
+}
