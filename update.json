@@ -2,17 +2,25 @@
   "format": 1,
   "repo": "SanyangForest/arknights-kr-overlay",
   "dict": {
-    "version": "202611140007",
-    "built": "2026-11-14 00:07",
-    "entries": 558367,
+    "version": "202611142306",
+    "built": "2026-11-14 23:06",
+    "entries": 558409,
     "full": {
-      "url": "https://github.com/SanyangForest/arknights-kr-overlay/releases/download/d202611140007/dict-202611140007.db.gz",
-      "sha256": "98a057423807c2fd731ffd0c31ae0a9d5c9e2c4ecf64c59d49c5c77b6cc2337d",
-      "size": 65242607,
+      "url": "https://github.com/SanyangForest/arknights-kr-overlay/releases/download/d202611142306/dict-202611142306.db.gz",
+      "sha256": "41a3528e5043bb05c2061ae6969b06a2c1ebfdcbd2a9697ca6d91ee274d08b73",
+      "size": 65238669,
       "db_size": 165294080
     },
     "min_patch_from": "202611140007",
-    "patches": []
+    "patches": [
+      {
+        "from": "202611140007",
+        "to": "202611142306",
+        "url": "https://github.com/SanyangForest/arknights-kr-overlay/releases/download/d202611142306/dict-patch-202611140007-202611142306.db.gz",
+        "sha256": "234977e44ba485326cf8c9db794ee8ed58ac31ceaac6a5cecefb46f90b645ede",
+        "size": 5161
+      }
+    ]
   },
   "apk": {
     "versionCode": 34,
