@@ -20,6 +20,37 @@ class Matcher(private val dict: Dict) {
     // 흘러가는 안내 문구 (대리 지휘 전투 하단 등). 화면 끝에서 잘린 조각도 전체 문장으로 번역 (PC판 marquee)
     private val marquee = dict.meta("marquee").orEmpty().split('\n').filter { it.isNotEmpty() }
 
+    // 오퍼레이터 이름 (채용 결과 '직군 + 이름' 규칙: 이름 쪽이 오퍼레이터일 때만)
+    private val opNames = dict.meta("op_names").orEmpty().split('\n').filter { it.isNotEmpty() }.toSet()
+    private val opSub: Map<String, List<String>> by lazy {
+        val m = HashMap<String, MutableList<String>>()
+        for (n in opNames) if (n.length >= 3) for (i in n.indices) m.getOrPut(n.substring(0, i) + "?" + n.substring(i + 1)) { mutableListOf() } += n
+        m
+    }
+
+    /**
+     * 채용 결과의 '직군 + 이름' ('先锋芬', 직군 아이콘이 끼어 '先锋之芬'·'术师A杜林') → '뱅가드 팽' (PC판 _class_name).
+     * 연출 중이라 직군 한 글자가 틀리기도 함 ('洗锋芬', '木师杜林'): 남은 글자로 직군이 하나로 정해질 때만.
+     * 이름은 오퍼레이터여야 하고, 세 글자 이상이면 한 글자 오독까지 ('泡普泉' = 泡普卡).
+     */
+    private fun className(q: String): Hit? {
+        if (opNames.isEmpty()) return null
+        val m = CLASS_NAME.matchEntire(q) ?: return null
+        val head = m.groupValues[1]
+        val cls = CLASS_KO[head] ?: run {
+            if (dict.exact(head) != null) return null  // 앞 두 글자가 낱말이면 직군 오독이 아님 ('医生凯尔希')
+            val cands = CLASS_KO.keys.filter { (it[0] == head[0]) != (it[1] == head[1]) }
+            if (cands.size != 1) return null
+            CLASS_KO[cands[0]]
+        }
+        val name = m.groupValues[3]
+        val found = if (name in opNames) name else if (name.length >= 3) {
+            name.indices.flatMap { i -> opSub[name.substring(0, i) + "?" + name.substring(i + 1)].orEmpty() }.distinct().singleOrNull()
+        } else null
+        val ko = found?.let { dict.exact(it) } ?: return null
+        return Hit("rule", q, "$cls $ko")
+    }
+
     fun lookup(text: String): Hit? = synchronized(cache) {
         if (cache.containsKey(text)) return cache[text]
         val named = nickname.isNotEmpty() && nickname in text
@@ -100,6 +131,8 @@ class Matcher(private val dict: Dict) {
             if (ko != null && (hit == null || hit!!.how.startsWith("fuzzy"))) hit = Hit("number", m.groupValues[1], "$ko ${m.groupValues[2]}")
         }
         if (hit == null && stripped != q) hit = whole(q)
+        // 아이콘 규칙보다 먼저: '先锋芬'의 '芬'을 끝에 붙은 아이콘으로 떼어 버리지 않게
+        if (hit == null) hit = className(stripped)
         // 앞의 아이콘이 한자로 잘못 읽힌 경우 (三攻击速度, 图较慢): 첫 글자를 빼고 완전 일치만
         if (hit == null && (stripped.length >= 4 || (stripped.length >= 3 && stripped[0] in Text.ICON_CHARS))) {
             val rest = stripped.substring(1)
@@ -568,6 +601,10 @@ class Matcher(private val dict: Dict) {
         private val WEEKDAY = Regex("周([一二三四五六日]+)开放")
         private val WEEKDAY_KO = "一二三四五六日".zip("월화수목금토일").toMap()
         private val ICON_NUM = Regex("[A-Za-z¥?.]+(\\d+(?:天|小时|分钟|分|秒|日))|\\d[.,](\\d+(?:天|日))")
+        // 채용 결과 '직군 + (직군 아이콘) + 이름' (PC판 CLASS_KO / CLASS_NAME·CLASS_LOOSE)
+        private val CLASS_KO = mapOf("先锋" to "뱅가드", "近卫" to "가드", "重装" to "디펜더", "狙击" to "스나이퍼",
+            "术师" to "캐스터", "医疗" to "메딕", "辅助" to "서포터", "特种" to "스페셜리스트")
+        private val CLASS_NAME = Regex("([\\u4e00-\\u9fff]{2})(之|A|Δ|△|图)?([\\u4e00-\\u9fff]{1,12})")
         private val ROOM_BARS = Regex("(.+?(?:站|室|舍|中枢))[0-9OIlMm|!.]+")
         // 꾸민 글씨 로고 (사전 키 모양: ：→:)
         private val LOGO_TITLES = listOf(

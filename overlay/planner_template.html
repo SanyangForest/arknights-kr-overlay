@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>육성 계산기</title>
+<style>
+  :root { --bg:#14161c; --panel:#1d2029; --line:#2c3040; --text:#e6e8ee; --dim:#9aa0b0; --accent:#5cc8ff; --bad:#ff7a6b; --ok:#7bd88f;
+          --r1:#bdbdbd; --r2:#b4e678; --r3:#6eb4ff; --r4:#cdaaff; --r5:#ffd040; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font:15px/1.5 "Malgun Gothic", system-ui, sans-serif; }
+  header { padding:16px 20px; border-bottom:1px solid var(--line); display:flex; gap:16px; align-items:baseline; flex-wrap:wrap; }
+  header h1 { margin:0; font-size:20px; }
+  header .meta { color:var(--dim); font-size:13px; }
+  main { display:grid; grid-template-columns: minmax(280px, 380px) 1fr; gap:16px; padding:16px 20px; }
+  @media (max-width: 860px) { main { grid-template-columns: 1fr; } }
+  section { background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:14px; }
+  h2 { margin:0 0 10px; font-size:16px; }
+  input[type=search] { width:100%; padding:8px 10px; border-radius:8px; border:1px solid var(--line); background:#11131a; color:var(--text); font-size:15px; }
+  .results { max-height:260px; overflow:auto; margin-top:8px; }
+  .op { padding:6px 8px; border-radius:6px; cursor:pointer; display:flex; justify-content:space-between; }
+  .op:hover { background:#262a36; }
+  .tag { font-size:12px; color:var(--dim); }
+  .target { border-top:1px solid var(--line); padding:10px 0; }
+  .target .name { font-weight:bold; display:flex; justify-content:space-between; }
+  .target button { background:none; border:none; color:var(--dim); cursor:pointer; font-size:13px; }
+  .goals { display:flex; flex-wrap:wrap; gap:6px 12px; margin-top:6px; font-size:14px; }
+  .goals label { white-space:nowrap; }
+  table { width:100%; border-collapse:collapse; }
+  th, td { text-align:left; padding:6px 8px; border-bottom:1px solid var(--line); }
+  th { color:var(--dim); font-weight:normal; font-size:13px; }
+  td.num { text-align:right; font-variant-numeric: tabular-nums; }
+  .short { color:var(--bad); font-weight:bold; }
+  .enough { color:var(--ok); }
+  .empty { color:var(--dim); padding:20px 0; }
+  .r1{color:var(--r1)} .r2{color:var(--r2)} .r3{color:var(--r3)} .r4{color:var(--r4)} .r5{color:var(--r5)}
+</style>
+</head>
+<body>
+<header>
+  <h1>육성 계산기</h1>
+  <span class="meta" id="meta"></span>
+</header>
+<main>
+  <section>
+    <h2>오퍼레이터 추가</h2>
+    <input type="search" id="q" placeholder="이름으로 찾기 (보유한 오퍼레이터가 먼저)">
+    <div class="results" id="results"></div>
+    <h2 style="margin-top:16px">목표</h2>
+    <div id="targets"><div class="empty">위에서 오퍼레이터를 골라 주세요.</div></div>
+  </section>
+  <section>
+    <h2>필요한 재료</h2>
+    <div id="need"><div class="empty">목표를 고르면 여기에 부족한 재료가 나와요.</div></div>
+  </section>
+</main>
+<script>
+const DATA = /*DATA*/null;
+const ops = Object.fromEntries(DATA.ops.map(o => [o.id, o]));
+let targets = [];
+try { targets = JSON.parse(localStorage.getItem("akkr-planner") || "[]").filter(t => ops[t.id]); } catch (e) { targets = []; }
+
+document.getElementById("meta").textContent =
+  `창고 ${DATA.inventoryDate || "아직 안 읽음"} · 보유 오퍼레이터 ${DATA.ownedDate || "아직 안 읽음"} (게임에서 창고·오퍼레이터 목록을 넘기면 기록돼요)`;
+
+function save() { try { localStorage.setItem("akkr-planner", JSON.stringify(targets)); } catch (e) {} }
+function esc(s) { return String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+
+function search() {
+  const q = document.getElementById("q").value.trim();
+  const list = DATA.ops.filter(o => !q || o.ko.includes(q) || o.zh.includes(q)).slice(0, 60);
+  document.getElementById("results").innerHTML = list.map(o =>
+    `<div class="op" data-id="${o.id}"><span class="r${Math.min(o.rarity, 5)}">${"★".repeat(o.rarity)} ${esc(o.ko)}</span>` +
+    `<span class="tag">${o.owned ? "보유" : ""}</span></div>`).join("");
+}
+
+function addTarget(id) {
+  if (targets.some(t => t.id === id)) return;
+  targets.push({ id, elite: [false, false], skill7: false, mastery: ops[id].skills.map(() => 0) });
+  save(); render();
+}
+
+function goalHtml(t, i) {
+  const o = ops[t.id];
+  const elite = o.elite.map((_, p) =>
+    `<label><input type="checkbox" data-i="${i}" data-k="elite" data-p="${p}" ${t.elite[p] ? "checked" : ""}> 정예화 ${p + 1}</label>`).join("");
+  const skill = o.skillLv.length ? `<label><input type="checkbox" data-i="${i}" data-k="skill7" ${t.skill7 ? "checked" : ""}> 스킬 레벨 7</label>` : "";
+  const mastery = o.skills.map((s, k) => s.mastery.length ?
+    `<label>${esc(s.name)} <select data-i="${i}" data-k="mastery" data-p="${k}">` +
+    [0, 1, 2, 3].map(m => `<option value="${m}" ${t.mastery[k] === m ? "selected" : ""}>${m ? "M" + m : "-"}</option>`).join("") +
+    `</select></label>` : "").join("");
+  return `<div class="target"><div class="name"><span class="r${Math.min(o.rarity, 5)}">${esc(o.ko)}</span>` +
+    `<button data-remove="${i}">빼기</button></div><div class="goals">${elite}${skill}${mastery}</div></div>`;
+}
+
+function render() {
+  document.getElementById("targets").innerHTML = targets.length ? targets.map(goalHtml).join("")
+    : `<div class="empty">위에서 오퍼레이터를 골라 주세요.</div>`;
+  const need = {};
+  const add = list => list.forEach(([id, n]) => { need[id] = (need[id] || 0) + n; });
+  for (const t of targets) {
+    const o = ops[t.id];
+    o.elite.forEach((cost, p) => { if (t.elite[p]) add(cost); });
+    if (t.skill7) o.skillLv.forEach(add);
+    o.skills.forEach((s, k) => s.mastery.slice(0, t.mastery[k]).forEach(add));
+  }
+  const rows = Object.entries(need).map(([id, n]) => {
+    const it = DATA.items[id] || { ko: id, rarity: 1, have: 0 };
+    return { id, it, n, short: Math.max(0, n - it.have) };
+  }).sort((a, b) => (b.short > 0) - (a.short > 0) || b.it.rarity - a.it.rarity || b.short - a.short);
+  document.getElementById("need").innerHTML = rows.length ? `<table><thead><tr><th>재료</th><th class="num">필요</th>` +
+    `<th class="num">보유</th><th class="num">부족</th><th>효율 좋은 스테이지</th></tr></thead><tbody>` +
+    rows.map(r => `<tr><td class="r${Math.min(r.it.rarity, 5)}">${esc(r.it.ko)}</td><td class="num">${r.n.toLocaleString()}</td>` +
+      `<td class="num">${r.it.have.toLocaleString()}</td>` +
+      `<td class="num ${r.short ? "short" : "enough"}">${r.short ? r.short.toLocaleString() : "충분"}</td>` +
+      `<td>${r.it.best ? `${esc(r.it.best[0])} (개당 이성 ${r.it.best[1]})` : ""}</td></tr>`).join("") + `</tbody></table>`
+    : `<div class="empty">목표를 고르면 여기에 부족한 재료가 나와요.</div>`;
+}
+
+document.getElementById("q").addEventListener("input", search);
+document.getElementById("results").addEventListener("click", e => {
+  const el = e.target.closest(".op"); if (el) addTarget(el.dataset.id);
+});
+document.getElementById("targets").addEventListener("change", e => {
+  const el = e.target, t = targets[+el.dataset.i]; if (!t) return;
+  if (el.dataset.k === "elite") t.elite[+el.dataset.p] = el.checked;
+  else if (el.dataset.k === "skill7") t.skill7 = el.checked;
+  else if (el.dataset.k === "mastery") t.mastery[+el.dataset.p] = +el.value;
+  save(); render();
+});
+document.getElementById("targets").addEventListener("click", e => {
+  const i = e.target.dataset.remove; if (i !== undefined) { targets.splice(+i, 1); save(); render(); }
+});
+search(); render();
+</script>
+</body>
+</html>

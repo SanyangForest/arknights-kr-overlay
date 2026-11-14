@@ -40,10 +40,10 @@ PUNCT = str.maketrans({"…": ".", "·": ".", "，": ",", "。": ".", "！": "!"
 # 글머리표·아이콘이 글자로 잘못 읽힌 것 (◆, √, →, 돋보기 아이콘의 Q 등)
 # ①②… : 방패·하트 같은 둥근 아이콘을 동그라미 숫자로 읽은 것 (①防御)
 LEADING_JUNK = re.compile(r"^(?:[^\w一-鿿\[(<]|[A-Za-z](?=[一-鿿])|[①-⑳])+")
-# OCR이 서로 헷갈리는 한자
-CONFUSABLE = ["干千于", "已己巳", "未末", "人入", "土士", "日曰", "戊戍戌", "大太犬", "王玉主", "刀力",
+# OCR이 서로 헷갈리는 한자 (戍成: 태블릿 글꼴에서 위수 협의의 戍를 成으로 읽음, 卫成百科 → 卫戍百科)
+CONFUSABLE = ["干千于", "已己巳", "未末", "人入", "土士", "日曰", "戊戍戌成", "大太犬", "王玉主", "刀力",
               "免兔", "折拆", "徒徙", "历厉", "候侯", "博傅", "摇遥瑶", "视观", "烬煜炽焖", "欸欲",
-              "挑姚", "傀愧倪", "引弓", "丛从", "凛漂", "瞥警聲", "作乍", "敌文", "临高", "中史", "了子", "抉块", "瞌嗑", "物勿", "嗯想"]
+              "挑姚", "傀愧倪", "引弓", "丛从", "凛漂", "瞥警聲", "作乍", "敌文", "临高", "中史", "了子", "抉块", "瞌嗑", "物勿", "嗯想", "超招"]
 # 아이콘이 한자로 잘못 읽힐 때 자주 나오는 글자 (앞에 붙음: 图较慢 → 较慢)
 ICON_CHARS = set("图区回向三囗口日目田凶品吕亘目旦")
 # 숫자 옆 아이콘이 한자 한 글자로 읽힌 것 (区835 = 공격력 아이콘 + 835)
@@ -96,6 +96,13 @@ EXPIRE = re.compile(r"(\d{4})-(\d{1,2})-(\d{2,})日后过期")
 DATE_TIME = re.compile(r"(\d{4}/\d{1,2}/\d{2})(\d{2}:\d{2})")
 # 번역 결과에서 날짜와 시각이 붙은 것 ('만료 시간 2026/11/2303:59'): OCR이 사이 공백을 빼먹음
 DATETIME_GLUED = re.compile(r"(\d{4}[/-]\d{1,2}[/-]\d{2})(\d{2}:\d{2})")
+# '+'/'-' 뒤 숫자의 '%'를 '9'로 읽은 자리 ('+259' = '+25%'). 뒤에 숫자가 이어지지 않는 9만
+PERCENT_AS_9 = re.compile(r"([+\-＋－]\d+)9(?![\d.:/])")
+# 채용·헤드헌팅 결과 화면의 '직군 + 이름' (사이에 직군 아이콘이 '之'·'A' 등으로 읽힘). 한국어 직군은 공개모집 태그 표기
+CLASS_KO = {"先锋": "뱅가드", "近卫": "가드", "重装": "디펜더", "狙击": "스나이퍼", "术师": "캐스터", "医疗": "메딕",
+            "辅助": "서포터", "特种": "스페셜리스트"}
+CLASS_NAME = re.compile(rf"^({'|'.join(CLASS_KO)})(之|A|Δ|△|图)?(.{{1,12}})$")
+CLASS_LOOSE = re.compile(r"^([一-鿿]{2})(之|A|Δ|△|图)?([一-鿿]{1,12})$")
 END_TIME = re.compile(r"(作战)?结[束東]时间:?(\d{4})/(\d{1,2})/(\d{2})(\d{2}):?(\d{2})(?:剩?余(\d*)天?)?\W*")
 MAIL_COUNT = re.compile(r"\d+/\d+[天未]")
 # 우편 보관 기간으로 흔한 날수
@@ -219,16 +226,18 @@ def edge_of(box, width, margin=8):
 
 
 def load_glossary(glossary_path):
-    """(영어 번역을 허용할 이름들, 제목 교정에 쓸 고유명사들)."""
-    names, titles = set(), set()
+    """(영어 번역을 허용할 이름들, 제목 교정에 쓸 고유명사들, 오퍼레이터 이름들)."""
+    names, titles, ops = set(), set(), set()
     if glossary_path and Path(glossary_path).exists():
         with open(glossary_path, encoding="utf-8", newline="") as f:
             for row in csv.DictReader(f, delimiter="\t", quoting=csv.QUOTE_NONE):
                 if any(k in row["kinds"] for k in NAME_KINDS):
                     names.add(row["zh"])
+                if "character_table:name" in row["kinds"]:
+                    ops.add(normalize(row["zh"]))
                 if row["ko"] and TITLE_MIN_LEN <= len(row["zh"]) <= TITLE_MAX_LEN:
                     titles.add(row["zh"])
-    return names, titles
+    return names, titles, ops
 
 
 def load_aliases(path=ALIASES):
@@ -244,7 +253,7 @@ def load_aliases(path=ALIASES):
 class Matcher:
     def __init__(self, dict_path, glossary_path=None):
         raw = json.loads(Path(dict_path).read_text(encoding="utf-8"))
-        names, titles = load_glossary(glossary_path or Path(dict_path).with_name("glossary.tsv"))
+        names, titles, self.op_names = load_glossary(glossary_path or Path(dict_path).with_name("glossary.tsv"))
         self.aliases = load_aliases()
         # 스킬 설명 틀별 레벨 수치 (build_dict.py가 skill_table에서 만듦): 화면 숫자와 맞는 레벨의 정확한 값으로 채운다
         levels = Path(dict_path).with_name("skill_levels.json")
@@ -390,6 +399,49 @@ class Matcher:
                     if hit and hit[0] in ("exact", "title", "confuse"):
                         return "template", key, self.table[key][1].replace("{0}", display(hit[2])), 90
         return None
+
+    def _class_name(self, q):
+        """채용·헤드헌팅 결과의 '직군 + 이름' ('先锋芬', 직군 아이콘이 끼어 '先锋之芬'·'术师A杜林') → '뱅가드 팽'.
+
+        이름 쪽은 사전에 그대로(또는 한 글자 오독) 있어야 한다. 연출 중이라 직군 두 글자 중 하나가 틀리기도 함
+        ('洗锋芬' = 先锋芬, '木师杜林' = 术师杜林, '辅图梓兰' = 辅助 + 梓兰): 나머지 한 글자로 직군이 하나로 정해지고
+        이름이 오퍼레이터일 때만.
+        """
+        m = CLASS_NAME.match(q)
+        if m:
+            cls, name = m.group(1), m.group(3)
+        else:
+            m = CLASS_LOOSE.match(q)
+            # 앞 두 글자가 그 자체로 낱말이면 직군 오독이 아님 ('医生凯尔希')
+            if not m or m.group(1) in self.table:
+                return None
+            cands = [c for c in CLASS_KO if (c[0] == m.group(1)[0]) != (c[1] == m.group(1)[1])]
+            if len(cands) != 1:
+                return None
+            cls, name = cands[0], m.group(3)
+        hit = self._whole(name) or self._title(name) or self._op_name(name)
+        # 이름은 오퍼레이터여야 함 ('医疗炎'의 炎은 세력 이름, '先锋中'의 中은 '보통')
+        if (hit and hit[0] in ("exact", "title", "confuse", "op")
+                and (normalize(hit[1]) in self.op_names or not self.op_names)):
+            return "rule", q, f"{CLASS_KO[cls]} {display(hit[2])}", 90
+        return None
+
+    def _op_name(self, q):
+        """세 글자 이상 오퍼레이터 이름의 한 글자 오독 ('泡普泉' = 泡普卡). 맞는 이름이 하나뿐일 때만."""
+        if len(q) < 3:
+            return None
+        if not hasattr(self, "op_sub"):
+            self.op_sub = {}
+            for n in self.op_names:
+                if len(n) >= 3 and n in self.table:
+                    for i in range(len(n)):
+                        self.op_sub.setdefault(n[:i] + "?" + n[i + 1:], set()).add(n)
+        found = set()
+        for i in range(len(q)):
+            found |= self.op_sub.get(q[:i] + "?" + q[i + 1:], set())
+        if len(found) != 1:
+            return None
+        return "op", *self.table[found.pop()], 85
 
     def _bracket_template(self, q):
         """'<冻土与火种>网页活动奖励发放' → 틀 '<{0}>网页活动奖励发放' + 이름 번역 (사전에 없는 이름은 원문 그대로).
@@ -809,6 +861,15 @@ class Matcher:
         if self.nickname and self.nickname in text:
             text = text.replace(self.nickname, "{@nickname}")
         hit = self._lookup(text, screen, edge)
+        if not hit and "卫成" in text:
+            # 위수 협의의 '卫戍'를 OCR이 '卫成'으로 읽음 ('成功卫成', '最佳卫成奖杯')
+            hit = self._lookup(text.replace("卫成", "卫戍"), screen, edge)
+        if (not hit or hit[0] in ("number", "segment", "fuzzy_number")) and PERCENT_AS_9.search(text):
+            # OCR이 '+' 뒤 숫자의 '%'를 '9'로 읽은 경우 ('攻击力+259' = '攻击力+25%'). 원래대로는 숫자 틀에 맞아
+            # '+259'로 나오므로, '%'로 바꾼 쪽이 사전에 그대로 있거나 '%'가 든 틀에 맞을 때 그쪽을 쓴다
+            fixed = self._lookup(PERCENT_AS_9.sub(r"\1%", text), screen, edge)
+            if fixed and (fixed[0] in ("exact", "alias") or (fixed[0] in ("number", "template", "fuzzy_number") and "%" in fixed[1])):
+                hit = fixed
         if hit and DATETIME_GLUED.search(hit[2]):
             hit = (hit[0], hit[1], DATETIME_GLUED.sub(r"\1 \2", hit[2]), hit[3])
         if hit and "{@nickname}" in hit[2]:
@@ -895,16 +956,45 @@ class Matcher:
             hit = self._bracket_template(stripped) or hit
         if not hit and stripped != q:
             hit = self._whole(q)
-        if not hit and (len(stripped) >= 4 or (len(stripped) >= 3 and stripped[0] in ICON_CHARS)):
-            # 앞의 아이콘이 한자로 잘못 읽힌 경우 (三攻击速度, 图较慢): 첫 글자를 빼고 완전 일치만 인정
+        if not hit:
+            # 아이콘 규칙보다 먼저: '先锋芬'의 '芬'을 끝에 붙은 아이콘으로 떼어 버리지 않게
+            hit = self._class_name(stripped)
+        if not hit:
+            # 한 글자만 다른 고유명사가 하나뿐이면 글자를 떼는 규칙보다 먼저 ('纯烟艾雅法拉' = 纯烬艾雅法拉,
+            # '御银灰' = 凛御银灰: 떼면 이격 오퍼레이터가 원래 오퍼레이터 이름으로 바뀜)
+            hit = self._title(stripped)
+            # 단, 맨 앞·맨 끝 한 글자만 바뀐 이름이고 그 글자를 떼면 사전 말이면 아이콘 쪽 ('口阿米娅'는 小阿米娅가 아니라
+            # 아이콘 + 阿米娅, '无人机梦'은 无人机群이 아니라 无人机 + 아이콘)
+            if hit and len(hit[1]) == len(stripped) and (
+                    (normalize(hit[1])[1:] == stripped[1:] and stripped[1:] in self.table)
+                    or (normalize(hit[1])[:-1] == stripped[:-1] and stripped[:-1] in self.table)):
+                hit = None
+        if not hit and len(stripped) >= 3:
+            # 앞의 아이콘이 한자로 잘못 읽힌 경우 (三攻击速度, 图较慢): 첫 글자를 빼고 완전 일치만 인정.
+            # 위수 협의 카드의 맹약 아이콘은 읽을 때마다 다른 글자가 됨 (乡迅捷, 温坚守, 必不屈) → 세 글자면 아무 글자나
             rest = stripped[1:]
-            if rest in self.table:
+            # 세 글자인데 끝 글자를 떼도 낱말이면('专精金' = 专精 + 금 아이콘) 앞 글자 아이콘으로 단정하지 않음
+            if rest in self.table and (len(stripped) >= 4 or stripped[0] in ICON_CHARS
+                                       or (not self._prefix(self.keys, stripped) and stripped[:-1] not in self.table)):
                 hit = ("icon", *self.table[rest], 99)
         if not hit and len(stripped) >= 3 and stripped[-1] not in PARTICLES:
             # 뒤의 아이콘이 한자로 읽힌 경우 (专精金, 管理十): 끝 글자를 빼고 완전 일치만 인정
             rest = stripped[:-1].rstrip()
             if rest in self.table:
                 hit = ("icon", *self.table[rest], 99)
+        if not hit and len(stripped) >= 5:
+            # 제목 양옆 장식선·아이콘이 글자로 읽힌 경우 (很一休息一下, 一休息一下十): 앞 두 글자·뒤 한 글자까지 떼어 봄
+            # 떼는 앞 두 글자가 낱말이면 장식이 아님 ('教官奥尔佳的信物', '来自企鹅物流', '全员信赖提升')
+            for a in (1, 2):
+                for b in (0, 1):
+                    rest = stripped[a:len(stripped) - b]
+                    if a == 2 and stripped[:2] in self.table:
+                        continue
+                    if (a + b) >= 2 and len(rest) >= 3 and rest in self.table:
+                        hit = ("icon", *self.table[rest], 98)
+                        break
+                if hit:
+                    break
         if not hit:
             hit = self._title(stripped)
         if not hit and edge:

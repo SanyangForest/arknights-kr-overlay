@@ -22,6 +22,8 @@ RARITY_COLOR = {6: (255, 127, 39), 5: (255, 208, 64), 4: (205, 170, 255), 3: (17
 
 # 함수 모양(argtypes)을 따로 정하므로 ctypes.windll 공용 객체가 아닌 별도 객체를 쓴다.
 # 공용 객체를 바꾸면 overlay.grab_window처럼 기본 모양을 믿는 다른 코드가 깨진다 (GetDC가 64비트 핸들을 돌려줌)
+PANELS = ("recruit", "panel")  # 원문을 덮지 않고 옆에 띄우는 정보 패널 (공개모집 조합, 스테이지 드롭 등)
+
 user32 = ctypes.WinDLL("user32")
 gdi32 = ctypes.WinDLL("gdi32")
 
@@ -63,7 +65,7 @@ def item_layer(it):
     """번역 상자 하나를 그린 (그림, 왼쪽 위 좌표, 덮은 자리). 덮은 자리는 오버레이 창 좌표."""
     x0, y0, x1, y1 = it["box"]
     bg = tuple(it["bg"])
-    if it.get("how") == "recruit":
+    if it.get("how") in PANELS:
         return panel_layer(it)
     if not it["ko"]:  # 윗줄 번역에 포함된 줄바꿈 꼬리: 원문만 가림
         rect = (x0 - 2, y0 - 2, x1 + 2, y1 + 2)
@@ -86,7 +88,10 @@ def item_layer(it):
 
 
 def panel_layer(it):
-    """공개모집 확정 조합 패널: [(글, 등급)] 줄을 등급색으로. 태그 무리(it['box']) 바로 아래, 자리가 없으면 위에 놓는다."""
+    """정보 패널: [(글, 색)] 줄. 색은 (r, g, b) 또는 등급 숫자(RARITY_COLOR).
+
+    자리: 기준 상자(it['box']) 바로 아래, 자리가 없으면 위. place='left'면 기준 상자 왼쪽 (스테이지 상세 칸 옆).
+    """
     rows = it["rows"]
     size = max(14, min(26, int(it["line_h"] * 0.7)))
     title, body = font(size, bold=True), font(size)
@@ -100,16 +105,21 @@ def panel_layer(it):
                         outline=(255, 255, 255, 40))
     d.text((size, pad), it["title"], font=title.font, fill=(255, 255, 255, 255))
     y = pad * 2 + title.linespace
-    for text, rarity in rows:
+    for text, color in rows:
         while body.measure(text) > width - size * 2 and len(text) > 4:
             text = text[:-2] + "…"
-        d.text((size, y), text, font=body.font, fill=RARITY_COLOR.get(rarity, (220, 220, 220)) + (255,))
+        rgb = tuple(color) if isinstance(color, (tuple, list)) else RARITY_COLOR.get(color, (220, 220, 220))
+        d.text((size, y), text, font=body.font, fill=rgb + (255,))
         y += body.linespace
     sw, sh = it["screen"]
     bx0, by0, bx1, by1 = it["box"]
     gap = size // 2
-    x = max(10, min(bx0, sw - img.width - 10))
-    top = by1 + gap if by1 + gap + img.height <= sh - 10 else max(10, by0 - gap - img.height)
+    if it.get("place") == "left":
+        x = max(10, bx0 - gap * 2 - img.width)
+        top = max(10, min(by0, sh - img.height - 10))
+    else:
+        x = max(10, min(bx0, sw - img.width - 10))
+        top = by1 + gap if by1 + gap + img.height <= sh - 10 else max(10, by0 - gap - img.height)
     return img, (x, top), (x, top, x + img.width, top + img.height)
 
 

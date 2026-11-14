@@ -21,6 +21,8 @@ mobile/app/src/main/assets/dict.db
 *.log
 *_log.txt
 overlay/overlay_trace.txt
+overlay/overlay_missing.tsv
+overlay/data/
 overlay/captures/
 
 # 파이썬·도구 설정

@@ -113,6 +113,29 @@ class MatcherParityTest {
         assertTrue("번역 못 한 것: $misses", misses.isEmpty())
     }
 
+    /** 채용 결과 '직군 + 이름' (2026-11-15 PC 공개모집 시험에서 읽힌 것) */
+    @Test
+    fun className() {
+        val m = Matcher(JdbcDict(File("src/main/assets/dict.db").absolutePath))
+        val cases = listOf(
+            "先锋之芬" to "뱅가드 팽", "先锋芬" to "뱅가드 팽", "洗锋芬" to "뱅가드 팽", "木师杜林" to "캐스터 두린",
+            "特种A砾" to "스페셜리스트 그라벨", "辅助图梓兰" to "서포터 오키드", "近卫泡普泉" to "가드 포푸카",
+            "近卫干员" to "가드 오퍼레이터",
+        )
+        val wrong = cases.mapNotNull { (text, want) ->
+            val got = m.lookup(text)?.ko
+            println("$text → $got")
+            if (got != want) "$text=$got" else null
+        }
+        // 이름이 오퍼레이터가 아니면 직군 규칙을 쓰지 않음 ('医疗炎'의 炎은 세력, '先锋中'의 中은 '보통')
+        for (text in listOf("医疗炎", "先锋中")) {
+            val got = m.lookup(text)
+            println("$text → ${got?.how} ${got?.ko}")
+            if (got?.how == "rule") assertTrue("$text: 직군 규칙이 걸림 (${got.ko})", false)
+        }
+        assertTrue("틀림: $wrong", wrong.isEmpty())
+    }
+
     /** 숫자 채우기 (2026-11-01 PC 점검: 이벤트 종료 시각, 화면에만 있는 단위, 잘린 설명문 변수, 비슷한 문장의 다른 날짜) */
     @Test
     fun numberFill() {

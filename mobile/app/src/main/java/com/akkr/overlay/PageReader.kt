@@ -51,12 +51,13 @@ class PageReader(private val matcher: Matcher, private val recruit: Recruit? = n
         return items
     }
 
-    /** 공개모집 태그 고르기 창이면 4★ 이상 확정 조합 패널 (태그가 4개 넘게, 또는 3개와 '招募时限' 같은 표시가 보일 때). */
+    /** 공개모집 태그 고르기 창('招募时限'이 보이고 태그가 3개 이상)이면 4★ 이상 확정 조합 패널. */
     private fun recruitPanel(lines: List<OcrLine>): Item? {
         val r = recruit ?: return null
         val texts = lines.map { Text.normalize(Text.simplify(it.text)) }
         val ids = r.tagIds(texts)
-        if (ids.size < 3 || (ids.size < 4 && texts.none { it in RECRUIT_MARKERS })) return null
+        // 태그 고르기 창에만 있는 '招募时限'이 보여야 한다 (모집 목록 화면의 칸별 태그를 모아 엉뚱한 조합을 내지 않게)
+        if (ids.size < 3 || texts.none { "招募时限" in it }) return null
         val boxes = lines.filterIndexed { i, _ -> r.isTag(texts[i]) }.map { it.box }
         val box = RectF(boxes[0]).apply { boxes.forEach { union(it) } }
         val lineH = boxes.map { it.height() }.sorted()[boxes.size / 2]
@@ -147,6 +148,5 @@ class PageReader(private val matcher: Matcher, private val recruit: Recruit? = n
 
     companion object {
         private const val TAG = "AkkrOverlay"
-        private val RECRUIT_MARKERS = setOf("招募时限", "职业需求", "招募预算")
     }
 }

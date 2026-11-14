@@ -67,6 +67,7 @@ class App:
             M("번역 표시 (F9)", self.on_toggle, checked=lambda item: self.is_visible(), default=True),
             M(lambda item: "방송·화면 공유에 보이기" + (f" ({self.capture_note})" if self.capture_note else ""),
               self.on_capture, checked=lambda item: self.show_in_capture),
+            M("육성 계산기 열기", self.on_planner),
             M("점검 기록 (화면 저장)", self.on_record, checked=lambda item: self.record_dir is not None),
             M("기록 폴더 열기", lambda: os.startfile(self.record_dir or CAPTURES)),
             pystray.Menu.SEPARATOR,
@@ -112,6 +113,15 @@ class App:
         self.icon.update_menu()
         if note and note.startswith("안 됨"):
             self.icon.notify(f"방송·화면 공유에 보이기 {note}", TITLE)
+
+    def on_planner(self):
+        """창고·보유 오퍼레이터·드롭 통계로 육성 계산기 페이지를 만들어 브라우저로 연다 (planner.py)."""
+        try:
+            import planner
+            planner.open_planner()
+        except Exception as e:  # noqa: BLE001
+            traceback.print_exc()
+            self.icon.notify(f"육성 계산기를 열지 못했어요: {e}", TITLE)
 
     def on_record(self):
         self.record_dir = None if self.record_dir else CAPTURES / time.strftime("app_%Y%m%d_%H%M")

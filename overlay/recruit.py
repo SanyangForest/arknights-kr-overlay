@@ -78,13 +78,19 @@ class Recruit:
     def ko(self, tag):
         return self.tags[tag]["ko"]
 
-    def describe(self, tag_ids, max_rows=6, max_names=5):
-        """화면 패널에 쓸 줄들: [(글, 등급)]. 확정 조합이 없으면 그렇다고 한 줄."""
+    def describe(self, tag_ids, max_rows=6, max_names=5, owned=None):
+        """화면 패널에 쓸 줄들: [(글, 등급)]. 확정 조합이 없으면 그렇다고 한 줄.
+
+        owned(보유 오퍼레이터 char_id 모음)가 있으면 아직 없는 오퍼레이터 이름 뒤에 '(신규)'를 붙이고 앞에 둔다.
+        """
         rows = []
         if self.robot(tag_ids):
             rows.append(("로봇 → 1★ 확정 (3:50)", 1))
         for combo, low, ops in self.combos(tag_ids)[:max_rows]:
-            names = ", ".join(o["ko"] for o in ops[:max_names]) + (" …" if len(ops) > max_names else "")
+            if owned:
+                ops = sorted(ops, key=lambda o: o["id"] in owned)  # 신규 먼저 (정렬은 안정적이라 등급 순서 유지)
+            label = lambda o: o["ko"] + (" (신규)" if owned and o["id"] not in owned else "")  # noqa: E731
+            names = ", ".join(label(o) for o in ops[:max_names]) + (" …" if len(ops) > max_names else "")
             rows.append((f"{' + '.join(self.ko(t) for t in combo)} → {low}★: {names}", low))
         if not rows:
             rows.append(("4★ 확정 조합 없음", 3))

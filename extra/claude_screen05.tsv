@@ -81,7 +81,6 @@ zh	ko	source
 准备完成	준비 완료	ui:[uc]ac_n_iron.ab
 快速前往	바로 가기	screen:act3autochess 업데이트 로그
 协议开放	협의 개방	screen:act3autochess 업데이트 로그
-卫成百科	위수 백과	screen:act3autochess 업데이트 로그 (OCR이 卫戍百科를 이렇게 읽음)
 轮替	로테이션	screen:act3autochess 업데이트 로그
 新增盟约	신규 맹약	screen:act3autochess 업데이트 로그
 盟约效果调整	맹약 효과 조정	screen:act3autochess 업데이트 로그
@@ -120,3 +119,31 @@ zh	ko	source
 【东之极道】\n拖拽使用：选择一名我方干员，将其出售并为所有已激活盟约叠加等同于该干员等阶的层数	[동방의 극도]\n드래그하여 사용: 아군 오퍼레이터 1명 선택, 해당 오퍼레이터를 판매하고 활성화된 모든 맹약에 해당 오퍼레이터의 티어만큼 중첩 수 추가	screen:act3autochess 업데이트 로그
 【专享情报】\n点击使用（消耗一定资金）：进行一次特殊刷新：此次刷新出现的干员优先为已部署在场上的干员（每场模拟限次使用）	[독점 정보]\n클릭하여 사용 (자금 일정량 소모): 특별 갱신 1회 진행: 이번 갱신에서는 전장에 배치된 오퍼레이터가 우선 등장 (시뮬레이션당 사용 횟수 제한)	screen:act3autochess 업데이트 로그
 【骑士团长】\n点击使用（消耗一定资金）：获得1名【卡西米尔】干员（等阶不高于当前调度中心），每回合休整期结束时指令消耗资金减少，使用后指令重置并可再次使用	[기사단장]\n클릭하여 사용 (자금 일정량 소모): [카시미어] 오퍼레이터 1명 획득 (보급센터 레벨 이하), 라운드마다 휴식 기간 종료 시 명령 소모 자금 감소, 사용 후 명령이 초기화되어 다시 사용 가능	screen:act3autochess 업데이트 로그
+森蜱	유넥티스	screen:act3autochess 업데이트 로그 (OCR이 森蚺을 이렇게 읽음)
+【骑士团长】\n点击使用（消耗一定资金）：获得1名【卡西米尔】干员（等阶不高于当前调度中心），每回合休整期结束时指令消耗资金减少，使用后指令重置并可再次使用\n<在场6名不同【卡西米尔】干员> 效果替换为【卡西米尔】干员阻挡时每隔一定时间对周围敌人造成真实伤害并晕眩，未阻挡时攻击附带真实伤害	[기사단장]\n클릭하여 사용 (자금 일정량 소모): [카시미어] 오퍼레이터 1명 획득 (보급센터 레벨 이하), 라운드마다 휴식 기간 종료 시 명령 소모 자금 감소, 사용 후 명령이 초기화되어 다시 사용 가능\n<전장에 서로 다른 [카시미어] 오퍼레이터 6명 배치> 효과가 [카시미어] 오퍼레이터가 적 저지 시 일정 시간마다 주변 적에게 트루 대미지를 입히고 기절시키며, 미저지 시 공격에 트루 대미지가 추가되는 효과로 변경	screen:act3autochess 업데이트 로그 (셋째 줄은 화면 끝에서 잘려 데이터 문장으로 추정)
+[ 击杀后获得：8金币 ]	[ 처치 시 획득: 자금 8 ]	ui:[uc]autochessbattle.ab
+倒计时结束时未挑选，将随机分配	카운트다운이 끝날 때까지 고르지 않으면 랜덤으로 배정됩니다	ui:[uc]autochessbattle.ab
+全屏	전체 화면	ui:[uc]autochessbattle.ab
+决战回合	결전 라운드	ui:[uc]autochessbattle.ab
+单人选择	단독 선택	ui:[uc]autochessbattle.ab
+特殊选择	특수 선택	ui:[uc]autochessbattle.ab
+回到选择	선택으로 돌아가기	ui:[uc]autochessbattle.ab
+选择进行中...	선택 진행 중...	ui:[uc]autochessbattle.ab
+可自行切换查看其他玩家	다른 플레이어 화면으로 전환해 볼 수 있습니다	ui:[uc]autochessbattle.ab
+当前玩家已离开	현재 플레이어가 나갔습니다	ui:[uc]autochessbattle.ab
+无人在家	부재 중	ui:[uc]autochessbattle.ab
+合力迎击领袖！	힘을 합쳐 리더를 막아 내세요!	ui:[uc]autochessbattle.ab
+已击败首个领袖！	첫 번째 리더 격파!	ui:[uc]autochessbattle.ab
+迎击首领敌人	보스 적 요격	ui:[uc]autochessbattle.ab
+当前层数	현재 중첩 수	ui:[uc]autochessbattle.ab
+暂停叠层	중첩 일시 정지	ui:[uc]autochessbattle.ab
+拖至此出售	여기로 끌어서 판매	ui:[uc]autochessbattle.ab
+拖至此销毁	여기로 끌어서 파기	ui:[uc]autochessbattle.ab
+松手出售	놓으면 판매	ui:[uc]autochessbattle.ab
+松手销毁	놓으면 파기	ui:[uc]autochessbattle.ab
+挑战失败不影响胜利结算	도전에 실패해도 승리 정산에는 영향이 없습니다	ui:[uc]autochessbattle.ab
+模拟即将继续	곧 시뮬레이션이 재개됩니다	ui:[uc]autochessbattle.ab
+选择一个赏金怪加入本回合作战	이번 라운드 작전에 추가할 수배 적을 하나 선택하세요	ui:[uc]autochessbattle.ab
+隐藏回合已解锁	히든 라운드 해금	ui:[uc]autochessbattle.ab
+常驻商店	상시 상점	ui:[uc]autochesstemplateshop.ab
+通过14回合，消灭领袖	14라운드를 통과해 리더 처치	ui:[uc]ac_n_initial.ab

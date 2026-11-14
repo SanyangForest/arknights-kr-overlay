@@ -1,0 +1,24 @@
+zh	ko	source
+关键目标	핵심 목표	screen:act3autochess 로비 (PC, 2026-11-14)
+最佳卫戍奖杯	최고 위수 트로피	screen:act3autochess 업적 통계 (UIPlatform 창)
+序列数据	시퀀스 데이터	screen:act3autochess 업적 통계
+总模拟数	총 시뮬레이션 수	screen:act3autochess 업적 통계
+成功卫戍	위수 성공	screen:act3autochess 업적 통계
+极限突破	최고 돌파	screen:act3autochess 업적 통계 (가장 높게 클리어한 규정 등급)
+极限胜场	최고 등급 승리	screen:act3autochess 업적 통계
+绝境突破	극한 돌파	screen:act3autochess 업적 통계 (极限模拟 = 극한 시뮬레이션)
+终极突破	초월 돌파	screen:act3autochess 업적 통계 (终极模拟 = 초월 시뮬레이션)
+社交数据	소셜 데이터	screen:act3autochess 업적 통계
+已获奖杯	획득한 트로피	screen:act3autochess 업적 통계
+最常共同游玩	가장 자주 함께한 박사	screen:act3autochess 업적 통계
+每日10:00完成昨日数据更新	매일 10:00에 전날 데이터 업데이트 완료	screen:act3autochess 업적 통계
+“全能的”	'만능'	screen:act3autochess 인터페이스 (테마 이름이 두 조각으로 읽힘: “全能的” / 克洛丝)
+是否消耗一张加急许可立即完成招募？	즉시 완료 허가증 1장을 사용해 모집을 바로 완료하시겠습니까?	screen:공개모집 즉시 모집 확인 (PC, 2026-11-15)
+是否消耗一张加急许可立即完成招募?	즉시 완료 허가증 1장을 사용해 모집을 바로 완료하시겠습니까?	screen:공개모집 즉시 모집 확인 (반각 물음표로 읽힌 경우)
+卫戍寻访	위수 헤드헌팅	screen:홈 배너 (위수 협의 기간 헤드헌팅)
+前往获取特选干员	특선 오퍼레이터 얻으러 가기	screen:홈 배너
+行动预备组	예비작전팀	screen:채용 결과 오퍼레이터 소개 (세력 이름이 A6와 따로 읽힘; KR handbook_team_table 예비작전팀 A1/A4/A6)
+预备行动组	예비작전팀	screen:채용 결과 대사 (KR 대사의 표기)
+行动预备组A1	예비작전팀 A1	KR handbook_team_table powerName
+行动预备组A4	예비작전팀 A4	KR handbook_team_table powerName
+行动预备组A6	예비작전팀 A6	KR handbook_team_table powerName

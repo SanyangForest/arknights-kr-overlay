@@ -74,7 +74,9 @@ def main():
     db.executemany("INSERT INTO meta VALUES (?, ?)", [
         ("built", time.strftime("%Y-%m-%d %H:%M")), ("entries", str(len(m.table))), ("skel", str(len(m.skel))), ("nickname", m.nickname or ""),
         # 흘러가는 안내 문구 (overlay/marquee.tsv): 화면 끝에서 잘린 조각도 전체 문장으로 번역
-        ("marquee", "\n".join(f for f in m.marquee if f in m.table))])
+        ("marquee", "\n".join(f for f in m.marquee if f in m.table)),
+        # 오퍼레이터 이름 (채용 결과 '직군 + 이름' 규칙에서 이름이 오퍼레이터인지 확인)
+        ("op_names", "\n".join(sorted(n for n in m.op_names if n in m.table)))])
     db.commit()
     db.execute("VACUUM")
     db.close()

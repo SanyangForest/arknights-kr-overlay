@@ -28,17 +28,19 @@ import win32con
 import win32gui
 from PIL import Image, ImageGrab
 
+import depot
+import drops
+import owned
 import render
 from fit import free_space
 from layout import merge_lines
-from matcher import Matcher, edge_of, normalize
+from matcher import HAN, Matcher, edge_of, normalize
 from ocr_engine import CachedOCR, make_ocr
 from recruit import Recruit
 from screens import classify, labels_for, load_screens
 
 WINDOW_TITLE = "明日方舟"
 RECRUIT_DATA = Path(__file__).resolve().parent.parent / "out" / "recruit.json"
-RECRUIT_MARKERS = ("招募时限", "职业需求", "招募预算")
 FADE_IN = 0.12            # 새 번역 상자가 서서히 나타나는 시간 (초)
 INTERVAL = 0.2            # 화면 확인 간격 (초). 너무 짧으면 게임과 GPU를 다툼
 CHANGE_THRESHOLD = 1.5    # 축소 화면 평균 밝기 차이가 이보다 크면 다시 인식
@@ -71,6 +73,7 @@ SHORT_TEXT = 8            # 이 글자 수 이하는 같은 자리에서 다른 
 WDA_NONE, WDA_EXCLUDEFROMCAPTURE = 0x0, 0x11
 VK_F9, VK_F10 = 0x78, 0x79
 LOG = Path(__file__).with_name("overlay_log.txt")
+MISSING = Path(__file__).with_name("overlay_missing.tsv")  # 번역하지 못한 글 (시각, 화면, 원문)
 SNAPSHOT_FONT = "C:/Windows/Fonts/malgun.ttf"
 
 user32 = ctypes.windll.user32
@@ -170,6 +173,51 @@ def foreground_cover(hwnd):
     return (ox0, oy0, ox1, oy1), (ox1 - ox0) * (oy1 - oy0) / (w * h)
 
 
+POPUP_TITLE = "UIPlatform"  # 게임이 따로 띄우는 창 (PlatformProcess, Qt): 공지, 위수 협의 전적 등
+
+
+def inside_game(h, hwnd):
+    """창 h가 게임 창 안에 딱 들어가는가 (게임이 띄운 팝업)."""
+    try:
+        x0, y0, x1, y1 = win32gui.GetWindowRect(h)
+        gx0, gy0, gx1, gy1 = win32gui.GetWindowRect(hwnd)
+    except win32gui.error:
+        return False
+    return x0 >= gx0 - 4 and y0 >= gy0 - 4 and x1 <= gx1 + 4 and y1 <= gy1 + 4
+
+
+def game_popups(hwnd):
+    """게임 창 위에 떠 있는 게임 쪽 팝업 창들. 게임 창만 찍으면(PrintWindow) 안 보이므로 따로 찍어 합친다."""
+    found = []
+
+    def check(h, _):
+        if win32gui.IsWindowVisible(h) and win32gui.GetWindowText(h) == POPUP_TITLE and inside_game(h, hwnd):
+            found.append(h)
+
+    win32gui.EnumWindows(check, None)
+    return found
+
+
+def paste_popups(img, hwnd, x, y):
+    """게임 창만 찍은 그림(img, 화면 위 자리 x, y)에 게임 쪽 팝업 창을 찍어 같은 자리에 붙인다."""
+    for p in game_popups(hwnd):
+        px, py, pw, ph = client_rect(p)
+        shot = grab_window(p, pw, ph) if pw > 0 and ph > 0 else None
+        if shot is not None and np.asarray(shot.convert("L").resize((64, 36))).std() >= 4:
+            img.paste(shot, (px - x, py - y))
+
+
+def is_game_foreground(hwnd):
+    """게임 창, 또는 게임이 띄운 팝업(UIPlatform)이 맨 앞인가."""
+    fg = user32.GetForegroundWindow()
+    if fg == hwnd:
+        return True
+    try:
+        return bool(fg) and win32gui.GetWindowText(fg) == POPUP_TITLE and inside_game(fg, hwnd)
+    except win32gui.error:
+        return False
+
+
 def game_active(hwnd, always=False):
     """게임 창을 인식·표시해도 되는가. 기본은 게임이 맨 앞일 때만.
 
@@ -181,7 +229,7 @@ def game_active(hwnd, always=False):
             return False
         cover = foreground_cover(hwnd)
         return not (cover and cover[1] > COVER_HIDE_ALL)
-    return user32.GetForegroundWindow() == hwnd
+    return is_game_foreground(hwnd)
 
 
 def iou(a, b):
@@ -228,6 +276,17 @@ def find_crop(gray, box, crop):
     return float(score), rx0 + mx - x0, ry0 + my - y0
 
 
+def blurred(gray, box, crop, dx=0, dy=0, ratio=0.35):
+    """처음 그릴 때의 글자 그림(crop)보다 지금 그 자리가 훨씬 흐린가 (선명도 = 라플라시안 분산)."""
+    x0, y0 = int(box[0]) + dx, int(box[1]) + dy
+    h, w = crop.shape
+    cur = gray[max(0, y0):y0 + h, max(0, x0):x0 + w]
+    if cur.shape != crop.shape:
+        return False
+    before = cv2.Laplacian(crop, cv2.CV_32F).var()
+    return before > 50 and cv2.Laplacian(cur, cv2.CV_32F).var() < before * ratio
+
+
 def key_pressed(vk):
     return user32.GetAsyncKeyState(vk) & 1
 
@@ -258,6 +317,65 @@ def sample_fg(arr, box, bg):
     return tuple(int(v) for v in np.median(top, axis=0))
 
 
+GAP_SPLIT = 0.8  # OCR 한 줄 안의 빈 간격이 글자 높이의 이 배 넘으면 따로 떨어진 글로 보고 나눈다
+
+
+def _char_width(c):
+    """글자 폭 어림 (한자·전각 1, 영문·숫자 0.55, 공백 0.3)."""
+    if c.isspace():
+        return 0.3
+    return 0.55 if ord(c) < 128 else 1.0
+
+
+def split_gaps(result, arr, keep=None):
+    """OCR이 떨어져 있는 두 글을 한 줄로 읽은 것('自动 OFF' + '跳过' 버튼)을 빈 간격에서 나눈다.
+
+    RapidOCR은 글자별 위치를 주지 않으므로 상자 안 열마다 글자 픽셀이 있는지 보고, 넓은 빈 열이 있으면
+    그 위치까지의 글자 폭 어림으로 원문을 자른다. 양쪽 모두 글자가 남을 때만 나눈다.
+    keep(text)가 참인 줄(사전에 통째로 있는 문장)은 나누지 않는다: 전각 쉼표 뒤도 넓게 비어 문장이 잘렸음.
+    """
+    out = []
+    gray = None
+    for box, text, score in result:
+        xs, ys = [p[0] for p in box], [p[1] for p in box]
+        x0, y0, x1, y1 = int(min(xs)), int(min(ys)), int(max(xs)), int(max(ys))
+        h = y1 - y0
+        if len(text) < 3 or h < 8 or x1 - x0 < h * 3 or not HAN.search(text) or (keep and keep(text)):
+            out.append((box, text, score))
+            continue
+        if gray is None:
+            gray = cv2.cvtColor(arr, cv2.COLOR_RGB2GRAY).astype(np.int16)
+        crop = gray[max(0, y0):y1, max(0, x0):x1]
+        if crop.size == 0:
+            out.append((box, text, score))
+            continue
+        border = np.concatenate([crop[0], crop[-1], crop[:, 0], crop[:, -1]])
+        ink = (np.abs(crop - np.median(border)) > 40).sum(axis=0) > 0
+        cols = np.flatnonzero(ink)
+        if len(cols) < 2:
+            out.append((box, text, score))
+            continue
+        first, last = cols[0], cols[-1]
+        gaps = np.diff(cols)
+        i = int(np.argmax(gaps))
+        if gaps[i] < h * GAP_SPLIT:
+            out.append((box, text, score))
+            continue
+        gap_l, gap_r = cols[i] + 1, cols[i + 1]
+        frac = ((gap_l + gap_r) / 2 - first) / max(1, last - first)
+        widths = np.cumsum([_char_width(c) for c in text])
+        cut = int(np.argmin(np.abs(widths / widths[-1] - frac))) + 1
+        left, right = text[:cut].strip(), text[cut:].strip()
+        if not left or not right:
+            out.append((box, text, score))
+            continue
+        lb = [[x0, y0], [x0 + gap_l, y0], [x0 + gap_l, y1], [x0, y1]]
+        rb = [[x0 + gap_r, y0], [x1, y0], [x1, y1], [x0 + gap_r, y1]]
+        # 나눈 쪽에도 간격이 더 있을 수 있으므로 다시 본다
+        out += split_gaps([(lb, left, score), (rb, right, score)], arr, keep)
+    return out
+
+
 def item_from(m, box, how, zh, ko, arr, **extra):
     """번역 상자 항목. 배경색과 원문 글자색을 함께 잰다."""
     bg = sample_bg(arr, box)
@@ -275,6 +393,11 @@ class Worker(threading.Thread):
         self.ocr = CachedOCR(make_ocr(gpu=True))
         self.screens = load_screens()
         self.recruit = Recruit(RECRUIT_DATA) if RECRUIT_DATA.exists() else None
+        drops.start_refresh_thread()  # 펭귄 드롭 통계가 하루 넘었으면 새로 받음 (다음 실행부터 반영)
+        self.drops = drops.Drops()
+        self.owned = owned.Owned()  # 보유 오퍼레이터 (오퍼레이터 목록 화면을 넘기면 기록됨, record)
+        self.char_names = None      # 중국어 이름 → char_id (처음 오퍼레이터 목록을 볼 때 읽음)
+        self.depot = None           # 창고 인식 (처음 창고를 볼 때 템플릿을 읽음)
         self.enabled = True
         self.always = False
         self.last_thumb = None
@@ -282,6 +405,7 @@ class Worker(threading.Thread):
         self.motion = np.zeros((108, 192), dtype=np.float32)  # 픽셀별 최근 변화 빈도
         self.last_ocr = 0.0
         self.recorder = None
+        self.missing = set()  # 이번 실행에서 번역하지 못한 글 (overlay_missing.tsv에 한 번씩 적음)
         self.running = True
         # 방송·화면 공유에 보이기: want=켜 달라는 요청, window_capture=게임 창만 찍는 중.
         # 오버레이가 캡처 제외를 다시 걸 때까지는 화면을 찍지 않는다 (번역 상자가 찍혀 원문을 가리지 않게)
@@ -327,6 +451,8 @@ class Worker(threading.Thread):
                 continue
             try:
                 img = grab_window(self.game, w, h) if self.window_capture else None
+                if img is not None:
+                    paste_popups(img, self.game, x, y)
                 if self.window_capture and img is None:
                     # 도중에 실패하면(권한·창 상태) 오버레이가 다시 캡처에서 빠진 뒤에 화면 복사로 돌아가고, 10초 뒤 다시 시도
                     self.window_capture = False
@@ -373,9 +499,12 @@ class Worker(threading.Thread):
             t = time.perf_counter()
             arr = np.asarray(img)
             result, _ = self.ocr(arr)
+            # 사전에서 통째로 찾은 줄은 그대로 (나눠 찾기·조각 번역으로 겨우 맞춘 줄만 나눠 본다)
+            result = split_gaps(result or [], arr, lambda t: (self.matcher.lookup(t) or ("split",))[0] not in ("split", "segment"))
             items = []
             # 지금 어느 화면인지 알면 그 화면에서 자주 틀리는 OCR 문구를 바로잡을 수 있다 (ocr_aliases.tsv)
             screen = classify([text for _, text, _ in result or []], self.screens)
+            self.record(result or [], arr)
             lines = merge_lines(result or [], w, self.matcher.can_continue, self.matcher.is_entry,
                                 lambda t: self.matcher.lookup(t, screen) is not None)
             all_boxes = [tuple(int(v) for v in (m["x0"], m["y0"], m["x1"], m["y1"])) for m in lines]
@@ -390,6 +519,8 @@ class Worker(threading.Thread):
                     if above:
                         items.append(item_from({**m, "vertical": False}, box, "tail", m["text"], "", arr,
                                                avail=(box[2] - box[0], box[3] - box[1]), full_zh=above["full_zh"]))
+                    else:
+                        self.note_missing(m["text"], screen)
                     continue
                 items.append(item_from(m, box, hit[0], m["text"], hit[2], arr,
                                        avail=free_space(box, all_boxes, w, h), full_zh=hit[1]))
@@ -408,14 +539,62 @@ class Worker(threading.Thread):
                 line_h = int(bh / len(zh)) if vertical else int(bh / max(1, round(len(zh) / 2)))
                 items.append(item_from({"line_h": line_h, "vertical": vertical, "text": zh}, box, "label", zh, ko, arr,
                                        avail=free_space(box, all_boxes + [box], w, h), full_zh=zh))
-            panel = self.recruit_panel(result or [], w, h)
-            if panel:
-                items.append(panel)
+            for panel in (self.recruit_panel(result or [], w, h),
+                          self.drops.panel(result or [], w, h) if self.drops else None):
+                if panel:
+                    items.append(panel)
             ms = (time.perf_counter() - t) * 1000
             self.out.put(("result", ((x, y, w, h), items, ms, img, ~static)))
             if self.recorder:
                 self.recorder.save(img, lines)
 
+
+    def record(self, result, arr):
+        """오퍼레이터 목록·창고 화면이면 보이는 오퍼레이터·아이템을 기록한다 (사용자가 직접 넘기는 동안 저절로).
+
+        게임에 입력은 보내지 않는다. 오퍼레이터 목록은 정렬 버튼('稀有度' + '等级'/'自定义排序'),
+        창고는 탭('养成材料' + '全部'/'消耗物品'/'基础物品')으로 알아본다.
+        """
+        texts = {normalize(t) for _, t, _ in result}
+        if "稀有度" in texts and texts & {"等级", "自定义排序"}:
+            if self.char_names is None:
+                self.char_names = owned.char_names()
+            seen = {}
+            for _box, text, _s in result:
+                key = normalize(text)
+                if key not in self.char_names:
+                    hit = self.matcher.lookup(text)
+                    key = hit[1] if hit and hit[0] == "alias" else key
+                if key in self.char_names:
+                    seen[self.char_names[key]] = key
+            have = owned.load()
+            new = {k: v for k, v in seen.items() if k not in have}
+            if new:
+                have.update(new)
+                owned.save(have)
+                print(f"보유 오퍼레이터 {len(new)}명 추가 기록 (모두 {len(have)}명)", flush=True)
+        if "养成材料" in texts and texts & {"全部", "消耗物品", "基础物品"}:
+            if self.depot is None:
+                self.depot = depot.Depot()
+            if self.depot.T is None:
+                return
+            found = dict(self.depot.read(arr, self.ocr))
+            if found:
+                inv = depot.load()
+                changed = {k: v for k, v in found.items() if inv.get(k) != v}
+                if changed:
+                    inv.update(found)
+                    depot.save(inv)
+                    print(f"창고 {len(changed)}종 기록 (모두 {len(inv)}종)", flush=True)
+
+    def note_missing(self, text, screen):
+        """번역하지 못한 중국어 줄을 overlay_missing.tsv에 남긴다 (빠진 번역·OCR 오독을 모아 고치는 데 씀)."""
+        key = normalize(text)
+        if len(HAN.findall(key)) < 2 or key in self.missing:
+            return
+        self.missing.add(key)
+        with open(MISSING, "a", encoding="utf-8") as f:
+            f.write(f"{time.strftime('%Y-%m-%d %H:%M:%S')}\t{screen or '-'}\t{text}\n")
 
     def recruit_panel(self, result, w, h):
         """공개모집 태그 고르기 창이면 4★ 이상 확정 조합 패널 항목 (태그 무리 바로 아래, 자리가 없으면 위)."""
@@ -423,14 +602,17 @@ class Worker(threading.Thread):
             return None
         texts = [normalize(text) for _, text, _ in result]
         ids = self.recruit.tag_ids(texts)
-        if len(ids) < 3 or (len(ids) < 4 and not any(k in texts for k in RECRUIT_MARKERS)):
+        # 태그 고르기 창에만 있는 '招募时限'이 보여야 한다: 모집 목록 화면에도 칸마다 고른 태그가 보여서,
+        # 여러 칸의 태그를 모아 엉뚱한 조합('감속 + 강제이동 → 5★')을 냈음
+        if len(ids) < 3 or not any("招募时限" in t for t in texts):
             return None
         boxes = [b for b, text, _ in result if normalize(text) in self.recruit.by_zh]
         xs = [p[0] for b in boxes for p in b]
         ys = [p[1] for b in boxes for p in b]
         tag_box = (int(min(xs)), int(min(ys)), int(max(xs)), int(max(ys)))
         line_h = int(np.median([max(p[1] for p in b) - min(p[1] for p in b) for b in boxes]))
-        rows = self.recruit.describe(ids)
+        self.owned.refresh()
+        rows = self.recruit.describe(ids, owned=self.owned or None)
         return {"key": "recruit", "how": "recruit", "box": tag_box, "line_h": line_h, "vertical": False,
                 "zh": "|".join(self.recruit.tags[i]["zh"] for i in ids), "full_zh": "",
                 "ko": "\n".join(t for t, _ in rows), "rows": rows, "title": "공개모집 확정 조합 (9시간)",
@@ -636,7 +818,9 @@ class Overlay:
                         continue
             seen.add(sid)
             if cur is None:
-                self.shown_items[sid] = {"item": it, "misses": 0, "born": time.time(),
+                # 같은 자리의 상자를 바꾸는 것이면(숫자가 붙었다 떨어졌다 하는 '剩余可放置角色：7') 서서히 나타나지 않고 바로
+                replaces = any(overlap_small(e["item"]["box"], it["box"]) >= 0.6 for e in self.shown_items.values())
+                self.shown_items[sid] = {"item": it, "misses": 0, "born": 0.0 if replaces else time.time(),
                                          "crop": crop_of(gray, it["box"]) if gray is not None else None}
                 self.log.write(f"[{it['how']}] {it['zh']}\t→ {it['ko']}\n")
                 self.trace(f"새로 {it['zh'][:20]} {it['box']}")
@@ -660,7 +844,7 @@ class Overlay:
                 cur["crop"] = crop_of(gray, it["box"]) if gray is not None else None
                 changed = True
         # 공개모집 패널은 원문 글자가 아니라 태그 무리 자리를 가리키므로 다른 상자를 지우는 판단에 쓰지 않는다
-        seen_boxes = [self.shown_items[s]["item"]["box"] for s in seen if self.shown_items[s]["item"]["how"] != "recruit"]
+        seen_boxes = [self.shown_items[s]["item"]["box"] for s in seen if self.shown_items[s]["item"]["how"] not in render.PANELS]
         seen_ko = {self.shown_items[s]["item"]["ko"] for s in seen}
         now = time.time()
         for key in list(self.shown_items):
@@ -686,6 +870,9 @@ class Overlay:
             score = None
             if gray is not None and entry.get("crop") is not None:
                 score, dx, dy = find_crop(gray, entry["item"]["box"], entry["crop"])
+                if score >= MATCH_SAME and blurred(gray, entry["item"]["box"], entry["crop"], dx, dy):
+                    # 창이 열리며 뒤 화면이 흐려진 것 (공개모집 태그 창 뒤의 '모집 중지'): 모양은 닮아도 글자는 가려졌음
+                    score = 0.0
                 if score >= MATCH_SAME:
                     if dx or dy:
                         x0, y0, x1, y1 = entry["item"]["box"]
@@ -704,9 +891,38 @@ class Overlay:
                 self.trace(f"지움({why}, 글자 그림 {sc}) {entry['item']['zh'][:20]}")
                 del self.shown_items[key]
                 changed = True
+        changed |= self._drop_nested()
         if changed:
             self.log.flush()
             print(f"인식+매칭 {ms:4.0f}ms, 표시 중 {len(self.shown_items)}개", flush=True)
+        return changed
+
+    def _drop_nested(self):
+        """같은 글을 두 상자가 겹쳐 보이면 오래된 쪽을 지운다. 바뀐 게 있으면 True.
+
+        OCR이 '04:01:23 联络中'을 한 줄로 읽었다가 시각과 '联络中'을 따로 읽기도 해서, 두 번역이 겹쳐 '서칭 서칭 중'으로 보였음.
+        한 상자가 다른 상자 안에 대부분 들어 있고 원문도 그 일부일 때만 해당.
+        """
+        changed = False
+        entries = sorted(self.shown_items.items(), key=lambda kv: kv[1].get("born", 0))
+        for key, entry in entries:
+            a = entry["item"]
+            if key not in self.shown_items or a["how"] in render.PANELS or not a["ko"]:
+                continue
+            za = normalize(a["zh"])
+            for other_key, other in self.shown_items.items():
+                b = other["item"]
+                if other_key == key or b["how"] in render.PANELS or not b["ko"]:
+                    continue
+                zb = normalize(b["zh"])
+                small, big = (a, b) if len(za) <= len(zb) else (b, a)
+                if covered_ratio(small["box"], big["box"]) >= 0.6 and za != zb and \
+                        normalize(small["zh"]) in normalize(big["zh"]):
+                    # entries가 오래된 순이므로 지금 보는 쪽(key)이 더 오래됨
+                    self.trace(f"지움(겹친 같은 글) {a['zh'][:20]} ↔ {b['zh'][:20]}")
+                    del self.shown_items[key]
+                    changed = True
+                    break
         return changed
 
     def trace(self, msg):
@@ -770,7 +986,7 @@ class Overlay:
         # 큰 상자부터 그려서 옆의 작은 글자('오퍼레이터 관리')가 큰 상자 바탕에 덮이지 않게 하고, 공개모집 패널은 맨 위에
         def order(entry):
             x0, y0, x1, y1 = entry["item"]["box"]
-            return (entry["item"]["how"] == "recruit", -(x1 - x0) * (y1 - y0))
+            return (entry["item"]["how"] in render.PANELS, -(x1 - x0) * (y1 - y0))
 
         now, layers, fading = time.time(), [], False
         for entry in sorted(self.shown_items.values(), key=order):
