@@ -29,6 +29,7 @@ import win32con
 import win32gui
 from PIL import Image, ImageGrab
 
+import datastore
 import depot
 import drops
 import owned
@@ -44,7 +45,6 @@ from story import Story
 from vocab import LEARN_KINDS, ScreenVocab
 
 WINDOW_TITLE = "明日方舟"
-RECRUIT_DATA = paths.OUT / "recruit.json"
 FADE_IN = 0.12            # 새 번역 상자가 서서히 나타나는 시간 (초)
 INTERVAL = 0.2            # 화면 확인 간격 (초). 너무 짧으면 게임과 GPU를 다툼
 CHANGE_THRESHOLD = 1.5    # 축소 화면 평균 밝기 차이가 이보다 크면 다시 인식
@@ -412,11 +412,12 @@ class Worker(threading.Thread):
         self.game, self.matcher, self.out, self.offline = game, matcher, out, offline
         self.ocr = CachedOCR(make_ocr(gpu=True))
         self.screens = load_screens()
-        self.recruit = Recruit(RECRUIT_DATA) if RECRUIT_DATA.exists() else None
+        recruit = datastore.json_file("recruit.json")
+        self.recruit = Recruit(recruit) if recruit else None
         if not offline:  # 녹화 화면 재생(replay.py)에서는 받지 않음
             drops.start_refresh_thread()  # 펭귄 드롭 통계가 하루 넘었으면 새로 받음 (다음 실행부터 반영)
         self.drops = drops.Drops()
-        self.story = Story(nickname=matcher.nickname)  # 스토리 따라가기 (out/story.db가 없으면 꺼짐)
+        self.story = Story(datastore.story_db(), nickname=matcher.nickname)  # 스토리 따라가기 (out/story.db가 없으면 꺼짐)
         self.vocab = ScreenVocab(matcher.nickname)      # 화면별 낱말장 (일부만 읽힌 글 알아보기)
         self.owned = owned.Owned()  # 보유 오퍼레이터 (오퍼레이터 목록 화면을 넘기면 기록됨, record)
         self.char_names = None      # 중국어 이름 → char_id (처음 오퍼레이터 목록을 볼 때 읽음)

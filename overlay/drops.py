@@ -14,11 +14,11 @@ import urllib.request
 from collections import defaultdict
 from pathlib import Path
 
+import datastore
 import paths
 from matcher import normalize
 
 DATA = paths.USER_DATA / "penguin_cn.json"
-GAME = paths.GAME
 URL = "https://penguin-stats.io/PenguinStats/api/v2/result/matrix?server=CN"
 CODE = re.compile(r"^[A-Z]{0,4}\d{0,2}-?[A-Z]?\d{1,2}$")
 MIN_TIMES = 100     # 이보다 적게 집계된 드롭은 믿기 어려워 뺌
@@ -45,9 +45,9 @@ def refresh(max_age_hours=24):
 
 class Drops:
     def __init__(self):
-        stages = json.loads((GAME / "cn/gamedata/excel/stage_table.json").read_text(encoding="utf-8"))["stages"]
-        items = json.loads((GAME / "cn/gamedata/excel/item_table.json").read_text(encoding="utf-8"))["items"]
-        kr_items = json.loads((GAME / "kr/gamedata/excel/item_table.json").read_text(encoding="utf-8"))["items"]
+        stages = datastore.excel("stage_table")["stages"]
+        items = datastore.excel("item_table")["items"]
+        kr_items = datastore.excel("item_table", "kr")["items"]
         self.items = {k: (kr_items.get(k, v)["name"], int(str(v.get("rarity", "TIER_1")).split("_")[-1]))
                       for k, v in items.items()}
         self.kinds = {k: v.get("itemType") for k, v in items.items()}

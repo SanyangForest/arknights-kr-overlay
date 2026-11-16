@@ -8,12 +8,14 @@
 """
 
 import json
+import sqlite3
 import sys
 import time
 from pathlib import Path
 
 from rapidfuzz import fuzz
 
+import datastore
 import paths
 from matcher import HAN, normalize
 
@@ -27,12 +29,17 @@ SAVE_EVERY = 60.0
 class ScreenVocab:
     def __init__(self, nickname=None):
         self.words = {}
-        for path in (SEED, LEARNED):
-            try:
-                for screen, keys in json.loads(path.read_text(encoding="utf-8")).items():
-                    self.words.setdefault(screen, set()).update(keys)
-            except (OSError, ValueError):
-                pass
+        try:
+            seed = datastore.json_file("screen_vocab.json") or {}
+        except (OSError, ValueError, sqlite3.Error):
+            seed = {}
+        try:
+            learned = json.loads(LEARNED.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            learned = {}
+        for src in (seed, learned):
+            for screen, keys in src.items():
+                self.words.setdefault(screen, set()).update(keys)
         self.nickname = (nickname or "").lower()
         self.learned = {}
         try:

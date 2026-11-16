@@ -19,7 +19,8 @@ ROBOT = 28
 
 class Recruit:
     def __init__(self, path):
-        d = json.loads(Path(path).read_text(encoding="utf-8"))
+        """path: out/recruit.json 경로, 또는 그 내용(dict, 배포판은 pc.db에서 읽어 넘김)."""
+        d = path if isinstance(path, dict) else json.loads(Path(path).read_text(encoding="utf-8"))
         self.tags = {t["id"]: t for t in d["tags"]}
         self.by_zh = {t["zh"]: t["id"] for t in d["tags"]}
         self.ops = [{**o, "tags": frozenset(o["tags"])} for o in d["ops"]]

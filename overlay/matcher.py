@@ -18,6 +18,7 @@ OCR은 글자를 가끔 틀리고, 대사는 한 글자씩 나오는 도중에 �
 
 import bisect
 import csv
+import io
 import datetime
 import json
 import re
@@ -227,18 +228,18 @@ def edge_of(box, width, margin=8):
     return None
 
 
-def load_glossary(glossary_path):
-    """(영어 번역을 허용할 이름들, 제목 교정에 쓸 고유명사들, 오퍼레이터 이름들)."""
+def load_glossary(glossary_path, text=None):
+    """(영어 번역을 허용할 이름들, 제목 교정에 쓸 고유명사들, 오퍼레이터 이름들). text: 파일 대신 내용 (pc.db)."""
     names, titles, ops = set(), set(), set()
-    if glossary_path and Path(glossary_path).exists():
-        with open(glossary_path, encoding="utf-8", newline="") as f:
-            for row in csv.DictReader(f, delimiter="\t", quoting=csv.QUOTE_NONE):
-                if any(k in row["kinds"] for k in NAME_KINDS):
-                    names.add(row["zh"])
-                if "character_table:name" in row["kinds"]:
-                    ops.add(normalize(row["zh"]))
-                if row["ko"] and TITLE_MIN_LEN <= len(row["zh"]) <= TITLE_MAX_LEN:
-                    titles.add(row["zh"])
+    if text is None and glossary_path and Path(glossary_path).exists():
+        text = Path(glossary_path).read_text(encoding="utf-8")
+    for row in csv.DictReader(io.StringIO(text or "", newline=""), delimiter="\t", quoting=csv.QUOTE_NONE):
+        if any(k in row["kinds"] for k in NAME_KINDS):
+            names.add(row["zh"])
+        if "character_table:name" in row["kinds"]:
+            ops.add(normalize(row["zh"]))
+        if row["ko"] and TITLE_MIN_LEN <= len(row["zh"]) <= TITLE_MAX_LEN:
+            titles.add(row["zh"])
     return names, titles, ops
 
 
@@ -254,13 +255,21 @@ def load_aliases(path=ALIASES):
 
 class Matcher:
     def __init__(self, dict_path, glossary_path=None):
-        raw = json.loads(Path(dict_path).read_text(encoding="utf-8"))
-        names, titles, self.op_names = load_glossary(glossary_path or Path(dict_path).with_name("glossary.tsv"))
+        """dict_path: out/dict_zh_ko.json (옆의 glossary.tsv, skill_levels.json도 읽음) 또는 배포판의 pc.db."""
+        if str(dict_path).endswith(".db"):
+            import datastore
+            db = datastore.open_db(dict_path)
+            raw = dict(db.execute("SELECT zh, ko FROM dict"))
+            names, titles, self.op_names = load_glossary(None, datastore.blob("glossary.tsv", db))
+            levels_text = datastore.blob("skill_levels.json", db)
+        else:
+            raw = json.loads(Path(dict_path).read_text(encoding="utf-8"))
+            names, titles, self.op_names = load_glossary(glossary_path or Path(dict_path).with_name("glossary.tsv"))
+            levels = Path(dict_path).with_name("skill_levels.json")
+            levels_text = levels.read_text(encoding="utf-8") if levels.exists() else None
         self.aliases = load_aliases()
         # 스킬 설명 틀별 레벨 수치 (build_dict.py가 skill_table에서 만듦): 화면 숫자와 맞는 레벨의 정확한 값으로 채운다
-        levels = Path(dict_path).with_name("skill_levels.json")
-        self.levels = ({normalize(k): v for k, v in json.loads(levels.read_text(encoding="utf-8")).items()}
-                       if levels.exists() else {})
+        self.levels = {normalize(k): v for k, v in json.loads(levels_text).items()} if levels_text else {}
         settings = paths.SETTINGS
         self.nickname = json.loads(settings.read_text(encoding="utf-8-sig")).get("nickname") if settings.exists() else None
         self.marquee = []

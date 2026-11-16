@@ -12,18 +12,18 @@ import json
 import os
 from pathlib import Path
 
+import datastore
 import depot
 import drops
 import owned
 import paths
 
-GAME = paths.GAME
 OUT = paths.USER_DATA / "planner.html"
 LMD = "4001"
 
 
 def _load(region, name):
-    return json.loads((GAME / region / "gamedata" / "excel" / f"{name}.json").read_text(encoding="utf-8"))
+    return datastore.excel(name, region)
 
 
 def _costs(lst):

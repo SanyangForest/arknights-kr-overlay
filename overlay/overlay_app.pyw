@@ -17,6 +17,7 @@ import time
 import traceback
 from pathlib import Path
 
+import datastore
 import paths
 
 HERE = Path(__file__).resolve().parent
@@ -33,9 +34,10 @@ import winerror
 from PIL import Image, ImageDraw, ImageFont
 
 import overlay
+import updater
 from matcher import Matcher
 
-DICT = paths.OUT / "dict_zh_ko.json"
+DICT = datastore.dict_path()  # 개발: out/dict_zh_ko.json, 배포판: data/pc.db
 CAPTURES = paths.CAPTURES
 SETTINGS = paths.SETTINGS
 TITLE = "명일방주 한국어 오버레이"
@@ -65,6 +67,9 @@ class App:
         self.natural = self.load_settings().get("render_style", "natural") == "natural"
         self.capture_note = None
         self.status = "시작하는 중"
+        self.restart = False       # 업데이트 적용을 위해 끝난 뒤 다시 켬
+        self.update_note = None    # "사전 판 … 받음 (다시 켜면 적용)" 등
+        self.new_app = None        # 새 앱 버전 정보 (update.json pc_app)
         M = pystray.MenuItem
         self.icon = pystray.Icon("ak_kr_overlay", make_icon(), TITLE, menu=pystray.Menu(
             M(lambda item: self.status, None, enabled=False),
@@ -77,6 +82,12 @@ class App:
             M(lambda item: "박사 이름 설정" + ("" if self.load_settings().get("nickname") else " (안 함)"), self.on_nickname),
             M("점검 기록 (화면 저장)", self.on_record, checked=lambda item: self.record_dir is not None),
             M("기록 폴더 열기", lambda: os.startfile(self.record_dir or CAPTURES)),
+            pystray.Menu.SEPARATOR,
+            M(lambda item: "업데이트 확인" + (f" ({self.update_note})" if self.update_note else ""), self.on_check_update,
+              visible=lambda item: datastore.USE_PCDB),
+            M("다시 시작해서 사전 업데이트 적용", self.on_restart, visible=lambda item: updater.PENDING.exists()),
+            M(lambda item: f"새 버전 받기 ({self.new_app['version']})" if self.new_app else "", self.on_new_app,
+              visible=lambda item: self.new_app is not None),
             pystray.Menu.SEPARATOR,
             M("종료 (F10)", self.on_quit),
         ))
@@ -123,6 +134,48 @@ class App:
         SETTINGS.write_text(json.dumps(settings, ensure_ascii=False, indent=1), encoding="utf-8")
         if self.overlay:
             self.overlay.events.put(("style", style))
+
+    # ------------------------------------------------------------ 자동 업데이트 (배포판만)
+
+    def update_loop(self):
+        """켠 뒤 잠시 있다가, 그 뒤로 6시간마다 업데이트 확인 (settings.json auto_update가 false면 안 함)."""
+        if self.quit.wait(20):
+            return
+        while not self.quit.is_set():
+            if self.load_settings().get("auto_update", True):
+                self.check_update(quiet=True)
+            if self.quit.wait(6 * 3600):
+                return
+
+    def check_update(self, quiet=False):
+        try:
+            r = updater.check(log=lambda m: print(m, flush=True))
+        except Exception as e:  # noqa: BLE001 — 인터넷이 없거나 GitHub이 안 되면 다음에
+            print(f"업데이트 확인 실패: {e}", flush=True)
+            if not quiet:
+                self.icon.notify(f"업데이트를 확인하지 못했어요: {e}", TITLE)
+            return
+        if r["dict"]:
+            self.update_note = f"사전 {r['dict']} 받음"
+            self.icon.notify("사전 업데이트를 받았어요. 트레이 메뉴 '다시 시작해서 사전 업데이트 적용'이나 다음 실행 때 적용돼요.", TITLE)
+        elif not quiet:
+            self.update_note = "최신"
+            self.icon.notify(f"사전이 최신이에요 (판 {r['current']}).", TITLE)
+        if r["app"] and (not self.new_app or self.new_app.get("version") != r["app"].get("version")):
+            self.new_app = r["app"]
+            self.icon.notify(f"새 버전 {r['app']['version']}이 있어요. 트레이 메뉴 '새 버전 받기'에서 받을 수 있어요.", TITLE)
+        self.icon.update_menu()
+
+    def on_check_update(self):
+        threading.Thread(target=self.check_update, daemon=True).start()
+
+    def on_restart(self):
+        self.restart = True
+        self.on_quit()
+
+    def on_new_app(self):
+        if self.new_app:
+            os.startfile(self.new_app.get("page") or self.new_app["url"])
 
     def on_capture_note(self, note):
         """오버레이가 알려 준 방송·화면 공유 상태. 안 되면 알림으로도 알린다."""
@@ -174,6 +227,8 @@ class App:
 
     def run(self):
         threading.Thread(target=self.icon.run, daemon=True).start()
+        if datastore.USE_PCDB:
+            threading.Thread(target=self.update_loop, daemon=True).start()
         matcher = None
         while not self.quit.is_set():
             game = overlay.find_game_window()
@@ -242,6 +297,16 @@ def main():
     if "--selftest" in sys.argv:
         selftest([a for a in sys.argv[1:] if not a.startswith("--")])
         return
+    if "--update-check" in sys.argv:
+        # 점검용: 업데이트를 확인·받고 바로 적용한 뒤 결과를 user/update_check.txt에 (앱은 켜지 않음)
+        with open(paths.USER / "update_check.txt", "w", encoding="utf-8") as f:
+            try:
+                r = updater.check(log=lambda m: f.write(m + "\n"))
+                f.write(f"결과: 사전 {r['dict']}, 지금 판 {r['current']}, 새 앱 {r['app'] and r['app'].get('version')}\n")
+                f.write(f"적용: {updater.apply_pending(log=lambda m: f.write(m + chr(10)))}\n")
+            except Exception as e:  # noqa: BLE001
+                f.write(f"실패: {e!r}\n")
+        return
     if relaunch_as_admin():
         return
     # 두 번 켜면 오버레이가 겹쳐 그려지므로 하나만
@@ -249,13 +314,21 @@ def main():
     if win32api.GetLastError() == winerror.ERROR_ALREADY_EXISTS:
         message("이미 실행 중입니다. 작업 표시줄 오른쪽 트레이의 '한' 아이콘을 확인하세요.")
         return
+    app = None
     try:
-        App().run()
+        if datastore.USE_PCDB:
+            updater.apply_pending(log=lambda m: print(m, flush=True))  # 지난번에 받아 둔 사전 (pc.db를 열기 전에)
+        app = App()
+        app.run()
     except Exception:
         traceback.print_exc()
         message(f"오류로 종료했습니다.\n자세한 내용: {LOG}", error=True)
     finally:
         del mutex
+    if app and app.restart:
+        # 업데이트 적용: 하나만 켜기 잠금을 푼 뒤 자기 자신을 다시 실행 (관리자 권한이면 그대로 이어받음)
+        args = "" if paths.FROZEN else f'"{Path(__file__).resolve()}"'
+        ctypes.windll.shell32.ShellExecuteW(None, "open", sys.executable, args, str(paths.BASE if paths.FROZEN else HERE), 1)
 
 
 if __name__ == "__main__":

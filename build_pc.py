@@ -4,7 +4,9 @@
   python build_pc.py --no-zip   폴더만
 
 PyInstaller로 overlay/overlay_app.pyw를 exe로 묶고(.venv에 pyinstaller 필요), 실행에 필요한 데이터만 옆에 복사한다.
-폴더 구성은 overlay/paths.py 설명과 같다 (data/, models/, user/, _internal/app/).
+폴더 구성은 overlay/paths.py 설명과 같다 (data/pc.db, models/, user/, _internal/app/).
+data/pc.db는 마지막으로 올린 판(tmp/published/pc-<판>.db, update.json "pc")이 있으면 그것을 넣어 받은 사람이
+자동 업데이트로 패치만 받게 하고, 없으면 out/에서 새로 묶는다 (그러면 첫 업데이트 때 전체를 받음).
 
 넣지 않는 것 (개인 정보·라이선스):
   - overlay/settings.json(박사 이름), 로그, captures/, overlay/data/(보유 오퍼레이터·창고·낱말장)
@@ -27,16 +29,15 @@ NAME = "명방한글오버레이"
 EXE = "ak-kr-overlay"
 VENV_PY = ROOT / ".venv" / "Scripts" / "python.exe"
 CODE_FILES = ["screens.json", "ocr_aliases.tsv", "marquee.tsv", "planner_template.html", "templates"]
-OUT_FILES = ["dict_zh_ko.json", "glossary.tsv", "skill_levels.json", "recruit.json", "story.db", "screen_vocab.json"]
-TABLES = {"cn": ["stage_table", "item_table", "character_table", "skill_table", "gamedata_const"],
-          "kr": ["item_table", "character_table", "skill_table"]}
+PUB = ROOT / "tmp" / "published"
 FONT = Path("C:/Windows/Fonts/NotoSansKR-VF.ttf")
 RAPID = ROOT / ".venv" / "Lib" / "site-packages" / "rapidocr_onnxruntime"
 RAPID_MODULES = [f"{pkg}.{mod}" for pkg, mods in (("ch_ppocr_v3_det", ("text_detect", "utils")),
                                                   ("ch_ppocr_v3_rec", ("text_recognize", "utils")),
                                                   ("ch_ppocr_v2_cls", ("text_cls", "utils"))) for mod in mods]
-SETTINGS = {"_설명": "nickname: 게임 속 박사 이름(트레이 메뉴 '박사 이름 설정'). render_style: natural(한국어판처럼) / box(상자로 덮기)",
-            "nickname": "", "show_in_capture": False, "render_style": "natural"}
+SETTINGS = {"_설명": "nickname: 게임 속 박사 이름(트레이 메뉴 '박사 이름 설정'). render_style: natural(한국어판처럼) / box(상자로 덮기). "
+                     "auto_update: 사전 자동 업데이트",
+            "nickname": "", "show_in_capture": False, "render_style": "natural", "auto_update": True}
 
 README = """명일방주 한국어 오버레이 (중국 서버 PC판용)
 ==========================================
@@ -52,6 +53,9 @@ README = """명일방주 한국어 오버레이 (중국 서버 PC판용)
      - F9: 번역 표시 켜기/끄기    F10: 끄기
      - 트레이 아이콘 오른쪽 클릭: 설정 메뉴
   4. 트레이 메뉴 '박사 이름 설정'에 게임 속 박사 이름을 넣으면 대사 속 이름도 맞춰 번역합니다.
+  5. 사전은 켤 때와 6시간마다 저절로 업데이트를 확인합니다 (바뀐 부분만, 보통 수십 KB).
+     받으면 알림이 뜨고, 트레이 메뉴 '다시 시작해서 사전 업데이트 적용' 또는 다음 실행 때 적용됩니다.
+     새 프로그램 버전이 나오면 알려 주기만 합니다 (트레이 메뉴 '새 버전 받기').
 
 트레이 메뉴
   - 한국어판처럼 그리기: 켜면 중국어 글자를 지우고 그 자리에 한국어를 씁니다. 끄면 예전처럼 상자로 덮습니다.
@@ -120,6 +124,20 @@ def newer_vc_runtime(internal):
             print(f"Visual C++ 런타임 {name} → {'.'.join(map(str, _version(src)))}")
 
 
+def pc_db():
+    """넣을 사전 묶음: 마지막으로 올린 판이 있으면 그것, 없으면 out/에서 새로 (build_pcdb.py)."""
+    upd = json.loads((ROOT / "update.json").read_text(encoding="utf-8")) if (ROOT / "update.json").exists() else {}
+    ver = (upd.get("pc") or {}).get("version")
+    published = PUB / f"pc-{ver}.db" if ver else None
+    if published and published.exists():
+        print(f"사전 묶음: 올린 판 {ver}")
+        return published
+    import build_pcdb
+    out = build_pcdb.build(ROOT / "out" / "pc.db")
+    print(f"사전 묶음: 올린 판이 없어 새로 묶음 ({out}) — 받은 사람은 첫 업데이트 때 전체를 받음")
+    return out
+
+
 def main():
     sys.stdout.reconfigure(encoding="utf-8")
     ap = argparse.ArgumentParser()
@@ -134,13 +152,7 @@ def main():
     newer_vc_runtime(target / "_internal")
     data = target / "data"
     data.mkdir()
-    for name in OUT_FILES:
-        shutil.copy2(ROOT / "out" / name, data / name)
-    for region, names in TABLES.items():
-        d = data / "gamedata" / region / "gamedata" / "excel"
-        d.mkdir(parents=True)
-        for n in names:
-            shutil.copy2(ROOT / "data" / "gamedata" / region / "gamedata" / "excel" / f"{n}.json", d)
+    shutil.copy2(pc_db(), data / "pc.db")
     models = target / "models"
     models.mkdir()
     cur = json.loads((ROOT / "tools" / "ocr_models" / "current.json").read_text(encoding="utf-8"))

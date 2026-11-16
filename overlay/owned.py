@@ -6,15 +6,15 @@ overlay/data/owned.json = {"updated": "...", "ops": {char_id: 중국어 이름}}
 
 import json
 import time
+import datastore
 import paths
 
 OWNED = paths.USER_DATA / "owned.json"
-GAME = paths.GAME
 
 
 def char_names():
     """중국어 이름 → char_id (플레이 가능한 오퍼레이터만)."""
-    chars = json.loads((GAME / "cn/gamedata/excel/character_table.json").read_text(encoding="utf-8"))
+    chars = datastore.excel("character_table")
     out = {}
     for cid, c in chars.items():
         if cid.startswith("char_") and c.get("name") and not c.get("isNotObtainable") and c.get("profession") != "TOKEN":

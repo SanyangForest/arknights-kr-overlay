@@ -43,7 +43,11 @@ finalize.bat                                 # 번역 반영 → 이름 통일 �
 python build_pc.py      # → dist\명방한글오버레이\ (폴더) + dist\명방한글오버레이-pc-<날짜>.zip
 ```
 
-- PyInstaller로 exe를 만들고 사전·대본·게임 표·OCR 모델을 옆에 복사합니다. 박사 이름·기록·MAA 템플릿(AGPL)은 넣지 않습니다.
+- PyInstaller로 exe를 만들고 사전 묶음(`data/pc.db`, `build_pcdb.py`)·OCR 모델을 옆에 복사합니다. 박사 이름·기록·MAA 템플릿(AGPL)은 넣지 않습니다.
+- 자동 업데이트(`overlay/updater.py`): 켤 때와 6시간마다 update.json의 `"pc"`를 보고 바뀐 줄만 담은 패치를 받아
+  `data/pc.db.new`로 두고 다시 켤 때 적용합니다. `publish_update.py`가 휴대폰 사전과 함께 PC 패치를 올립니다
+  (`--no-pc`로 빼기, `--pc-app`으로 배포판 zip도 올려 `"pc_app"` 새 버전 알림). 버전은 `updater.APP_VERSION`.
+  점검: `ak-kr-overlay.exe --update-check` → `user` 폴더의 `update_check.txt`.
 - 받은 사람은 압축을 풀고 `ak-kr-overlay.exe` 실행. 점검: `ak-kr-overlay.exe --selftest 그림.png` → `user\selftest.txt`.
 
 ## 휴대폰 업데이트 올리기 (PC)

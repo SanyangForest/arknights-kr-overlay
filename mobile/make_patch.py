@@ -27,48 +27,27 @@ import sys
 import tempfile
 from pathlib import Path
 
-FORMAT = "1"
+# 패치 적용·공용 함수는 PC 오버레이의 자동 업데이트와 같이 쓴다 (overlay/dbpatch.py)
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "overlay"))
+from dbpatch import FORMAT, apply_patch, cols_sql, columns, count, dict_version, gunzip, gz, q, tables  # noqa: E402,F401
 # 판 번호와 만든 시각만 바뀐 것은 내용이 바뀐 것으로 치지 않는다
 META_VOLATILE = ("built", "dict_version")
 
 
-def q(name: str) -> str:
-    return '"' + name.replace('"', '""') + '"'
 
 
-def cols_sql(cols) -> str:
-    return ", ".join(q(c) for c in cols)
 
 
-def tables(db: sqlite3.Connection, schema: str = "main") -> dict[str, str]:
-    """표 이름 → CREATE 문 (sqlite_ 내부 표 빼고)."""
-    return dict(db.execute(
-        f"SELECT name, sql FROM {schema}.sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'"))
 
 
-def columns(db: sqlite3.Connection, schema: str, table: str) -> tuple[list[str], list[str]]:
-    """(모든 열, 기본 키 열). 기본 키가 없으면 모든 열을 키로 본다."""
-    rows = db.execute(f"PRAGMA {schema}.table_info({q(table)})").fetchall()
-    cols = [r[1] for r in rows]
-    pk = [r[1] for r in sorted((r for r in rows if r[5]), key=lambda r: r[5])]
-    return cols, pk or cols
 
 
 def same_sql(a: str | None, b: str | None) -> bool:
     return " ".join((a or "").split()) == " ".join((b or "").split())
 
 
-def count(db: sqlite3.Connection, schema: str, table: str) -> int:
-    return db.execute(f"SELECT count(*) FROM {schema}.{q(table)}").fetchone()[0]
 
 
-def dict_version(path) -> str | None:
-    db = sqlite3.connect(f"file:{Path(path).as_posix()}?mode=ro", uri=True)
-    try:
-        row = db.execute("SELECT v FROM meta WHERE k='dict_version'").fetchone()
-        return row[0] if row else None
-    finally:
-        db.close()
 
 
 def stamp(path, version: str) -> None:
@@ -132,47 +111,6 @@ def make_patch(old, new, out_db) -> dict:
     return stats
 
 
-def apply_patch(base, patch_db) -> None:
-    """base(SQLite)에 압축 푼 패치를 적용한다. 앱의 Updater.applyPatch와 같은 순서·같은 확인."""
-    db = sqlite3.connect(base, isolation_level=None)
-    try:
-        db.execute("ATTACH ? AS p", (str(patch_db),))
-        info = dict(db.execute("SELECT k, v FROM p.patch_info"))
-        if info.get("format") != FORMAT:
-            raise ValueError(f"모르는 패치 형식: {info.get('format')}")
-        have = dict(db.execute("SELECT v, 1 FROM meta WHERE k='dict_version'"))
-        if info["from"] and info["from"] not in have:
-            raise ValueError(f"패치 시작 판 {info['from']}이 사전 판과 다름")
-        names = tables(db, "p")
-        db.execute("BEGIN")
-        try:
-            for name, sql in db.execute("SELECT name, sql FROM p.schema").fetchall():
-                db.execute(f"DROP TABLE IF EXISTS main.{q(name)}")
-                if sql:
-                    db.execute(sql)
-            targets = sorted({n[4:] for n in names if n.startswith(("del_", "add_"))})
-            for t in targets:
-                if "del_" + t in names:
-                    keys, _ = columns(db, "p", "del_" + t)
-                    lhs = q(keys[0]) if len(keys) == 1 else f"({cols_sql(keys)})"
-                    db.execute(f"DELETE FROM main.{q(t)} WHERE {lhs} IN (SELECT {cols_sql(keys)} FROM p.{q('del_' + t)})")
-                if "add_" + t in names:
-                    cols, _ = columns(db, "p", "add_" + t)
-                    db.execute(f"INSERT OR REPLACE INTO main.{q(t)} ({cols_sql(cols)}) "
-                               f"SELECT {cols_sql(cols)} FROM p.{q('add_' + t)}")
-            for k, v in info.items():
-                if k.startswith("rows:") and count(db, "main", k[5:]) != int(v):
-                    raise ValueError(f"{k[5:]} 줄 수가 {count(db, 'main', k[5:])} (기대 {v})")
-            got = db.execute("SELECT v FROM meta WHERE k='dict_version'").fetchone()
-            if info["to"] and (not got or got[0] != info["to"]):
-                raise ValueError(f"패치 뒤 판 번호가 {got} (기대 {info['to']})")
-            db.execute("COMMIT")
-        except BaseException:
-            db.execute("ROLLBACK")
-            raise
-        db.execute("DETACH p")
-    finally:
-        db.close()
 
 
 def same_db(a, b) -> list[str]:
@@ -196,18 +134,11 @@ def same_db(a, b) -> list[str]:
     return diffs
 
 
-def gz(src, dst, level: int = 9) -> None:
-    """mtime=0으로 압축 (같은 내용이면 같은 파일)."""
-    with open(src, "rb") as f, open(dst, "wb") as raw, gzip.GzipFile(fileobj=raw, mode="wb", compresslevel=level, mtime=0) as g:
-        shutil.copyfileobj(f, g, 1 << 20)
 
 
-def gunzip(src, dst) -> None:
-    with gzip.open(src, "rb") as g, open(dst, "wb") as f:
-        shutil.copyfileobj(g, f, 1 << 20)
 
 
-def build(old, new, outdir) -> dict:
+def build(old, new, outdir, prefix: str = "dict") -> dict:
     """패치(old가 있을 때)와 전체 사전의 .gz를 outdir에 만들고, 패치를 old 사본에 적용해 new와 같은지 확인한다.
 
     돌려주는 값: {'to', 'from', 'full': 경로, 'patch': 경로 또는 None, 'stats': make_patch 결과}
@@ -226,7 +157,7 @@ def build(old, new, outdir) -> dict:
         with tempfile.TemporaryDirectory(dir=outdir) as td:
             raw = Path(td) / "patch.db"
             res["stats"] = make_patch(old, new, raw)
-            patch = outdir / f"dict-patch-{frm}-{to}.db.gz"
+            patch = outdir / f"{prefix}-patch-{frm}-{to}.db.gz"
             gz(raw, patch)
             # 검증: 압축을 풀어 old 사본에 적용 → new와 같아야 함
             check, unz = Path(td) / "check.db", Path(td) / "unz.db"
@@ -238,7 +169,7 @@ def build(old, new, outdir) -> dict:
                 patch.unlink()
                 raise RuntimeError("패치를 적용한 사전이 새 사전과 다름: " + "; ".join(diffs[:5]))
         res["patch"] = patch
-    full = outdir / f"dict-{to}.db.gz"
+    full = outdir / f"{prefix}-{to}.db.gz"
     gz(new, full)
     res["full"] = full
     return res
