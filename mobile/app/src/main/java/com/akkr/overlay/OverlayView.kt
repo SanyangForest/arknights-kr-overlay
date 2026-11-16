@@ -82,10 +82,16 @@ object Painter {
         }
     }
 
-    private fun layout(text: String, paint: TextPaint, width: Float) =
-        StaticLayout.Builder.obtain(text, 0, text.length, paint, width.toInt().coerceAtLeast(1))
+    private fun layout(text: String, paint: TextPaint, width: Float): StaticLayout {
+        val b = StaticLayout.Builder.obtain(text, 0, text.length, paint, width.toInt().coerceAtLeast(1))
             .setIncludePad(false)
-            .build()
+        // 기본 줄바꿈은 한글 음절 사이 어디서나 끊는다 ('친구 · 파/일'). 안드로이드 13+는 어절 단위로
+        if (android.os.Build.VERSION.SDK_INT >= 33) {
+            b.setLineBreakConfig(android.graphics.text.LineBreakConfig.Builder()
+                .setLineBreakWordStyle(android.graphics.text.LineBreakConfig.LINE_BREAK_WORD_STYLE_PHRASE).build())
+        }
+        return b.build()
+    }
 
     /** 공개모집 패널 글자 크기 (태그 글자 높이에 맞춤). */
     fun panelTextSize(item: Item) = (item.lineH * 0.7f).coerceIn(18f, 56f)

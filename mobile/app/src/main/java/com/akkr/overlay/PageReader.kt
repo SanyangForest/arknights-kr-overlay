@@ -29,7 +29,8 @@ class PageReader(private val matcher: Matcher, private val recruit: Recruit? = n
             val above = (olds + items).lastOrNull { u ->
                 val gap = blk.box.top - u.box.bottom
                 gap >= -blk.lineH * 0.5f && gap < blk.lineH * 1.5f &&
-                    u.box.left <= blk.box.right && blk.box.left <= u.box.right && matcher.isTailOf(blk.text, u.zh)
+                    // 윗줄 상자는 OCR이 빼먹은 머리 '……' 폭만큼 오른쪽에서 시작할 수 있다 (아랫줄 '了。'은 줄 맨 앞)
+                    u.box.left - blk.lineH * 2f <= blk.box.right && blk.box.left <= u.box.right && matcher.isTailOf(blk.text, u.zh)
             }
             // 짧은 마지막 줄이 사전에 따로 있어도('快点.') 윗줄 문장의 끝이면 꼬리로 본다 (대사가 두 번 번역되지 않게)
             // 따로 찾은 번역이 윗줄 문장 안에 이미 들어 있는 조각이어도('（期间可随时停止技能）') 꼬리로 본다 (두 번 보이지 않게)
@@ -103,7 +104,7 @@ class PageReader(private val matcher: Matcher, private val recruit: Recruit? = n
                 }
                 // 한 줄 안에서 멀리 떨어진 낱말은 다른 글 (대사창의 이름 '阿米娅'와 대사)
                 val prev = box
-                if (prev != null && eb.left - prev.right > max(prev.height(), eb.height()) * 2.5f) flush()
+                if (prev != null && eb.left - prev.right > max(prev.height(), eb.height()) * 2.0f) flush()
                 // 큰 숫자 바로 뒤의 한자 낱말은 다른 글 (홈의 이성 '195'와 단말기 로고 '终': 붙여 읽으면 '195终'이라
                 // 번역이 안 되고, 됐다 안 됐다 하며 깜빡임). 숫자는 두 자리 이상 낱말 하나 전체일 때만
                 if (prev != null && text.length >= 2 && text.all { it.isDigit() } && Text.hasHan(etext)) flush()
@@ -127,16 +128,27 @@ class PageReader(private val matcher: Matcher, private val recruit: Recruit? = n
      */
     private fun pieces(e: com.google.mlkit.vision.text.Text.Element): List<Pair<String, RectF>> {
         val eb = e.boundingBox?.let { RectF(it) } ?: return emptyList()
-        val m = NUM_THEN_HAN.matchEntire(e.text)
         val sym = e.symbols
-        // 숫자 뒤가 단위('5天', '0296天')면 한 덩어리 그대로
-        if (m == null || m.groupValues[2].first() in Text.UNIT_CHARS || sym.size != e.text.length) return listOf(e.text to eb)
-        val n = m.groupValues[1].length
-        fun boxOf(range: List<com.google.mlkit.vision.text.Text.Symbol>) =
-            range.mapNotNull { it.boundingBox?.let { b -> RectF(b) } }.reduceOrNull { a, b -> a.apply { union(b) } }
-        val left = boxOf(sym.subList(0, n)) ?: return listOf(e.text to eb)
-        val right = boxOf(sym.subList(n, sym.size)) ?: return listOf(e.text to eb)
-        return listOf(m.groupValues[1] to left, m.groupValues[2] to right)
+        val boxes = sym.map { s -> s.boundingBox?.let { RectF(it) } }
+        if (sym.size != e.text.length || sym.size < 2 || boxes.any { it == null }) return listOf(e.text to eb)
+        fun piece(from: Int, to: Int) =
+            e.text.substring(from, to) to RectF(boxes[from]!!).apply { for (i in from + 1 until to) union(boxes[i]!!) }
+        // 1) 글자 사이가 멀리 떨어진 곳에서 나눈다: 스토리의 화자 이름과 대사('斯乔帕 / 嗯。然后等我一会儿')를
+        //    한 낱말로 돌려줄 때가 있어 대사가 번역되지 않았음
+        val cuts = (1 until sym.size).filter { i ->
+            boxes[i]!!.left - boxes[i - 1]!!.right > max(boxes[i]!!.height(), boxes[i - 1]!!.height()) * 1.5f
+        }
+        val parts = (listOf(0) + cuts).zip(cuts + sym.size).map { (a, b) -> piece(a, b) }
+        // 2) 큰 숫자와 한자가 붙은 조각은 숫자와 나머지로 (숫자 뒤가 단위 '5天', '0296天'이면 그대로)
+        return parts.flatMap { (t, b) ->
+            val m = NUM_THEN_HAN.matchEntire(t)
+            if (m == null || m.groupValues[2].first() in Text.UNIT_CHARS) listOf(t to b)
+            else {
+                val start = e.text.indexOf(t)
+                val n = m.groupValues[1].length
+                if (start < 0) listOf(t to b) else listOf(piece(start, start + n), piece(start + n, start + t.length))
+            }
+        }
     }
 
     /**

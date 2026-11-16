@@ -56,6 +56,8 @@ class Matcher(private val dict: Dict) {
         val named = nickname.isNotEmpty() && nickname in text
         val t = PHONE_FIX.fold(Text.simplify(text)) { acc, (a, b) -> acc.replace(a, b) }
         var hit = find(if (named) t.replace(nickname, "{@nickname}") else t)
+        // 경고 삼각형 아이콘이 '八'로 읽혀 앞에 붙은 문장 ('八检测到当前代理指挥作战…'): 못 찾았으면 떼고 다시 (PC판과 같음)
+        if (hit == null && t.startsWith("八") && Text.hanCount(t) >= 6) hit = find(t.substring(1))
         // 날짜와 시각이 붙은 것 ('만료 시간 2026/11/2303:59'): OCR이 사이 공백을 빼먹음 (PC판 DATETIME_GLUED)
         if (hit != null && DATETIME_GLUED.containsMatchIn(hit.ko)) hit = hit.copy(ko = DATETIME_GLUED.replace(hit.ko, "$1 $2"))
         if (hit != null && "{@nickname}" in hit.ko) hit = hit.copy(ko = hit.ko.replace("{@nickname}", nickname))
@@ -86,7 +88,16 @@ class Matcher(private val dict: Dict) {
         // 숫자 하나가 시계 아이콘 등으로 앞에 붙은 제목 ('0限时复刻'): 뒤가 사전에 그대로 있을 때만
         DIGIT_HEAD.matchEntire(q)?.let { m ->
             val rest = m.groupValues[1]
-            if (dict.exact(q) == null && rest[0] !in Text.UNIT_CHARS) dict.exact(rest)?.let { return Hit("icon", rest, it) }
+            if (dict.exact(q) == null && rest[0] !in Text.UNIT_CHARS) {
+                // 뒤가 사전에 그대로 있거나, 한 글자 오독·헷갈리는 글자로 찾히면 ('1行动结東' → 行动结束)
+                dict.exact(rest)?.let { return Hit("icon", rest, it) }
+                find(rest)?.let { h -> if (h.how in DIGIT_HEAD_OK) return h }
+            }
+        }
+        // 앞에 붙은 영문 장식 낱말 ('requirement从信用商店收取1次信用' = 임무 칸의 'requirement' 꼬리표 + 임무)
+        LATIN_WORD_HEAD.find(q)?.let { m ->
+            val rest = q.substring(m.value.length)
+            if (dict.exact(q) == null && Text.hanCount(rest) >= 2) find(rest)?.let { return it }
         }
         // 앞 글자(干 등)가 영문 몇 자로 읽힌 것 ('CF员寻访' → '员寻访'): 남은 글이 별칭에 있으면 그것으로
         LATIN_HEAD.find(q)?.let { m ->
@@ -318,8 +329,8 @@ class Matcher(private val dict: Dict) {
             // 앞부분만 맞는 틀이 둘 이상이면(재능 잠재 단계별 '4(+1)초' 등) 안 보이는 숫자는 어느 것인지 모름 (PC판과 같음)
             if (t != null) return Hit("number", t.first, fill(t.first, t.second, q, ambiguous = exact == null && dict.skelPrefixAmbiguous(sq))!!)
         }
-        // 헷갈리는 글자 교정 (한 글자만 바꿔 보고, 후보가 하나일 때만)
-        if (q.length <= 12) {
+        // 헷갈리는 글자 교정 (한 글자만 바꿔 보고, 후보가 하나일 때만). 한 글자짜리는 안 함 (홈 로고 '干' → 于 '에')
+        if (q.length in 2..12) {
             val variants = q.indices.flatMap { i -> Text.CONFUSE[q[i]].orEmpty().filter { it != q[i] }.map { c -> q.substring(0, i) + c + q.substring(i + 1) } }.toSet()
             val found = variants.mapNotNull { v -> dict.exact(v)?.let { v to it } }
             if (found.size == 1) return Hit("confuse", found[0].first, found[0].second)
@@ -327,6 +338,17 @@ class Matcher(private val dict: Dict) {
             if (found.isEmpty()) {
                 val byNum = variants.mapNotNull { v -> Text.skeleton(v).takeIf { '#' in it }?.let { dict.skelExact(it) }?.let { v to it } }
                 if (byNum.size == 1) return Hit("confuse", byNum[0].second.first, fill(byNum[0].second.first, byNum[0].second.second, byNum[0].first)!!)
+            }
+        }
+        // 두 문구가 한 줄로 붙어 읽힘 ('寻访现已开放' + '特定干员出率上升', 배너 두 줄): 둘 다 사전에 그대로 있을 때만 (PC판과 같음)
+        if (q.length in 6..40) {
+            for (i in 3..q.length - 3) {
+                val a = q.substring(0, i)
+                val b = q.substring(i)
+                if (!Text.hasHan(a) || !Text.hasHan(b)) continue
+                val ka = dict.exact(a) ?: continue
+                val kb = dict.exact(b) ?: continue
+                return Hit("split", q, "$ka $kb")
             }
         }
         oneChar(q)?.let { return it }
@@ -370,7 +392,8 @@ class Matcher(private val dict: Dict) {
         var best: Pair<String, String>? = null
         var bestScore = FUZZY_CUTOFF - 1
         // 첫 두 글자가 같은 후보 + 끝 두 글자가 같은 후보 (첫 글자를 틀리게 읽거나 잘린 OCR: '定干员出率上升')
-        val cands = heads(q, 2).flatMap { dict.bucket(it, q.length - span, q.length + span) } +
+        // 맨 앞 말줄임표를 OCR이 빼먹은 대사도 ('……要是…' → '要是…', 사전 키는 '.要是…')
+        val cands = heads(q, 2).flatMap { dict.bucket(it, q.length - span, q.length + span) + dict.bucket(".$it", q.length - span, q.length + span + 1) } +
             dict.suffixBucket(q.takeLast(2), q.length - span, q.length + span)
         for ((k, ko) in cands) {
             val s = Text.ratio(q, k)
@@ -414,6 +437,8 @@ class Matcher(private val dict: Dict) {
         hs += q.substring(0, 3)
         // 머리의 말줄임표를 OCR이 빼먹은 대사 ('嗯……博士是' → '嗯博士是')
         for (h in heads(q, 4)) for (i in 1..2) hs += h.substring(0, i) + "." + h.substring(i, 3)
+        // 대사 맨 앞의 말줄임표를 OCR이 빼먹은 것 ('……要是在这里' → '要是在这里', 사전 키는 '.要是…')
+        for (h in heads(q, 3)) hs += "." + h
         for (head in hs) {
             for ((k, ko) in dict.bucket(head, q.length - 2, 400, limit = 1500)) {
                 val s = Text.ratio(q, k.take(q.length))
@@ -475,7 +500,8 @@ class Matcher(private val dict: Dict) {
         val full = Text.normalize(fullZh)
         if (!Text.hasHan(q)) return q.length >= 2 && q.any { !it.isLetterOrDigit() } && full.endsWith(q)
         // 한 글자만 남은 마지막 줄 ('…今天想买点什么' + '吗？'): 윗문장이 그것으로 끝날 때만 (PC판과 같음)
-        if (Text.hanCount(q) < 2) return q.length >= 2 && full.endsWith(q)
+        // 짧은 세로 로고('终/端')는 아래 한 글자만 따로 읽혀도 꼬리 (PC판과 같음)
+        if (Text.hanCount(q) < 2) return (q.length >= 2 || full.length <= 4) && full.endsWith(q)
         if (full.contains(q)) return true
         // 숫자·변수를 #로 바꿔 비교 (사전 문장은 '{n}', 화면은 '3'). OCR 오타가 섞인 꼬리 줄('颧外' ↔ '额外')은
         // 같은 길이 구간과 아주 비슷하면 꼬리 (PC판 is_tail_of)
@@ -619,6 +645,7 @@ class Matcher(private val dict: Dict) {
         private val MONTH_ONLY = Regex("(\\d+)月")
         private val BRACKETED = Regex("([\\[<「\"])([^\\[\\]<>「」\"]{2,20})([\\]>」\"])")
         private val BRACKET_OK = setOf("exact", "alias", "title", "confuse", "one_char", "fuzzy", "icon")
+        private val DIGIT_HEAD_OK = setOf("exact", "alias", "title", "confuse", "one_char", "fuzzy", "icon")
         private val DIGIT_HEAD = Regex("\\d([\\u4e00-\\u9fff]{2}.*)")
         // 둘째: 앞에 붙은 숫자 1~3자리 + 점 ('0.4天', 홈 창고의 알림 '!2' + '6天' = '02.6天')
         private val ICON_NUM = Regex("[A-Za-z¥?.]+(\\d+(?:天|小时|分钟|分|秒|日))|\\d{1,3}[.,](\\d+(?:天|日))")
@@ -646,6 +673,7 @@ class Matcher(private val dict: Dict) {
         private val END_TIME = Regex("(作战)?结[束東]时间:?(\\d{4})/(\\d{1,2})/(\\d{2})(\\d{2}):?(\\d{2})(?:剩?余(\\d*)天?)?\\W*")
         private val MAIL_VALIDITY = listOf(7, 10, 14, 15, 30, 60, 90, 180, 365)
         private val LATIN_HEAD = Regex("^[A-Za-z]{1,3}(?=[一-鿿])")
+        private val LATIN_WORD_HEAD = Regex("^[A-Za-z][A-Za-z ._-]{3,}(?=[一-鿿])")
         private val BIG_DAYS = Regex("\\d{3,}[天日]")
         private val PRICE = Regex("(.+?)[¥￥](\\d+)")
         // 로고 앞에 붙은 장식이 '0.'·'O.'로 읽힌 것

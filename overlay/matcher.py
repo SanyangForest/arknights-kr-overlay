@@ -46,7 +46,7 @@ LEADING_JUNK = re.compile(r"^(?:[^\w一-鿿\[(<]|[A-Za-z](?=[一-鿿])|[①-⑳]
 # OCR이 서로 헷갈리는 한자 (戍成: 태블릿 글꼴에서 위수 협의의 戍를 成으로 읽음, 卫成百科 → 卫戍百科)
 CONFUSABLE = ["干千于", "已己巳", "未末", "人入", "土士", "日曰", "戊戍戌成", "大太犬", "王玉主", "刀力",
               "免兔", "折拆", "徒徙", "历厉", "候侯", "博傅", "摇遥瑶", "视观", "烬煜炽焖", "欸欲",
-              "挑姚", "傀愧倪", "引弓", "丛从", "凛漂", "瞥警聲", "作乍", "敌文", "临高", "中史", "了子", "抉块", "瞌嗑", "物勿", "嗯想", "超招", "弑試", "止上"]  # 弑君者·止颂 → 試君者·上颂 (공지)
+              "挑姚", "傀愧倪", "引弓", "丛从", "凛漂", "瞥警聲", "作乍", "敌文", "临高", "中史", "了子", "抉块", "瞌嗑", "物勿", "嗯想", "超招", "弑試", "止上", "闲闹"]  # 弑君者·止颂 → 試君者·上颂 (공지)
 # 아이콘이 한자로 잘못 읽힐 때 자주 나오는 글자 (앞에 붙음: 图较慢 → 较慢)
 ICON_CHARS = set("图区回向三囗口日目田凶品吕亘目旦")
 # 공지 날짜 칸 '12 / 11月'이 '121月'로 붙어 읽힘: 1~12월이 아니면 번역하지 않는다
@@ -54,6 +54,8 @@ MONTH_ONLY = re.compile(r"(\d+)月")
 # 괄호로 감싼 제목 ('【中坚甄选】', 정규화 뒤 '[中坚甄选]'): 안의 낱말을 찾아 괄호째
 BRACKET_TITLE = re.compile(r'([\[<「"])([^\[\]<>「」"]{2,20})([\]>」"])')
 BRACKET_OK = {"exact", "alias", "title", "confuse", "fuzzy", "icon"}
+# 앞에 붙은 영문 장식 낱말 ('requirement从信用商店收取1次信用' = 임무 칸 꼬리표 + 임무)
+LATIN_WORD_HEAD = re.compile(r"^[A-Za-z][A-Za-z ._-]{3,}(?=[一-鿿])")
 # 숫자 하나가 시계 아이콘 등으로 앞에 붙은 제목 ('0限时复刻')
 DIGIT_HEAD = re.compile(r"\d([一-鿿]{2}.*)")
 # 홀로 읽히면 아이콘으로 보고 번역하지 않는 한 글자 (폰 홈 친구·파일 버튼 아래 아이콘을 '人'으로 읽어 '명'이 뜸)
@@ -520,8 +522,9 @@ class Matcher:
             return len(q) >= 2 and re.search(r"[^0-9A-Za-z]", q) is not None and normalize(zh_full).endswith(q)
         full = normalize(zh_full)
         if len(HAN.findall(q)) < 2:
-            # 한 글자만 남은 마지막 줄 ('…今天想买点什么' + '吗？'): 윗문장이 그것으로 끝날 때만
-            return len(q) >= 2 and full.endswith(q)
+            # 한 글자만 남은 마지막 줄 ('…今天想买点什么' + '吗？'): 윗문장이 그것으로 끝날 때만.
+            # 짧은 세로 로고('终/端')는 아래 한 글자만 따로 읽혀도 꼬리
+            return (len(q) >= 2 or len(full) <= 4) and full.endswith(q)
         if q in full:
             return True
         # 숫자·변수를 #로 바꿔 비교 (사전 문장은 '{n}', 화면은 '3'). OCR 오타가 섞인 꼬리 줄('颧外' ↔ '额外')은
@@ -765,12 +768,18 @@ class Matcher:
                 i = bisect.bisect_left(self.skel_keys, sq)
                 ambiguous = k != sq and i + 1 < len(self.skel_keys) and self.skel_keys[i + 1].startswith(sq)
                 return "number", zh, self._fill(zh, ko, q, ambiguous=ambiguous), 100
-        # 헷갈리는 글자 교정 (한 글자만 바꿔 보고, 후보가 하나일 때만)
-        if len(q) <= 12:
+        # 헷갈리는 글자 교정 (한 글자만 바꿔 보고, 후보가 하나일 때만). 한 글자짜리는 안 함 (홈 로고 '干' → 于 '에')
+        if 2 <= len(q) <= 12:
             found = {q[:i] + c + q[i + 1:] for i, ch in enumerate(q) for c in CONFUSE_MAP.get(ch, "") if c != ch}
             found = [v for v in found if v in self.table]
             if len(found) == 1:
                 return "confuse", *self.table[found[0]], 99
+        # 두 문구가 한 줄로 붙어 읽힘 ('寻访现已开放' + '特定干员出率上升', 배너 두 줄): 둘 다 사전에 그대로 있을 때만
+        if 6 <= len(q) <= 40:
+            for i in range(3, len(q) - 2):
+                a, b = q[:i], q[i:]
+                if a in self.table and b in self.table and HAN.search(a) and HAN.search(b):
+                    return "split", q, f"{display(self.table[a][1])} {display(self.table[b][1])}", 90
         if len(q) >= FUZZY_MIN_LEN:
             span = max(2, len(q) // 5)
             cands = [k for n in range(len(q) - span, len(q) + span + 1) for k in self.by_len.get(n, ())]
@@ -882,6 +891,9 @@ class Matcher:
         if self.nickname and self.nickname in text:
             text = text.replace(self.nickname, "{@nickname}")
         hit = self._lookup(text, screen, edge)
+        if not hit and text.lstrip().startswith("八") and len(HAN.findall(text)) >= 6:
+            # 경고 삼각형 아이콘이 '八'로 읽혀 앞에 붙은 문장 ('八检测到当前代理指挥作战…'): 떼고 다시
+            hit = self._lookup(text.lstrip()[1:], screen, edge)
         if not hit and "卫成" in text:
             # 위수 협의의 '卫戍'를 OCR이 '卫成'으로 읽음 ('成功卫成', '最佳卫成奖杯')
             hit = self._lookup(text.replace("卫成", "卫戍"), screen, edge)
@@ -929,9 +941,18 @@ class Matcher:
             if inner and inner[0] in BRACKET_OK:
                 return inner[0], text, f"{br.group(1)}{inner[2]}{br.group(3)}", inner[3]
             return None  # 괄호 제목만 있는 줄: 그 낱말로 시작하는 긴 문장(앞부분 맞추기)으로 옮기지 않는다
+        lw = LATIN_WORD_HEAD.match(q)
+        if lw and q not in self.table and len(HAN.findall(q[lw.end():])) >= 2:
+            hit = self._lookup(q[lw.end():], screen, edge)
+            if hit:
+                return hit
         dh = DIGIT_HEAD.fullmatch(q)
-        if dh and q not in self.table and dh.group(1)[0] not in UNIT_CHARS and dh.group(1) in self.table:
-            return ("icon", *self.table[dh.group(1)], 95)
+        if dh and q not in self.table and dh.group(1)[0] not in UNIT_CHARS:
+            if dh.group(1) in self.table:
+                return ("icon", *self.table[dh.group(1)], 95)
+            hit = self._lookup(dh.group(1), screen, edge)  # '1行动结東' → 行动结束 (헷갈리는 글자·비슷한 문장)
+            if hit and hit[0] in BRACKET_OK:
+                return hit
         alias = self.aliases.get((screen, q)) or self.aliases.get(("*", q))
         if alias and alias.startswith("="):  # 그 화면에서만 다르게 옮길 말 (설정의 关闭 = 끄기)
             return "alias", text, alias[1:], 100

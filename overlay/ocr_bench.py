@@ -60,6 +60,8 @@ def config_for(name):
     """CONFIGS 이름, 또는 tools/ocr_models의 폴더 이름(학습한 akkr-* 등: 글자 읽기 모델만 바꿈)."""
     if name in CONFIGS:
         return dict(CONFIGS[name])
+    if name.endswith("@u2"):  # 'akkr-m4a@u2' = 그 모델 + 오버레이 실제 상자 설정(unclip 2.0)
+        return {**config_for(name[:-3]), "det": {"unclip_ratio": 2.0}}
     return {"rec_model_path": MODELS / name / "inference.onnx", "rec_keys_path": MODELS / name / "keys.txt"}
 
 
