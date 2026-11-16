@@ -47,6 +47,8 @@ CONFIGS.update({
     # 오버레이 실제 설정(상자 unclip 2.0)으로 학습한 모델
     "mobile1_unclip2": {"rec_model_path": MODELS / "akkr-mobile1/inference.onnx",
                         "rec_keys_path": MODELS / "akkr-mobile1/keys.txt", "det": {"unclip_ratio": 2.0}},
+    "mobile3_unclip2": {"rec_model_path": MODELS / "akkr-mobile3/inference.onnx",
+                        "rec_keys_path": MODELS / "akkr-mobile3/keys.txt", "det": {"unclip_ratio": 2.0}},
 })
 
 
@@ -103,6 +105,41 @@ def crop_accuracy(ocr, limit=3000):
     return ok / max(1, len(rows))
 
 
+def _errors(q, k):
+    """읽은 글 q를 사전 문장 k에 맞댄 글자 오류 수. 양 끝에서 k에만 있는 부분(줄바꿈·잘림)은 세지 않음."""
+    import difflib
+    ops = difflib.SequenceMatcher(None, q, k, autojunk=False).get_opcodes()
+    while ops and ops[0][0] == "insert":
+        ops.pop(0)
+    while ops and ops[-1][0] == "insert":
+        ops.pop()
+    return sum(max(b - a, d - c) for op, a, b, c, d in ops if op != "equal")
+
+
+def ocr_truth(result, m, big):
+    """OCR만의 정확도: 사전 문장(또는 그 일부)과 맞댈 수 있는 줄에서 (완벽한 줄, 틀린 줄, 글자 수, 틀린 글자, 근거 없는 줄).
+
+    '정확' 비율은 줄이 잘리거나 사전에 통째로 없는 글(조각 번역)도 깎이므로 OCR 실력만 보려면 이것을 본다.
+    """
+    ok = bad = chars = err = noref = 0
+    for _box, t, _s in result or []:
+        q = normalize(t)
+        if not HAN.search(q):
+            continue
+        hit = m.lookup(t)
+        if (hit and hit[0] in EXACT) or (len(q) >= 2 and q in big):
+            ok, chars = ok + 1, chars + len(q)
+            continue
+        if hit and hit[0] not in ("segment", "split", "icon"):
+            e = _errors(q, normalize(hit[1]))
+            if e <= max(2, len(q) // 3):  # 너무 다르면 엉뚱한 문장에 맞댄 것
+                ok, bad = ok + (e == 0), bad + (e > 0)
+                chars, err = chars + len(q), err + e
+                continue
+        noref += 1
+    return np.array([ok, bad, chars, err, noref])
+
+
 def score(result, w, m):
     """한 장의 (정확 한자, 근사 한자, 없음 한자, 줄 수)."""
     lines = merge_lines(result or [], w, m.can_continue, m.is_entry, lambda t: m.lookup(t) is not None)
@@ -132,6 +169,7 @@ def main():
     m = Matcher(str(ROOT.parent / "out" / "dict_zh_ko.json"))
     files = frames(args.frames, only=EVAL_SESSIONS if args.eval else None)
     imgs = [np.asarray(Image.open(f).convert("RGB")) for f in files]
+    big = "\x00".join(m.table)  # 정규화한 사전 문장 전부 (줄이 사전 문장의 일부인지 볼 때)
     print(f"화면 {len(files)}장")
     for name in args.configs.split(","):
         cfg = config_for(name)
@@ -147,10 +185,12 @@ def main():
             from lexicon import Lexicon
             lex = Lexicon(m, ocr.text_recognizer)
         tot, tot_lex, changes = np.zeros(4), np.zeros(4), []
+        truth = np.zeros(5)
         t = time.perf_counter()
         for arr in imgs:
             res, _ = ocr(arr)
             tot += score(res, arr.shape[1], m)
+            truth += ocr_truth(res, m, big)
             if lex:
                 fixed, ch = relex(res, arr, ocr, m, lex)
                 changes += ch
@@ -159,6 +199,9 @@ def main():
         for label, (e, a, x, n) in [(name, tot)] + ([(name + "+사전", tot_lex)] if lex else []):
             han = max(1, e + a + x)
             print(f"{label:16s} 정확 {e / han:6.1%}  근사 {a / han:6.1%}  없음 {x / han:6.1%}  (한자 {int(han)}, 줄 {int(n)})  {ms:5.0f}ms/장")
+        ok, bad, chars, err, noref = truth
+        print(f"{'':16s} OCR만: 사전과 맞댈 수 있는 줄 {int(ok + bad)}개 중 완벽 {ok / max(1, ok + bad):6.1%}, "
+              f"글자 정확도 {1 - err / max(1, chars):6.2%}  (맞댈 근거 없는 줄 {int(noref)}개)")
         for before, after in changes[:40]:
             print(f"    {before}  →  {after}")
         if args.eval:
