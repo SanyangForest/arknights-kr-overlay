@@ -37,10 +37,10 @@
     ]
   },
   "apk": {
-    "versionCode": 36,
-    "versionName": "0.36",
-    "url": "https://github.com/SanyangForest/arknights-kr-overlay/releases/download/d202611162117/akkr-overlay-0.36.apk",
-    "sha256": "a2f1129f46a35606d1313a9350781cde8b80c2165a4f45e42d4a364bc0548ca2",
+    "versionCode": 37,
+    "versionName": "0.37",
+    "url": "https://github.com/SanyangForest/arknights-kr-overlay/releases/download/app-0.37/akkr-overlay-0.37.apk",
+    "sha256": "567698d27f5a5208c1a975e102955c1dd410737f61b0ab2a6637ae89ef66a0d3",
     "size": 16355110
   },
   "pc": {
