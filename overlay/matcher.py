@@ -56,6 +56,8 @@ BRACKET_TITLE = re.compile(r'([\[<「"])([^\[\]<>「」"]{2,20})([\]>」"])')
 BRACKET_OK = {"exact", "alias", "title", "confuse", "fuzzy", "icon"}
 # 앞에 붙은 영문 장식 낱말 ('requirement从信用商店收取1次信用' = 임무 칸 꼬리표 + 임무)
 LATIN_WORD_HEAD = re.compile(r"^[A-Za-z][A-Za-z ._-]{3,}(?=[一-鿿])")
+# 문장 속 괄호 이름 ('《时间啊,向前!》TL-5轰鸣的沉默'): 덩어리 번역에서 통째로
+BRACKET_SPAN = re.compile(r'[《〈<\[【「“"][^《》〈〉<>\[\]【】「」“”"]{2,20}[》〉>\]】」”"]')
 # 숫자 하나가 시계 아이콘 등으로 앞에 붙은 제목 ('0限时复刻')
 DIGIT_HEAD = re.compile(r"\d([一-鿿]{2}.*)")
 # 홀로 읽히면 아이콘으로 보고 번역하지 않는 한 글자 (폰 홈 친구·파일 버튼 아래 아이콘을 '人'으로 읽어 '명'이 뜸)
@@ -841,7 +843,26 @@ class Matcher:
         return best[n] if best[n] and len(best[n]) >= 2 else None
 
     def _segments(self, text):
-        """한자 덩어리를 각각 번역하고 숫자·기호는 그대로 둔다. 모든 덩어리가 번역될 때만 성공."""
+        """한자 덩어리를 각각 번역하고 숫자·기호는 그대로 둔다. 모든 덩어리가 번역될 때만 성공.
+
+        괄호로 묶인 이름('《时间啊,向前!》')은 통째로 먼저: 안의 쉼표·느낌표에서 한자 덩어리가 끊겨 못 찾았음.
+        """
+        orig = text
+        spans = {}
+        def keep(m):
+            hit = self._lookup(m.group(), None)
+            if hit and hit[0] in BRACKET_OK:
+                spans[str(len(spans))] = display(hit[2])
+                return f"{len(spans) - 1}"
+            return m.group()
+        if not hasattr(self, "_in_span"):
+            self._in_span = False
+        if not self._in_span:
+            self._in_span = True
+            try:
+                text = BRACKET_SPAN.sub(keep, text)
+            finally:
+                self._in_span = False
         parts = []
         pos = 0
         # 아주 짧은 문구(예: 아이콘+'慢')는 한 글자 단어도 사전에서 찾음. 긴 문구에서는 오인식 위험이 커서 안 함
@@ -862,7 +883,7 @@ class Matcher:
                     parts.append(("ko", " ".join(words)))
             pos = m.end()
         parts.append(("raw", text[pos:]))
-        if not any(kind != "raw" for kind, _ in parts):
+        if not any(kind != "raw" for kind, _ in parts) and not spans:
             return None
         # 번역문 앞뒤로만 띄어쓰기. 단위는 숫자에 붙임 (22秒 → 22초)
         ko = ""
@@ -880,7 +901,9 @@ class Matcher:
             elif kind == "ko" and ko and not ko[-1].isspace() and ko[-1] not in "([<":
                 ko += " "
             ko += part
-        return "segment", text, re.sub(r"\s+", " ", ko).strip(), 100
+        for k, v in spans.items():
+            ko = ko.replace(f"{k}", f" {v} ")
+        return "segment", orig, re.sub(r"\s+", " ", ko).strip(), 100
 
     def lookup(self, text, screen=None, edge=None):
         """(방식, 원문, 번역, 점수) 또는 None.
@@ -1087,5 +1110,7 @@ class Matcher:
         if hit:
             how, zh, ko, score = hit
             return how, zh, display(ko), score
-        raw = LEADING_JUNK.sub("", TAG.sub("", text).strip())
+        raw = TAG.sub("", text).strip()
+        if not BRACKET_SPAN.match(raw):  # 맨 앞 괄호 이름('《时间啊…》')은 떼지 않는다
+            raw = LEADING_JUNK.sub("", raw)
         return self._segments(raw)

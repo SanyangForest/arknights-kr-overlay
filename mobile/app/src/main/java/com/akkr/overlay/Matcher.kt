@@ -209,9 +209,15 @@ class Matcher(private val dict: Dict) {
      * 한자 덩어리마다 번역하고 숫자·영문·기호는 그대로 둔다 ('155古堡笔记MAX' → '155 고성의 노트 MAX', '进入主题>>').
      * 모든 한자 덩어리가 사전에 있을 때만.
      */
-    private fun runs(q: String): Hit? {
+    private fun runs(q0: String): Hit? {
+        // 괄호로 묶인 이름('<时间啊,向前!>TL-5轰鸣的沉默')은 통째로 먼저: 안의 쉼표·느낌표에서 한자 덩어리가 끊겨 못 찾았음 (PC판과 같음)
+        val spans = ArrayList<String>()
+        val q = BRACKET_SPAN.replace(q0) { m ->
+            val h = find(m.value)
+            if (h != null && h.how in BRACKET_OK) { spans += h.ko; "\u0001${spans.size - 1}\u0002" } else m.value
+        }
         val parts = HAN_RUN.findAll(q).toList()
-        if (parts.isEmpty()) return null
+        if (parts.isEmpty() && spans.isEmpty()) return null
         val whole = parts.size == 1 && parts[0].value.length == q.length
         val sb = StringBuilder()
         var pos = 0
@@ -236,10 +242,12 @@ class Matcher(private val dict: Dict) {
             pos = m.range.last + 1
         }
         // 번역한 덩어리가 없으면(숫자·잡음뿐) 상자를 만들지 않음
-        if (translated == 0) return null
+        if (translated == 0 && spans.isEmpty()) return null
         val tail = q.substring(pos).trim()
         if (tail.isNotEmpty()) sb.append(tail)
-        return Hit("segment", q, sb.toString().trim())
+        var ko = sb.toString()
+        spans.forEachIndexed { i, v -> ko = ko.replace("\u0001$i\u0002", " $v ") }
+        return Hit("segment", q0, ko.replace(Regex("\\s+"), " ").trim())
     }
 
     /** 괄호 안 이름이 바뀌는 틀: 괄호 안을 {0}(앞 연도는 {1})로 바꿔 사전 틀을 찾고, 이름은 사전에 있으면 번역해 넣는다. */
@@ -645,6 +653,7 @@ class Matcher(private val dict: Dict) {
         private val MONTH_ONLY = Regex("(\\d+)月")
         private val BRACKETED = Regex("([\\[<「\"])([^\\[\\]<>「」\"]{2,20})([\\]>」\"])")
         private val BRACKET_OK = setOf("exact", "alias", "title", "confuse", "one_char", "fuzzy", "icon")
+        private val BRACKET_SPAN = Regex("""[<\[「"][^<>\[\]「」"]{2,20}[>\]」"]""")
         private val DIGIT_HEAD_OK = setOf("exact", "alias", "title", "confuse", "one_char", "fuzzy", "icon")
         private val DIGIT_HEAD = Regex("\\d([\\u4e00-\\u9fff]{2}.*)")
         // 둘째: 앞에 붙은 숫자 1~3자리 + 점 ('0.4天', 홈 창고의 알림 '!2' + '6天' = '02.6天')
