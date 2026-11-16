@@ -1,6 +1,6 @@
 """PC 오버레이 배포판 만들기: 파이썬 없이 압축만 풀어 쓰는 폴더 + zip (친구에게 공유용).
 
-  python build_pc.py            → dist/명방한글오버레이/ 와 dist/명방한글오버레이-pc-<날짜>.zip
+  python build_pc.py            → dist/명방한글오버레이/ 와 dist/ak-kr-overlay-pc-<버전>.zip
   python build_pc.py --no-zip   폴더만
 
 PyInstaller로 overlay/overlay_app.pyw를 exe로 묶고(.venv에 pyinstaller 필요), 실행에 필요한 데이터만 옆에 복사한다.
@@ -166,7 +166,10 @@ def main():
     size = sum(f.stat().st_size for f in target.rglob("*") if f.is_file()) / 1e6
     print(f"폴더: {target} ({size:.0f}MB)")
     if not a.no_zip:
-        z = shutil.make_archive(str(DIST / f"{NAME}-pc-{time.strftime('%Y%m%d')}"), "zip", DIST, NAME)
+        sys.path.insert(0, str(OV))
+        from updater import APP_VERSION
+        # 파일 이름은 영문: GitHub 릴리스가 한글 파일 이름을 지워 '-pc-….zip'이 됐음
+        z = shutil.make_archive(str(DIST / f"ak-kr-overlay-pc-{APP_VERSION}"), "zip", DIST, NAME)
         print(f"압축: {z} ({Path(z).stat().st_size / 1e6:.0f}MB)")
 
 

@@ -35,5 +35,26 @@
     "url": "https://github.com/SanyangForest/arknights-kr-overlay/releases/download/d202611150203/akkr-overlay-0.35.apk",
     "sha256": "83b49b476c49657f6b1816e98f8046603b76bc400bfcb7bc7991d2a51d71b5d3",
     "size": 16355106
+  },
+  "pc": {
+    "version": "202611161856",
+    "built": "2026-11-16 18:56",
+    "entries": 522519,
+    "full": {
+      "url": "https://github.com/SanyangForest/arknights-kr-overlay/releases/download/d202611161856/pc-202611161856.db.gz",
+      "sha256": "ae925add24f681eb0efc9102a115c361d3218e0fb5f7afacd3545ed259825c2c",
+      "size": 101515574,
+      "version": "202611161856",
+      "db_size": 330371072
+    },
+    "min_patch_from": "202611161856",
+    "patches": []
+  },
+  "pc_app": {
+    "version": "0.1",
+    "url": "https://github.com/SanyangForest/arknights-kr-overlay/releases/download/d202611161856/ak-kr-overlay-pc-0.1.zip",
+    "sha256": "8140b306a1449704cb75bb77d22b0431294c2ae0b1fcd51e6a22b2e9284377d5",
+    "size": 238888882,
+    "page": "https://github.com/SanyangForest/arknights-kr-overlay/releases/tag/d202611161856"
   }
 }

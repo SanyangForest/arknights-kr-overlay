@@ -40,7 +40,7 @@ finalize.bat                                 # 번역 반영 → 이름 통일 �
 ## PC 배포판 만들기 (공유용)
 
 ```
-python build_pc.py      # → dist\명방한글오버레이\ (폴더) + dist\명방한글오버레이-pc-<날짜>.zip
+python build_pc.py      # → dist\명방한글오버레이\ (폴더) + dist\ak-kr-overlay-pc-<버전>.zip
 ```
 
 - PyInstaller로 exe를 만들고 사전 묶음(`data/pc.db`, `build_pcdb.py`)·OCR 모델을 옆에 복사합니다. 박사 이름·기록·MAA 템플릿(AGPL)은 넣지 않습니다.

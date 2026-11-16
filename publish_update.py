@@ -169,7 +169,7 @@ def main():
         # 배포판에는 이번에 올리는 PC 묶음을 넣는다 (받은 사람이 처음부터 패치만 받게)
         ship = new_pc if pc_changed else (PUB / f"pc-{prev_pc.get('version')}.db" if prev_pc else None)
         run([VENV_PY, ROOT / "build_pc.py", *(["--pcdb", ship] if ship and ship.exists() else [])], cwd=ROOT)
-        pc_zip = max((ROOT / "dist").glob("*-pc-*.zip"), key=lambda f: f.stat().st_mtime)
+        pc_zip = max((ROOT / "dist").glob("ak-kr-overlay-pc-*.zip"), key=lambda f: f.stat().st_mtime)
         pc_app_version = updater.APP_VERSION
 
     # 4) 앱: versionCode가 바뀌었을 때만
@@ -285,10 +285,10 @@ def main():
 
     run(["gh", "release", "create", tag, *files, "--repo", REPO, "--title", title, "--notes", notes])
     UPDATE_JSON.write_text(json.dumps(upd, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    run(["git", "add", "update.json"], cwd=ROOT)
-    run(["git", "commit", "-m", f"업데이트: {title}", "--", "update.json"], cwd=ROOT)
+    run(["git", "-c", f"safe.directory={ROOT.as_posix()}", "add", "update.json"], cwd=ROOT)
+    run(["git", "-c", f"safe.directory={ROOT.as_posix()}", "commit", "-m", f"업데이트: {title}", "--", "update.json"], cwd=ROOT)
     try:
-        run(["git", "push"], cwd=ROOT)
+        run(["git", "-c", f"safe.directory={ROOT.as_posix()}", "push"], cwd=ROOT)
     except subprocess.CalledProcessError:
         print("푸시 실패: 릴리스는 올라갔습니다. 인터넷을 확인하고 'git push'만 다시 하세요.")
         raise
