@@ -10,6 +10,7 @@ tools/
 
 # 빌드 결과·설치 파일
 *.apk
+dist/
 mobile/app/build/
 mobile/build/
 mobile/.gradle/

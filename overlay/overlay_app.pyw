@@ -2,7 +2,8 @@
 
 바탕화면 아이콘(make_shortcut.py가 만듦)이나 'pythonw overlay_app.pyw'로 실행한다.
 - 게임(明日方舟 창)이 켜질 때까지 기다렸다가 오버레이를 띄우고, 게임을 끄면 다시 기다린다.
-- 트레이 아이콘: 왼쪽 클릭 = 번역 표시 켜기/끄기. 오른쪽 클릭 메뉴 = 방송·화면 공유에 보이기, 점검 기록, 기록 폴더 열기, 종료.
+- 트레이 아이콘: 왼쪽 클릭 = 번역 표시 켜기/끄기. 오른쪽 클릭 메뉴 = 방송·화면 공유에 보이기, 한국어판처럼 그리기,
+  육성 계산기, 점검 기록, 기록 폴더 열기, 종료.
   방송·화면 공유에 보이기는 settings.json(show_in_capture)에 저장해 다음 실행에도 쓴다.
 - 단축키 F9(표시 켜기/끄기), F10(앱 종료)도 그대로 쓴다.
 - 출력과 오류는 overlay_app_log.txt에 남는다 (콘솔 창이 없으므로).
@@ -16,8 +17,11 @@ import time
 import traceback
 from pathlib import Path
 
+import paths
+
 HERE = Path(__file__).resolve().parent
-LOG = HERE / "overlay_app_log.txt"
+paths.USER.mkdir(parents=True, exist_ok=True)
+LOG = paths.USER / "overlay_app_log.txt"
 sys.stdout = sys.stderr = open(LOG, "w", encoding="utf-8", buffering=1)
 
 import ctypes
@@ -31,9 +35,9 @@ from PIL import Image, ImageDraw, ImageFont
 import overlay
 from matcher import Matcher
 
-DICT = HERE.parent / "out" / "dict_zh_ko.json"
-CAPTURES = HERE / "captures"
-SETTINGS = HERE / "settings.json"
+DICT = paths.OUT / "dict_zh_ko.json"
+CAPTURES = paths.CAPTURES
+SETTINGS = paths.SETTINGS
 TITLE = "명일방주 한국어 오버레이"
 
 
@@ -58,6 +62,7 @@ class App:
         self.visible = True
         self.record_dir = None
         self.show_in_capture = bool(self.load_settings().get("show_in_capture"))
+        self.natural = self.load_settings().get("render_style", "natural") == "natural"
         self.capture_note = None
         self.status = "시작하는 중"
         M = pystray.MenuItem
@@ -67,7 +72,9 @@ class App:
             M("번역 표시 (F9)", self.on_toggle, checked=lambda item: self.is_visible(), default=True),
             M(lambda item: "방송·화면 공유에 보이기" + (f" ({self.capture_note})" if self.capture_note else ""),
               self.on_capture, checked=lambda item: self.show_in_capture),
+            M("한국어판처럼 그리기 (원문 지우기)", self.on_style, checked=lambda item: self.natural),
             M("육성 계산기 열기", self.on_planner),
+            M(lambda item: "박사 이름 설정" + ("" if self.load_settings().get("nickname") else " (안 함)"), self.on_nickname),
             M("점검 기록 (화면 저장)", self.on_record, checked=lambda item: self.record_dir is not None),
             M("기록 폴더 열기", lambda: os.startfile(self.record_dir or CAPTURES)),
             pystray.Menu.SEPARATOR,
@@ -107,12 +114,44 @@ class App:
         if self.overlay:
             self.overlay.events.put(("show_in_capture", self.show_in_capture))
 
+    def on_style(self):
+        """그리는 방식: 원문 글자를 지우고 그 자리에 한국어를 씀(한국어판처럼) ↔ 배경색 상자로 덮음 (예전 방식)."""
+        self.natural = not self.natural
+        style = "natural" if self.natural else "box"
+        settings = self.load_settings()
+        settings["render_style"] = style
+        SETTINGS.write_text(json.dumps(settings, ensure_ascii=False, indent=1), encoding="utf-8")
+        if self.overlay:
+            self.overlay.events.put(("style", style))
+
     def on_capture_note(self, note):
         """오버레이가 알려 준 방송·화면 공유 상태. 안 되면 알림으로도 알린다."""
         self.capture_note = note
         self.icon.update_menu()
         if note and note.startswith("안 됨"):
             self.icon.notify(f"방송·화면 공유에 보이기 {note}", TITLE)
+
+    def on_nickname(self):
+        """게임 속 박사 이름: 대사에 이름이 들어간 문장('果然○○博士的指挥')을 찾고 번역에 이름을 넣는 데 씀.
+
+        트레이 스레드에서 작은 Tk 입력 창을 띄운다. 바꾸면 다음에 사전을 불러올 때(앱 다시 시작) 반영된다.
+        """
+        def ask():
+            import tkinter as tk
+            from tkinter import simpledialog
+            root = tk.Tk()
+            root.withdraw()
+            root.attributes("-topmost", True)
+            cur = self.load_settings().get("nickname") or ""
+            name = simpledialog.askstring(TITLE, "게임 속 박사 이름 (Dr. 뒤의 이름, 비우면 안 씀):", initialvalue=cur, parent=root)
+            root.destroy()
+            if name is None:
+                return
+            settings = self.load_settings()
+            settings["nickname"] = name.strip()
+            SETTINGS.write_text(json.dumps(settings, ensure_ascii=False, indent=1), encoding="utf-8")
+            self.icon.notify("박사 이름을 저장했어요. 앱을 다시 켜면 반영돼요.", TITLE)
+        threading.Thread(target=ask, daemon=True).start()
 
     def on_planner(self):
         """창고·보유 오퍼레이터·드롭 통계로 육성 계산기 페이지를 만들어 브라우저로 연다 (planner.py)."""
@@ -168,11 +207,41 @@ def relaunch_as_admin():
     """
     if ctypes.windll.shell32.IsUserAnAdmin() or not App.load_settings().get("show_in_capture"):
         return False
-    rc = ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, f'"{Path(__file__).resolve()}"', str(HERE), 1)
+    # 배포판(exe)은 자기 자신을, 개발에서는 pythonw로 이 파일을 다시 실행
+    args = "" if paths.FROZEN else f'"{Path(__file__).resolve()}"'
+    rc = ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, args, str(paths.BASE if paths.FROZEN else HERE), 1)
     return rc > 32
 
 
+def selftest(images):
+    """게임 없이 점검: 그림 파일들을 오버레이와 같은 순서로 읽어 번역 결과를 user/selftest.txt에 적는다.
+
+    배포판에서 OCR(DirectML)·사전·스토리 대본이 제대로 붙는지 확인하는 용도 (ak-kr-overlay.exe --selftest 그림.png).
+    """
+    import queue
+    import numpy as np
+    out = paths.USER / "selftest.txt"
+    with open(out, "w", encoding="utf-8") as f:
+        t = time.perf_counter()
+        matcher = Matcher(str(DICT))
+        f.write(f"사전 {len(matcher.keys):,}개 ({time.perf_counter() - t:.1f}초)\n")
+        worker = overlay.Worker(None, matcher, queue.Queue(), offline=True)
+        f.write(f"OCR 장치: {overlay.ocr_engine_providers(worker)}\n스토리 대본: {'있음' if worker.story else '없음'}\n")
+        for path in images:
+            img = Image.open(path).convert("RGB")
+            t = time.perf_counter()
+            items, _ = worker.analyze(np.asarray(img), *img.size)
+            f.write(f"\n{path}: 상자 {len(items)}개, {(time.perf_counter() - t) * 1000:.0f}ms\n")
+            for it in items:
+                f.write(f"  [{it['how']}] {it['zh'][:30]} → {it['ko'][:50]}\n")
+    if "--quiet" not in sys.argv:
+        message(f"점검 결과를 저장했어요:\n{out}")
+
+
 def main():
+    if "--selftest" in sys.argv:
+        selftest([a for a in sys.argv[1:] if not a.startswith("--")])
+        return
     if relaunch_as_admin():
         return
     # 두 번 켜면 오버레이가 겹쳐 그려지므로 하나만

@@ -12,6 +12,7 @@
 """
 
 import ctypes
+import json
 import queue
 import sys
 import threading
@@ -31,16 +32,19 @@ from PIL import Image, ImageGrab
 import depot
 import drops
 import owned
+import paths
 import render
 from fit import free_space
 from layout import merge_lines
-from matcher import HAN, Matcher, edge_of, normalize
-from ocr_engine import CachedOCR, make_ocr
+from matcher import HAN, Matcher, display, edge_of, normalize
+from ocr_engine import CachedOCR, make_ocr, providers
 from recruit import Recruit
 from screens import classify, labels_for, load_screens
+from story import Story
+from vocab import LEARN_KINDS, ScreenVocab
 
 WINDOW_TITLE = "明日方舟"
-RECRUIT_DATA = Path(__file__).resolve().parent.parent / "out" / "recruit.json"
+RECRUIT_DATA = paths.OUT / "recruit.json"
 FADE_IN = 0.12            # 새 번역 상자가 서서히 나타나는 시간 (초)
 INTERVAL = 0.2            # 화면 확인 간격 (초). 너무 짧으면 게임과 GPU를 다툼
 CHANGE_THRESHOLD = 1.5    # 축소 화면 평균 밝기 차이가 이보다 크면 다시 인식
@@ -72,9 +76,17 @@ SAME_PLACE_IOU = 0.4      # 번역이 같고 상자가 이만큼 겹치면 같�
 SHORT_TEXT = 8            # 이 글자 수 이하는 같은 자리에서 다른 번역이 두 번 연속 나와야 바꿈 (대사 같은 긴 글은 바로 바꿈)
 WDA_NONE, WDA_EXCLUDEFROMCAPTURE = 0x0, 0x11
 VK_F9, VK_F10 = 0x78, 0x79
-LOG = Path(__file__).with_name("overlay_log.txt")
-MISSING = Path(__file__).with_name("overlay_missing.tsv")  # 번역하지 못한 글 (시각, 화면, 원문)
+LOG = paths.USER / "overlay_log.txt"
+MISSING = paths.USER / "overlay_missing.tsv"  # 번역하지 못한 글 (시각, 화면, 원문)
 SNAPSHOT_FONT = "C:/Windows/Fonts/malgun.ttf"
+SETTINGS = paths.SETTINGS
+
+
+def load_settings():
+    try:
+        return json.loads(SETTINGS.read_text(encoding="utf-8-sig"))  # 메모장으로 고치면 BOM이 붙음
+    except (OSError, ValueError):
+        return {}
 
 user32 = ctypes.windll.user32
 
@@ -134,6 +146,14 @@ def grab_window(hwnd, w, h):
         gdi32.DeleteObject(bmp)
         gdi32.DeleteDC(mem)
         user32.ReleaseDC(hwnd, hdc)
+
+
+def ocr_engine_providers(worker):
+    """일꾼의 OCR이 쓰는 장치 목록 (DmlExecutionProvider = 그래픽카드)."""
+    try:
+        return ", ".join(providers(worker.ocr.ocr))
+    except Exception as e:  # noqa: BLE001
+        return f"알 수 없음 ({e})"
 
 
 def boxes_overlap(a, b):
@@ -387,14 +407,17 @@ def item_from(m, box, how, zh, ko, arr, **extra):
 class Worker(threading.Thread):
     """화면이 바뀌면 OCR → 사전 매칭을 하고 결과를 큐에 넣는다."""
 
-    def __init__(self, game, matcher, out):
+    def __init__(self, game, matcher, out, offline=False):
         super().__init__(daemon=True)
-        self.game, self.matcher, self.out = game, matcher, out
+        self.game, self.matcher, self.out, self.offline = game, matcher, out, offline
         self.ocr = CachedOCR(make_ocr(gpu=True))
         self.screens = load_screens()
         self.recruit = Recruit(RECRUIT_DATA) if RECRUIT_DATA.exists() else None
-        drops.start_refresh_thread()  # 펭귄 드롭 통계가 하루 넘었으면 새로 받음 (다음 실행부터 반영)
+        if not offline:  # 녹화 화면 재생(replay.py)에서는 받지 않음
+            drops.start_refresh_thread()  # 펭귄 드롭 통계가 하루 넘었으면 새로 받음 (다음 실행부터 반영)
         self.drops = drops.Drops()
+        self.story = Story(nickname=matcher.nickname)  # 스토리 따라가기 (out/story.db가 없으면 꺼짐)
+        self.vocab = ScreenVocab(matcher.nickname)      # 화면별 낱말장 (일부만 읽힌 글 알아보기)
         self.owned = owned.Owned()  # 보유 오퍼레이터 (오퍼레이터 목록 화면을 넘기면 기록됨, record)
         self.char_names = None      # 중국어 이름 → char_id (처음 오퍼레이터 목록을 볼 때 읽음)
         self.depot = None           # 창고 인식 (처음 창고를 볼 때 템플릿을 읽음)
@@ -497,57 +520,113 @@ class Worker(threading.Thread):
                 print(f"화면 전환 (변화 {diff:.1f}, 바뀐 비율 {whole_ratio:.0%})", flush=True)
 
             t = time.perf_counter()
-            arr = np.asarray(img)
-            result, _ = self.ocr(arr)
-            # 사전에서 통째로 찾은 줄은 그대로 (나눠 찾기·조각 번역으로 겨우 맞춘 줄만 나눠 본다)
-            result = split_gaps(result or [], arr, lambda t: (self.matcher.lookup(t) or ("split",))[0] not in ("split", "segment"))
-            items = []
-            # 지금 어느 화면인지 알면 그 화면에서 자주 틀리는 OCR 문구를 바로잡을 수 있다 (ocr_aliases.tsv)
-            screen = classify([text for _, text, _ in result or []], self.screens)
-            self.record(result or [], arr)
-            lines = merge_lines(result or [], w, self.matcher.can_continue, self.matcher.is_entry,
-                                lambda t: self.matcher.lookup(t, screen) is not None)
-            all_boxes = [tuple(int(v) for v in (m["x0"], m["y0"], m["x1"], m["y1"])) for m in lines]
-            for m, box in zip(lines, all_boxes):
-                hit = self.matcher.lookup(m["text"], screen, edge_of(box, w))
-                if not hit:
-                    # 윗줄에서 문장 전체를 이미 번역했으면 줄바꿈된 꼬리는 원문만 가린다
-                    # (꼬리 줄도 원래 문장을 이어받아, 그 아래 세 번째 줄도 꼬리로 알아본다)
-                    above = next((it for it in items if -m["line_h"] * 0.5 <= box[1] - it["box"][3] < m["line_h"] * 1.5
-                                  and it["box"][0] <= box[2] and box[0] <= it["box"][2]
-                                  and self.matcher.is_tail_of(m["text"], it["full_zh"])), None)
-                    if above:
-                        items.append(item_from({**m, "vertical": False}, box, "tail", m["text"], "", arr,
-                                               avail=(box[2] - box[0], box[3] - box[1]), full_zh=above["full_zh"]))
-                    else:
-                        self.note_missing(m["text"], screen)
-                    continue
-                items.append(item_from(m, box, hit[0], m["text"], hit[2], arr,
-                                       avail=free_space(box, all_boxes, w, h), full_zh=hit[1]))
-            # OCR이 못 읽는 그림 글자(홈의 '终端' 로고 등)는 화면 지도에 적힌 자리에 그린다.
-            # OCR이 같은 글자를 읽었어도 항상 고정 글자 쪽을 쓴다 (둘이 번갈아 그려지면 위치가 흔들림)
-            for box, zh, ko, vertical in labels_for(screen, self.screens, w, h, result or [], arr):
-                # 같은 글자를 OCR이 읽은 것 (조각으로 읽은 것 포함: 采购中心 → '中采', '心购')
-                same = [it for it in items if boxes_overlap(box, it["box"]) and
-                        (it["ko"] == ko or it["full_zh"] == zh or set(normalize(it["zh"])) <= set(zh))]
-                # 다른 번역이 그 자리를 대부분 덮고 있을 때만 건너뜀 (말풍선이 살짝 닿은 정도는 그림)
-                if any(covered_ratio(box, it["box"]) >= 0.5 for it in items if it not in same):
-                    continue
-                for it in same:
-                    items.remove(it)
-                bh = box[3] - box[1]
-                line_h = int(bh / len(zh)) if vertical else int(bh / max(1, round(len(zh) / 2)))
-                items.append(item_from({"line_h": line_h, "vertical": vertical, "text": zh}, box, "label", zh, ko, arr,
-                                       avail=free_space(box, all_boxes + [box], w, h), full_zh=zh))
-            for panel in (self.recruit_panel(result or [], w, h),
-                          self.drops.panel(result or [], w, h) if self.drops else None):
-                if panel:
-                    items.append(panel)
+            items, lines = self.analyze(np.asarray(img), w, h)
             ms = (time.perf_counter() - t) * 1000
             self.out.put(("result", ((x, y, w, h), items, ms, img, ~static)))
             if self.recorder:
                 self.recorder.save(img, lines)
 
+    def analyze(self, arr, w, h):
+        """게임 화면 한 장 → (번역 상자 항목들, 합친 OCR 줄들). 녹화 화면 재생(replay.py)도 이것을 쓴다."""
+        result, _ = self.ocr(arr)
+        # 사전에서 통째로 찾은 줄은 그대로 (나눠 찾기·조각 번역으로 겨우 맞춘 줄만 나눠 본다)
+        result = split_gaps(result or [], arr, lambda t: (self.matcher.lookup(t) or ("split",))[0] not in ("split", "segment"))
+        items = []
+        # 지금 어느 화면인지 알면 그 화면에서 자주 틀리는 OCR 문구를 바로잡을 수 있다 (ocr_aliases.tsv)
+        screen = classify([text for _, text, _ in result or []], self.screens)
+        if not self.offline:  # 녹화 재생으로 보유 오퍼레이터·창고 기록을 바꾸지 않게
+            self.record(result or [], arr)
+        lines = merge_lines(result or [], w, self.matcher.can_continue, self.matcher.is_entry,
+                            lambda t: self.matcher.lookup(t, screen) is not None)
+        all_boxes = [tuple(int(v) for v in (m["x0"], m["y0"], m["x1"], m["y1"])) for m in lines]
+        # 스토리 대사는 대본 순서로 따라가며 번역 (글자가 다 나오기 전에도 대사 전체 번역)
+        done = self.story_items(lines, all_boxes, w, h, arr, items) if self.story else set()
+        for i, (m, box) in enumerate(zip(lines, all_boxes)):
+            if i in done:
+                continue
+            hit = self.matcher.lookup(m["text"], screen, edge_of(box, w))
+            if not hit:
+                # 윗줄에서 문장 전체를 이미 번역했으면 줄바꿈된 꼬리는 원문만 가린다
+                # (꼬리 줄도 원래 문장을 이어받아, 그 아래 세 번째 줄도 꼬리로 알아본다)
+                above = next((it for it in items if -m["line_h"] * 0.5 <= box[1] - it["box"][3] < m["line_h"] * 1.5
+                              and it["box"][0] <= box[2] and box[0] <= it["box"][2]
+                              and self.matcher.is_tail_of(m["text"], it["full_zh"])), None)
+                key = None if above else self.vocab.guess(screen, m["text"])
+                if above:
+                    items.append(item_from({**m, "vertical": False}, box, "tail", m["text"], "", arr,
+                                           avail=(box[2] - box[0], box[3] - box[1]), full_zh=above["full_zh"]))
+                elif key and key in self.matcher.table:
+                    # 잘리거나 가려져 일부만 읽힌 글: 이 화면에 나오는 문구 중 하나로 정해지면 그 번역 ('造站' → 制造站)
+                    zh, ko = self.matcher.table[key]
+                    items.append(item_from(m, box, "screen", m["text"], display(ko), arr,
+                                           avail=free_space(box, all_boxes, w, h), full_zh=zh))
+                else:
+                    self.note_missing(m["text"], screen)
+                continue
+            if hit[0] in LEARN_KINDS and not self.offline:
+                self.vocab.learn(screen, hit[1])
+            items.append(item_from(m, box, hit[0], m["text"], hit[2], arr,
+                                   avail=free_space(box, all_boxes, w, h), full_zh=hit[1]))
+        # OCR이 못 읽는 그림 글자(홈의 '终端' 로고 등)는 화면 지도에 적힌 자리에 그린다.
+        # OCR이 같은 글자를 읽었어도 항상 고정 글자 쪽을 쓴다 (둘이 번갈아 그려지면 위치가 흔들림)
+        for box, zh, ko, vertical in labels_for(screen, self.screens, w, h, result or [], arr):
+            # 같은 글자를 OCR이 읽은 것 (조각으로 읽은 것 포함: 采购中心 → '中采', '心购')
+            same = [it for it in items if boxes_overlap(box, it["box"]) and
+                    (it["ko"] == ko or it["full_zh"] == zh or set(normalize(it["zh"])) <= set(zh))]
+            # 다른 번역이 그 자리를 대부분 덮고 있을 때만 건너뜀 (말풍선이 살짝 닿은 정도는 그림)
+            if any(covered_ratio(box, it["box"]) >= 0.5 for it in items if it not in same):
+                continue
+            for it in same:
+                items.remove(it)
+            bh = box[3] - box[1]
+            line_h = int(bh / len(zh)) if vertical else int(bh / max(1, round(len(zh) / 2)))
+            items.append(item_from({"line_h": line_h, "vertical": vertical, "text": zh}, box, "label", zh, ko, arr,
+                                   avail=free_space(box, all_boxes + [box], w, h), full_zh=zh))
+        for panel in (self.recruit_panel(result or [], w, h),
+                      self.drops.panel(result or [], w, h) if self.drops else None):
+            if panel:
+                items.append(panel)
+        title = self.story.title_panel() if self.story else None
+        if title:
+            items.append({"key": "story_title", "how": "panel", "box": (int(w * 0.06), int(h * 0.11), int(w * 0.5), int(h * 0.11)),
+                          "line_h": max(20, int(h * 0.03)), "vertical": False, "zh": "", "full_zh": "", "ko": title,
+                          "rows": [], "title": title, "screen": (w, h), "avail": (w - 20, h), "bg": (18, 20, 26), "fg": None})
+        return items, lines
+
+    def story_items(self, lines, boxes, w, h, arr, items):
+        """스토리 대사·화자 이름을 대본에서 찾아 번역 상자로 넣는다. 처리한 줄 번호들을 돌려준다.
+
+        한 대사가 여러 줄로 읽히면(줄바꿈) 한 상자로 합치고, 아직 나오는 중인 대사는 다 나왔을 때의 자리만큼 상자를 잡아
+        처음부터 대사 전체의 번역을 보여 준다.
+        """
+        ui = any(("跳过" in m["text"] or "自动" in m["text"]) and m["y1"] < h * 0.15 for m in lines)
+        got = self.story.observe({i: m["text"] for i, m in enumerate(lines)}, ui)
+        groups = {}
+        for i, g in got.items():
+            if g["kind"] == "name":
+                items.append(item_from(lines[i], boxes[i], "story", lines[i]["text"], g["ko"], arr,
+                                       avail=free_space(boxes[i], boxes, w, h), full_zh=g["zh"]))
+            else:
+                groups.setdefault(g["unit"], []).append(i)
+        done = {i for i, g in got.items() if g["kind"] == "name"}
+        content_w = min(w, h * 16 / 9)  # 게임 창이 16:9보다 넓으면 양옆은 검은 띠
+        for unit, idxs in groups.items():
+            main = [i for i in idxs if got[i]["kind"] != "part"]
+            if not main:
+                continue  # 다른 대사 안에 우연히 든 글('好的')만 맞은 것: 사전 쪽에 맡김
+            idxs.sort(key=lambda i: (boxes[i][1], boxes[i][0]))
+            g = got[main[0]]
+            box = tuple(f(boxes[i][k] for i in idxs) for k, f in enumerate((min, min, max, max)))
+            line_h = max(lines[i]["line_h"] for i in idxs)
+            first = lines[idxs[0]]["text"]
+            if g["ukind"] in ("dialog", "multiline", "narration"):
+                box = self.story.full_box(unit, box, line_h, first, g["zh"], content_w * 0.57, (w, h))
+            others = [b for j, b in enumerate(boxes) if j not in idxs]
+            text = "".join(lines[i]["text"] for i in idxs)
+            items.append(item_from({"line_h": line_h, "vertical": False, "text": text}, box, "story", text, g["ko"], arr,
+                                   avail=free_space(box, others, w, h), full_zh=g["zh"]))
+            done |= set(idxs)
+        return done
 
     def record(self, result, arr):
         """오퍼레이터 목록·창고 화면이면 보이는 오퍼레이터·아이템을 기록한다 (사용자가 직접 넘기는 동안 저절로).
@@ -672,6 +751,8 @@ class Overlay:
             except win32gui.error:
                 pass
 
+        # 그리는 방식: natural(원문을 지우고 한국어판처럼) / box(배경색 상자로 덮기). 트레이 메뉴에서 바꿈
+        render.STYLE = load_settings().get("render_style", "natural")
         self.events = queue.Queue()
         self.worker = Worker(game, matcher, self.events)
         self.worker.always = always
@@ -738,6 +819,7 @@ class Overlay:
             self.exit_reason = "종료 요청"
         if self.exit_reason:
             self.worker.running = False
+            self.worker.vocab.save()
             self.log.close()
             self.trace_log.close()
             self.root.destroy()
@@ -767,6 +849,13 @@ class Overlay:
                 print(f"점검 기록 {'켬: ' + str(payload) if payload else '끔'}", flush=True)
             elif kind == "show_in_capture":
                 self.set_show_in_capture(payload)
+            elif kind == "style":
+                # 그리는 방식을 바꾸면 보이던 상자는 지우고 다음 인식 결과부터 새 방식으로 (원문 지운 조각을 새로 만듦)
+                render.STYLE = payload
+                changed |= bool(self.shown_items)
+                self.shown_items.clear()
+                self.worker.last_thumb = None
+                print(f"그리는 방식: {payload}", flush=True)
             elif kind == "capture_mode":
                 ok, err = payload
                 self._set_excluded(not ok)
@@ -791,7 +880,8 @@ class Overlay:
         animated: 축소 화면 크기의 '늘 움직이는 부분' 표시 (Worker.motion). 그 위의 상자는 화면 비교로 지우지 않는다.
         """
         self.last_img = img
-        gray = cv2.cvtColor(np.asarray(img), cv2.COLOR_RGB2GRAY) if img is not None else None
+        arr = np.asarray(img) if img is not None else None
+        gray = cv2.cvtColor(arr, cv2.COLOR_RGB2GRAY) if arr is not None else None
         changed = False
         if geometry != self.geometry:
             x, y, w, h = geometry
@@ -820,6 +910,8 @@ class Overlay:
             if cur is None:
                 # 같은 자리의 상자를 바꾸는 것이면(숫자가 붙었다 떨어졌다 하는 '剩余可放置角色：7') 서서히 나타나지 않고 바로
                 replaces = any(overlap_small(e["item"]["box"], it["box"]) >= 0.6 for e in self.shown_items.values())
+                if arr is not None:
+                    render.attach_patch(it, arr)  # 자연스럽게 그리기: 이 화면에서 원문을 지운 배경 조각
                 self.shown_items[sid] = {"item": it, "misses": 0, "born": 0.0 if replaces else time.time(),
                                          "crop": crop_of(gray, it["box"]) if gray is not None else None}
                 self.log.write(f"[{it['how']}] {it['zh']}\t→ {it['ko']}\n")
@@ -840,6 +932,8 @@ class Overlay:
             if moved > MOVE_TOLERANCE or resized or cur["item"]["ko"] != it["ko"]:
                 why = "번역" if cur["item"]["ko"] != it["ko"] else ("크기" if resized else f"이동{moved:.0f}")
                 self.trace(f"바뀜({why}) {cur['item']['zh'][:20]} {cur['item']['box']} → {it['zh'][:20]} {it['box']}")
+                if arr is not None:
+                    render.attach_patch(it, arr)
                 cur["item"] = it
                 cur["crop"] = crop_of(gray, it["box"]) if gray is not None else None
                 changed = True
@@ -994,12 +1088,13 @@ class Overlay:
                 continue
             # 상자 그림은 항목이 바뀔 때만 새로 그린다 (서서히 나타나는 동안 여러 번 올려도 가볍게)
             if entry.get("layer_for") is not entry["item"]:
-                entry["layer"], entry["layer_for"] = render.item_layer(entry["item"]), entry["item"]
-            img, pos, _ = entry["layer"]
+                entry["layers"], entry["layer_for"] = render.item_layers(entry["item"]), entry["item"]
             alpha = min(1.0, (now - entry.get("born", 0)) / FADE_IN)
             fading |= alpha < 1
-            layers.append((img, pos, alpha))
-        self.frame = render.compose((w, h), layers)
+            layers += [(z, img, pos, alpha) for img, pos, z in entry["layers"]]
+        # 원문 지우기(층 0)를 모두 먼저, 그 위에 글자(층 1), 정보 패널(층 2)
+        layers.sort(key=lambda l: l[0])
+        self.frame = render.compose((w, h), [(img, pos, a) for _, img, pos, a in layers])
         self.layered.push(self.frame, x, y)
         if fading and not self.fading:
             self.fading = True

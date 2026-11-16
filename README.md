@@ -26,6 +26,25 @@ finalize.bat                                 # 번역 반영 → 이름 통일 �
 - `build_dict.py`: 중국 서버·한국 서버 데이터를 짝지어 사전을 만듭니다. 한국 서버에 없는 문장은 `out/untranslated.tsv`로.
 - `extra/*.tsv`: 직접 번역·커뮤니티 표기·덮어쓰기. `merge_translations.py`, `unify_names.py`가 반영합니다.
 - 게임 데이터(`data/`), 중간 결과(`out/`, `chunks/` 등)는 저장소에 넣지 않습니다.
+- `build_story.py data\gamedata`: 스토리 대본 색인 `out/story.db` (스토리 따라가기용, finalize.bat이 함께 만듦).
+- `overlay/vocab.py build`: 녹화 화면으로 화면별 낱말장 `out/screen_vocab.json` (일부만 읽힌 글 알아보기).
+
+## PC 오버레이
+
+- 스토리 따라가기(`overlay/story.py`): 대사 한두 줄로 어느 스토리의 몇 번째 대사인지 찾고, 그다음부터는 대본 순서대로
+  공식 한국어를 씁니다. 대사가 한 글자씩 나오는 중에도 대사 전체의 번역이 바로 뜹니다.
+- 그리는 방식(`render.STYLE`, 트레이 '한국어판처럼 그리기'): `natural`은 원문 글자만 지우고 그 자리에 한국어를 씀, `box`는 상자로 덮음.
+- 녹화 화면으로 점검: `cd overlay` → `python replay.py captures\session1 --from 212 --to 229` → `captures\session1_replay\`.
+- 파일 위치는 `overlay/paths.py` 한곳에서 정합니다 (개발 / 배포판).
+
+## PC 배포판 만들기 (공유용)
+
+```
+python build_pc.py      # → dist\명방한글오버레이\ (폴더) + dist\명방한글오버레이-pc-<날짜>.zip
+```
+
+- PyInstaller로 exe를 만들고 사전·대본·게임 표·OCR 모델을 옆에 복사합니다. 박사 이름·기록·MAA 템플릿(AGPL)은 넣지 않습니다.
+- 받은 사람은 압축을 풀고 `ak-kr-overlay.exe` 실행. 점검: `ak-kr-overlay.exe --selftest 그림.png` → `user\selftest.txt`.
 
 ## 휴대폰 업데이트 올리기 (PC)
 

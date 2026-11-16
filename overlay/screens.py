@@ -5,7 +5,9 @@ from pathlib import Path
 
 import cv2
 
-SCREENS = Path(__file__).with_name("screens.json")
+import paths
+
+SCREENS = paths.CODE / "screens.json"
 
 
 def load_screens():
@@ -34,7 +36,7 @@ MATCH_MIN = 0.55     # 이보다 덜 닮았으면 글자가 안 보이는 것 (U
 
 def _template(path):
     if path not in _templates:
-        _templates[path] = cv2.imread(str(Path(__file__).parent / path), cv2.IMREAD_GRAYSCALE)
+        _templates[path] = cv2.imread(str(paths.CODE / path), cv2.IMREAD_GRAYSCALE)
     return _templates[path]
 
 

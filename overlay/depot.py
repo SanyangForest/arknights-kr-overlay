@@ -15,9 +15,10 @@ from pathlib import Path
 import cv2
 import numpy as np
 
-ROOT = Path(__file__).resolve().parent
-TEMPLATES = ROOT.parent / "tools" / "maa_templates" / "resource" / "template" / "items"
-INVENTORY = ROOT / "data" / "inventory.json"
+import paths
+
+TEMPLATES = paths.MAA_ITEMS  # 없으면 창고 인식만 꺼짐 (배포판에는 넣지 않음)
+INVENTORY = paths.USER_DATA / "inventory.json"
 SIZE = 64            # 비교용으로 줄인 크기
 MIN_SCORE = 0.6      # 이보다 덜 닮으면 모르는 아이템 (기간 한정 아이템 등 템플릿 없음)
 SCALES = (1.15, 1.2, 1.25)  # 템플릿(720p 기준 105px) 대비 칸 크기 배율 (화면 높이/720 기준)

@@ -26,6 +26,8 @@ from pathlib import Path
 
 from rapidfuzz import fuzz, process
 
+import paths
+
 HAN = re.compile(r"[一-鿿]")
 HAN_RUN = re.compile(r"[一-鿿](?:[一-鿿，、]*[一-鿿])?")
 # 화면에 보이지 않는 서식 태그 (<@ba.vup>, </>, <color=...> 등)
@@ -65,9 +67,9 @@ NAME_KINDS = ("story:speaker", "character_table:name", "skin_table", "handbook_i
 TITLE_MIN_LEN, TITLE_MAX_LEN = 3, 10
 # 스킨 브랜드 번호 같은 로마 숫자 (时代/XVII). 다르면 다른 항목
 ROMAN = re.compile(r"(?<![A-Za-z])[IVXL]+(?![A-Za-z])")
-ALIASES = Path(__file__).with_name("ocr_aliases.tsv")
+ALIASES = paths.CODE / "ocr_aliases.tsv"
 # 옆으로 흘러가는 안내 문구. 화면에 일부만 보여도('指挥作战正常运行中') 전체 번역을 보여 준다
-MARQUEE = Path(__file__).with_name("marquee.tsv")
+MARQUEE = paths.CODE / "marquee.tsv"
 # 한자 숫자. 비슷한 문장 매칭에서 이게 다르면 뜻이 다름 (周二三六日开放 ≠ 周三四六日开放)
 CN_NUM = re.compile(r"[一二三四五六七八九十百千两]")
 # 자원 수집 화면의 요일 표시 (周一二五六开放 → 월·화·금·토 개방). 조합이 많아 사전에 다 없음
@@ -259,7 +261,7 @@ class Matcher:
         levels = Path(dict_path).with_name("skill_levels.json")
         self.levels = ({normalize(k): v for k, v in json.loads(levels.read_text(encoding="utf-8")).items()}
                        if levels.exists() else {})
-        settings = Path(__file__).with_name("settings.json")
+        settings = paths.SETTINGS
         self.nickname = json.loads(settings.read_text(encoding="utf-8-sig")).get("nickname") if settings.exists() else None
         self.marquee = []
         if MARQUEE.exists():

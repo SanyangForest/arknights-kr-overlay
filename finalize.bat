@@ -6,6 +6,7 @@ python -E -s merge_translations.py
 python -E -s unify_names.py
 python -E -s build_dict.py "%~dp0data\gamedata" > nul
 python -E -s build_recruit.py "%~dp0data\gamedata"
+"%~dp0.venv\Scripts\python.exe" build_story.py "%~dp0data\gamedata"
 type out\report.md
 cd overlay
 for %%s in (session1 session2 session4) do (

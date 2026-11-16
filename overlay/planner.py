@@ -15,10 +15,10 @@ from pathlib import Path
 import depot
 import drops
 import owned
+import paths
 
-ROOT = Path(__file__).resolve().parent
-GAME = ROOT.parent / "data" / "gamedata"
-OUT = ROOT / "data" / "planner.html"
+GAME = paths.GAME
+OUT = paths.USER_DATA / "planner.html"
 LMD = "4001"
 
 
@@ -78,7 +78,7 @@ def build():
         items[iid] = {"ko": name, "rarity": rarity, "have": int(inv.get(iid, 0)),
                       "best": [best[0], round(best[1], 1)] if best else None}
     data = {"ops": ops, "items": items, "inventoryDate": _date(depot.INVENTORY), "ownedDate": _date(owned.OWNED)}
-    html = (ROOT / "planner_template.html").read_text(encoding="utf-8").replace(
+    html = (paths.CODE / "planner_template.html").read_text(encoding="utf-8").replace(
         "/*DATA*/null", json.dumps(data, ensure_ascii=False))
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(html, encoding="utf-8")

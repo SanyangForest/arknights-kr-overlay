@@ -6,11 +6,10 @@ overlay/data/owned.json = {"updated": "...", "ops": {char_id: 중국어 이름}}
 
 import json
 import time
-from pathlib import Path
+import paths
 
-ROOT = Path(__file__).resolve().parent
-OWNED = ROOT / "data" / "owned.json"
-GAME = ROOT.parent / "data" / "gamedata"
+OWNED = paths.USER_DATA / "owned.json"
+GAME = paths.GAME
 
 
 def char_names():

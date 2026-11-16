@@ -8,13 +8,24 @@ PIL로 창 전체 크기의 RGBA 그림을 그려 한 번에 올리면 부드러
 import ctypes
 from ctypes import wintypes
 
+from pathlib import Path
+
+import cv2
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 
+import paths
 from fit import layout
 
 FONT_PATH = "C:/Windows/Fonts/malgun.ttf"
 BOLD_PATH = "C:/Windows/Fonts/malgunbd.ttf"
+# 자연스럽게 그리기(natural)의 글꼴: 게임 중국어 글꼴(본고딕 SC)과 같은 집안인 본고딕 KR(Noto Sans KR).
+# 함께 넣은 글꼴(overlay/fonts)이 먼저, 없으면 Windows에 깔린 것, 그것도 없으면 맑은 고딕
+NOTO_PATHS = [paths.CODE / "fonts" / "NotoSansKR-VF.ttf", Path("C:/Windows/Fonts/NotoSansKR-VF.ttf")]
+NOTO_PATH = next((str(p) for p in NOTO_PATHS if p.exists()), None)
+# 그리는 방식: "natural" = 원문 글자만 지우고(주변 배경으로 메움) 그 자리에 한국어를 씀 (한국어판처럼),
+# "box" = 배경색 상자로 덮고 한국어를 씀 (예전 방식). overlay.py가 settings.json의 render_style로 정한다
+STYLE = "natural"
 PAD = 3
 RADIUS = 5
 # 등급 색 (공개모집 패널)
@@ -31,8 +42,12 @@ gdi32 = ctypes.WinDLL("gdi32")
 class PilFont:
     """fit.layout이 쓰는 Tk 글꼴과 같은 모양(measure, metrics('linespace'))의 PIL 글꼴."""
 
-    def __init__(self, size, bold=False):
-        self.font = ImageFont.truetype(BOLD_PATH if bold else FONT_PATH, size)
+    def __init__(self, size, bold=False, natural=False):
+        if natural and NOTO_PATH:
+            self.font = ImageFont.truetype(NOTO_PATH, size)
+            self.font.set_variation_by_axes([700 if bold else 500])
+        else:
+            self.font = ImageFont.truetype(BOLD_PATH if bold else FONT_PATH, size)
         ascent, descent = self.font.getmetrics()
         self.linespace = ascent + descent
 
@@ -46,11 +61,72 @@ class PilFont:
 _fonts = {}
 
 
-def font(size, bold=False):
-    key = (size, bold)
+def font(size, bold=False, natural=False):
+    key = (size, bold, natural)
     if key not in _fonts:
-        _fonts[key] = PilFont(size, bold)
+        _fonts[key] = PilFont(size, bold, natural)
     return _fonts[key]
+
+
+def natural_font(size):
+    return font(size, natural=True)
+
+
+def lum(c):
+    return (c[0] * 299 + c[1] * 587 + c[2] * 114) / 1000
+
+
+def fill_from_around(img, mask, line_h):
+    """mask 자리를 둘레 픽셀의 가중 평균으로 메운다 (정규화한 흐림: 가려진 픽셀은 빼고 평균).
+
+    cv2.inpaint는 글이 많은 화면에서 항목 20개에 0.9초 걸려 못 씀. 상자 흐림은 크기와 상관없이 빨라 1ms 안팎.
+    좁은 창(글자 높이)으로 먼저 메우고, 그 안에 둘레 픽셀이 거의 없는 자리는 넓은 창으로.
+    """
+    keep = (mask == 0).astype(np.float32)
+    src = img.astype(np.float32) * keep[..., None]
+    out = img.astype(np.float32)
+    todo = mask > 0
+    for k in (max(5, int(line_h) | 1), max(15, int(line_h * 3) | 1)):
+        den = cv2.blur(keep, (k, k))
+        num = cv2.blur(src, (k, k))
+        ok = todo & (den > 0.05)
+        out[ok] = num[ok] / den[ok][:, None]
+        todo &= ~ok
+        if not todo.any():
+            break
+    if todo.any():
+        out[todo] = np.median(img[mask == 0], axis=0) if (mask == 0).any() else 0
+    return np.clip(out, 0, 255).astype(np.uint8)
+
+
+def make_patch(arr, box, bg, line_h):
+    """원문 글자를 지운 배경 조각: (RGBA 그림, 상자 왼쪽 위에서의 위치). 자연스럽게 그리기에서 원문 자리에 덮는다.
+
+    상자 안에서 배경색(bg)과 뚜렷이 다른 픽셀(글자와 그 테두리)을 조금 넓혀 표시하고, 주변 배경으로 메운다
+    (fill_from_around). 버튼 무늬·그러데이션이 그대로 남아 상자를 덮은 티가 나지 않는다. 가장자리는 서서히 투명하게.
+    """
+    x0, y0, x1, y1 = (int(v) for v in box)
+    H, W = arr.shape[:2]
+    m = max(2, int(line_h * 0.12))
+    cx0, cy0, cx1, cy1 = max(0, x0 - m * 2), max(0, y0 - m * 2), min(W, x1 + m * 2), min(H, y1 + m * 2)
+    if cx1 - cx0 < 4 or cy1 - cy0 < 4:
+        return None
+    crop = np.ascontiguousarray(arr[cy0:cy1, cx0:cx1, :3])
+    diff = np.abs(crop.astype(np.int16) - np.array(bg, dtype=np.int16)).max(axis=2)
+    mask = np.zeros(diff.shape, np.uint8)
+    ix0, iy0 = max(0, x0 - m - cx0), max(0, y0 - m - cy0)
+    ix1, iy1 = min(cx1, x1 + m) - cx0, min(cy1, y1 + m) - cy0
+    mask[iy0:iy1, ix0:ix1] = (diff[iy0:iy1, ix0:ix1] > 48).astype(np.uint8) * 255
+    k = max(3, m * 2 + 1)
+    mask = cv2.dilate(mask, np.ones((k, k), np.uint8))
+    filled = fill_from_around(crop, mask, line_h) if mask.any() else crop
+    # 덮을 범위: 상자 + m, 그 바깥 m은 서서히 투명하게
+    alpha = np.zeros(diff.shape, np.float32)
+    alpha[iy0:iy1, ix0:ix1] = 1.0
+    alpha = cv2.blur(alpha, (m * 2 + 1, m * 2 + 1))
+    alpha = np.clip(alpha * 2.0, 0, 1)
+    rgba = np.dstack([filled, (alpha * 255).astype(np.uint8)])
+    return Image.fromarray(rgba, "RGBA"), (cx0 - x0, cy0 - y0)
 
 
 def text_color(bg, fg=None):
@@ -87,6 +163,50 @@ def item_layer(it):
     return img, rect[:2], rect
 
 
+def natural_layers(it):
+    """자연스럽게 그리기: [(원문을 지운 배경 조각, 자리, 0), (한국어 글자, 자리, 1)] — 상자 없이 원문 글자색으로.
+
+    배경 조각(층 0)을 모든 항목에서 먼저 그리고 글자(층 1)를 그 위에 그린다: 조각 가장자리가 이웃 번역의 글자를
+    가리지 않게 ('현재' 조각이 바로 아래 '임무 완료' 윗부분을 지웠음).
+    짧은 라벨(버튼·탭)은 원문 자리 가운데에, 긴 글은 원문 왼쪽에 맞춘다. 배경과 글자색이 비슷하면 얇은 테두리.
+    """
+    x0, y0, x1, y1 = it["box"]
+    patch, (px, py) = it["patch"]
+    out = [(patch, (x0 + px, y0 + py), 0)]
+    ko = it["ko"]
+    if not ko:  # 줄바꿈 꼬리: 원문만 지움
+        return out
+    size, lines = layout(ko, it["box"], it["line_h"], *it["avail"], natural_font, it.get("vertical", False))
+    f = natural_font(size)
+    text_h = len(lines) * f.linespace
+    text_w = max((f.measure(line) for line in lines), default=0)
+    ty = y0 + (y1 - y0 - text_h) // 2
+    short = len(lines) == 1 and len(it["zh"]) <= 8 and not it.get("vertical") and text_w <= (x1 - x0) * 1.4
+    tx = x0 + ((x1 - x0) - text_w) // 2 if short else x0
+    bg = tuple(it["bg"])
+    fg = text_color(bg, it.get("fg"))
+    o = 2 if abs(lum(fg) - lum(bg)) < 60 else 0  # 글자색이 배경과 비슷할 때만 테두리 (text_color가 대개 막아 줌)
+    img = Image.new("RGBA", (text_w + o * 2 + 2, text_h + o * 2 + 2), (0, 0, 0, 0))
+    d = ImageDraw.Draw(img, "RGBA")
+    edge = (0, 0, 0, 170) if lum(bg) >= 128 else (255, 255, 255, 170)
+    for i, line in enumerate(lines):
+        pos = (o + (((text_w - f.measure(line)) // 2) if short else 0), o + i * f.linespace)
+        d.text(pos, line, font=f.font, fill=fg + (255,), **({"stroke_width": o, "stroke_fill": edge} if o else {}))
+    out.append((img, (tx - o, ty - o), 1))
+    return out
+
+
+def item_layers(it):
+    """번역 항목 하나를 그린 층들 [(그림, 왼쪽 위 좌표, 층)]. 층 0 = 원문 지우기, 1 = 번역 상자·글자, 2 = 정보 패널.
+
+    화면 전체를 그릴 때 층 번호 순서로 쌓는다 (같은 층 안에서는 넘겨준 순서).
+    """
+    if STYLE == "natural" and it.get("patch") is not None and it.get("how") not in PANELS:
+        return natural_layers(it)
+    img, pos, _ = item_layer(it)
+    return [(img, pos, 2 if it.get("how") in PANELS else 1)]
+
+
 def panel_layer(it):
     """정보 패널: [(글, 색)] 줄. 색은 (r, g, b) 또는 등급 숫자(RARITY_COLOR).
 
@@ -95,7 +215,7 @@ def panel_layer(it):
     rows = it["rows"]
     size = max(14, min(26, int(it["line_h"] * 0.7)))
     title, body = font(size, bold=True), font(size)
-    width = max(title.measure(it["title"]), *(body.measure(t) for t, _ in rows)) + size * 2
+    width = max([title.measure(it["title"])] + [body.measure(t) for t, _ in rows]) + size * 2
     width = min(width, it["avail"][0])
     pad = size // 2
     h = title.linespace + len(rows) * body.linespace + pad * 3
@@ -209,3 +329,10 @@ class LayeredWindow:
             gdi32.DeleteDC(self.mem)
             self.mem = self.bmp = self.old = None
             self.size = None
+
+
+def attach_patch(it, arr):
+    """자연스럽게 그리기면 항목에 원문을 지운 배경 조각을 붙인다 (그 화면 arr에서). 정보 패널은 해당 없음."""
+    if STYLE == "natural" and it.get("how") not in PANELS and "patch" not in it:
+        it["patch"] = make_patch(arr, it["box"], it["bg"], it["line_h"])
+    return it

@@ -14,11 +14,11 @@ import urllib.request
 from collections import defaultdict
 from pathlib import Path
 
+import paths
 from matcher import normalize
 
-ROOT = Path(__file__).resolve().parent
-DATA = ROOT / "data" / "penguin_cn.json"
-GAME = ROOT.parent / "data" / "gamedata"
+DATA = paths.USER_DATA / "penguin_cn.json"
+GAME = paths.GAME
 URL = "https://penguin-stats.io/PenguinStats/api/v2/result/matrix?server=CN"
 CODE = re.compile(r"^[A-Z]{0,4}\d{0,2}-?[A-Z]?\d{1,2}$")
 MIN_TIMES = 100     # 이보다 적게 집계된 드롭은 믿기 어려워 뺌

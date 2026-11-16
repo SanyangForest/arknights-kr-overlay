@@ -9,12 +9,14 @@ import onnxruntime
 from rapidocr_onnxruntime import RapidOCR
 from rapidocr_onnxruntime import utils as rapid_utils
 
+import paths
+
 DML = "DmlExecutionProvider"
 # 글자 읽기 모델: PP-OCRv5 server (tools/ocr_models, 저장소에는 없음 — 없으면 RapidOCR 기본 PP-OCRv3).
 # 녹화 화면 60장 비교(ocr_bench.py, 2026-11-14): 사전과 정확히 맞게 읽은 한자 v3 69.9% → v5 server 80.7%,
 # 상자를 넓게(unclip 2.0) 하면 81.9%. MAA가 쓰는 PP-OCRv6 small은 77.9%, MAA의 2023년 학습판은 64.2%
 # 쓸 모델은 tools/ocr_models/current.json의 "rec" (폴더 이름). 명방 전용으로 학습한 모델(akkr-*)이 더 좋으면 여기만 바꾼다.
-MODELS = Path(__file__).resolve().parent.parent / "tools" / "ocr_models"
+MODELS = paths.MODELS
 
 
 def current_rec():
