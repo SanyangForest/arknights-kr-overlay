@@ -142,6 +142,7 @@ def main():
     sys.stdout.reconfigure(encoding="utf-8")
     ap = argparse.ArgumentParser()
     ap.add_argument("--no-zip", action="store_true")
+    ap.add_argument("--pcdb", type=Path, help="넣을 사전 묶음 (publish_update.py가 이번에 올리는 판을 넘김)")
     a = ap.parse_args()
     work = ROOT / "tmp" / "build_pc"
     built = pyinstaller(work)
@@ -152,7 +153,7 @@ def main():
     newer_vc_runtime(target / "_internal")
     data = target / "data"
     data.mkdir()
-    shutil.copy2(pc_db(), data / "pc.db")
+    shutil.copy2(a.pcdb or pc_db(), data / "pc.db")
     models = target / "models"
     models.mkdir()
     cur = json.loads((ROOT / "tools" / "ocr_models" / "current.json").read_text(encoding="utf-8"))

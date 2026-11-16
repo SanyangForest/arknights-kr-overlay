@@ -166,7 +166,9 @@ def main():
     if a.pc_app:
         sys.path.insert(0, str(ROOT / "overlay"))
         import updater
-        run([VENV_PY, ROOT / "build_pc.py"], cwd=ROOT)
+        # 배포판에는 이번에 올리는 PC 묶음을 넣는다 (받은 사람이 처음부터 패치만 받게)
+        ship = new_pc if pc_changed else (PUB / f"pc-{prev_pc.get('version')}.db" if prev_pc else None)
+        run([VENV_PY, ROOT / "build_pc.py", *(["--pcdb", ship] if ship and ship.exists() else [])], cwd=ROOT)
         pc_zip = max((ROOT / "dist").glob("*-pc-*.zip"), key=lambda f: f.stat().st_mtime)
         pc_app_version = updater.APP_VERSION
 
