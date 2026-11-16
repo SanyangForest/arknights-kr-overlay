@@ -93,6 +93,10 @@ def build(folders):
     screens = load_screens()
     vocab = ScreenVocab.__new__(ScreenVocab)
     vocab.words, vocab.learned, vocab.dirty_at = {}, {}, 0.0
+    # 있던 낱말장에 더한다 (녹화를 지운 뒤 다시 만들면 줄어들었음)
+    if SEED.exists():
+        for screen, keys in json.loads(SEED.read_text(encoding="utf-8")).items():
+            vocab.words.setdefault(screen, set()).update(keys)
     vocab.nickname = (m.nickname or "").lower()
     n = 0
     for folder in folders:

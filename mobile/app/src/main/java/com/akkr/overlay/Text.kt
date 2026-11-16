@@ -29,11 +29,15 @@ object Text {
         "挑姚", "傀愧倪", "引弓", "丛从", "凛漂", "瞥警聲声", "作乍", "敌文", "临高", "中史", "了子", "抉块", "瞌嗑", "物勿", "嗯想",
         // 폰(ML Kit)에서 자주 헷갈리는 글자 (集戌战略, 新人向调组合包, 住务, 公开招券)
         "同向", "任住", "募券导", "剩利", "合台",
+        // PC판과 같게: 招募가 超募로, 공지의 오퍼레이터 이름 弑君者·止颂이 試君者·上颂으로
+        "超招", "弑試试", "止上",
     )
     val CONFUSE: Map<Char, String> = buildMap { for (g in CONFUSABLE) for (c in g) put(c, g) }
     // 아이콘이 한자로 잘못 읽힐 때 자주 나오는 글자 (앞에 붙음: 图较慢 → 较慢)
     val ICON_CHARS = "图区回向三囗口日目田凶品吕亘目旦".toSet()
     val NOISE_CHARS = ICON_CHARS - "日回三".toSet() + "仓四".toSet()
+    /** 홀로 읽히면 아이콘으로 보는 한 글자 (홈 친구·파일 버튼 아래 아이콘을 '人'으로 읽음). PC판 LONE_ICON */
+    val LONE_ICON = ICON_CHARS + '人'
     val UNIT_CHARS = "天日时分秒次个名级层格倍张份回号期周年月第星阶".toSet()
     // 숫자 옆 한 글자 단위: 한섭 번역 틀에 단위가 없을 때 붙임 ('{0}天后开放' → '{0} 후 개방')
     val UNITS = linkedMapOf(

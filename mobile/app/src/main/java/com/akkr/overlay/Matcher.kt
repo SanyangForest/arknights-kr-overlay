@@ -69,9 +69,25 @@ class Matcher(private val dict: Dict) {
         var q = Text.normalize(text)
         if (!Text.hasHan(q) || isNoise(q)) return null
         // 아이콘·체크칸이 한자 한 글자로 읽힌 것 ('日', '口', '回'): 홀로 있으면 번역하지 않음
-        Text.LEADING_JUNK.replace(q, "").let { if (it.length == 1 && it[0] in Text.ICON_CHARS) return null }
+        Text.LEADING_JUNK.replace(q, "").let { if (it.length == 1 && it[0] in Text.LONE_ICON) return null }
         // 시계 아이콘이 '?', 'Q', '0.' 등으로 읽혀 남은 날짜·시간 앞에 붙은 것 (Q5天, 0.4天 → 4天)
         ICON_NUM.matchEntire(q)?.let { m -> q = m.groupValues[1].ifEmpty { m.groupValues[2] } }
+        // 공지 날짜 칸 '12 / 11月'이 '121月'로 붙어 읽힘: 1~12월이 아니면 번역하지 않는다 ('121월'이 떴음, PC판과 같음)
+        MONTH_ONLY.matchEntire(q)?.let { m -> if ((m.groupValues[1].toIntOrNull() ?: 99) !in 1..12) return null }
+        // 괄호로 감싼 제목 '【中坚甄选】': 안의 낱말을 찾아 괄호째 (앞부분 맞추기로 그 낱말이 든 긴 문장이 잡혔음)
+        BRACKETED.matchEntire(q)?.let { m ->
+            if (dict.exact(q) == null) {
+                find(m.groupValues[2])?.let { h ->
+                    if (h.how in BRACKET_OK) return Hit(h.how, q, m.groupValues[1] + h.ko + m.groupValues[3])
+                }
+                return null  // 괄호 제목만 있는 줄: 그 낱말로 시작하는 긴 문장(앞부분 맞추기)으로 옮기지 않는다
+            }
+        }
+        // 숫자 하나가 시계 아이콘 등으로 앞에 붙은 제목 ('0限时复刻'): 뒤가 사전에 그대로 있을 때만
+        DIGIT_HEAD.matchEntire(q)?.let { m ->
+            val rest = m.groupValues[1]
+            if (dict.exact(q) == null && rest[0] !in Text.UNIT_CHARS) dict.exact(rest)?.let { return Hit("icon", rest, it) }
+        }
         // 앞 글자(干 등)가 영문 몇 자로 읽힌 것 ('CF员寻访' → '员寻访'): 남은 글이 별칭에 있으면 그것으로
         LATIN_HEAD.find(q)?.let { m ->
             val rest = q.substring(m.value.length)
@@ -600,7 +616,12 @@ class Matcher(private val dict: Dict) {
         // 자원 수집 화면의 요일 표시 (周一二五六开放 → 월·화·금·토 개방)
         private val WEEKDAY = Regex("周([一二三四五六日]+)开放")
         private val WEEKDAY_KO = "一二三四五六日".zip("월화수목금토일").toMap()
-        private val ICON_NUM = Regex("[A-Za-z¥?.]+(\\d+(?:天|小时|分钟|分|秒|日))|\\d[.,](\\d+(?:天|日))")
+        private val MONTH_ONLY = Regex("(\\d+)月")
+        private val BRACKETED = Regex("([\\[<「\"])([^\\[\\]<>「」\"]{2,20})([\\]>」\"])")
+        private val BRACKET_OK = setOf("exact", "alias", "title", "confuse", "one_char", "fuzzy", "icon")
+        private val DIGIT_HEAD = Regex("\\d([\\u4e00-\\u9fff]{2}.*)")
+        // 둘째: 앞에 붙은 숫자 1~3자리 + 점 ('0.4天', 홈 창고의 알림 '!2' + '6天' = '02.6天')
+        private val ICON_NUM = Regex("[A-Za-z¥?.]+(\\d+(?:天|小时|分钟|分|秒|日))|\\d{1,3}[.,](\\d+(?:天|日))")
         // 채용 결과 '직군 + (직군 아이콘) + 이름' (PC판 CLASS_KO / CLASS_NAME·CLASS_LOOSE)
         private val CLASS_KO = mapOf("先锋" to "뱅가드", "近卫" to "가드", "重装" to "디펜더", "狙击" to "스나이퍼",
             "术师" to "캐스터", "医疗" to "메딕", "辅助" to "서포터", "特种" to "스페셜리스트")

@@ -247,6 +247,13 @@ class ReaderService : AccessibilityService() {
         val thumb = Frames.thumbnail(bmp)
         val prev = lastThumb
         lastThumb = thumb
+        // 화면 전환(홈 → 공개모집 등): 띄워 둔 상자를 모두 치운다. 글자 그림 비교만으로는 밝은 바탕의 작은 글('角色管理')이
+        // 새 화면의 비슷한 자리와 맞다고 나와 옛 상자가 남았음 (PC판 SCENE_FRACTION과 같은 기준)
+        if (prev != null && shown.isNotEmpty() && sceneChanged(prev, thumb)) {
+            Log.d(TAG, "화면 전환: 상자 ${shown.size}개 치움")
+            shown = emptyList()
+            publish()
+        }
         val moving = prev == null || changed(prev, thumb)
         if (moving && dirtySince == 0L) dirtySince = now
         val settled = dirtySince != 0L && (!moving || now - dirtySince >= MAX_WAIT_MS)
@@ -282,7 +289,9 @@ class ReaderService : AccessibilityService() {
         for (s in shown) {
             if (s in used) continue
             // 같은 글이 다른 자리에 새로 읽혔으면 옮겨 간 것 (흘러가는 안내 문구): 옛 상자는 지움
-            val moved = s.p.item.zh.length > 4 && items.any { it.zh == s.p.item.zh }
+            // 같은 문장이 여러 칸에 있으면(공개모집 칸마다 '已找到符合…') 이번에 읽힌 수가 띄워 둔 수보다 적을 때는 옮긴 게 아님
+            val moved = s.p.item.zh.length > 4 && items.any { it.zh == s.p.item.zh } &&
+                shown.count { it.p.item.zh == s.p.item.zh } <= items.count { it.zh == s.p.item.zh }
             val keep = !moved && result.none { RectF.intersects(it.p.item.box, s.p.item.box) } &&
                 Frames.findShift(bmp, s.patch, 0, offFrac = offFrac(s.loose)) != null
             if (keep) result += s else changedAny = true
@@ -312,6 +321,10 @@ class ReaderService : AccessibilityService() {
     private fun offFrac(loose: Int) = minOf(0.2f + 0.15f * loose, 0.6f)
 
     /** 화면이 바뀌었나. 칸마다 '자주 움직임'을 기억해 늘 움직이는 칸(라이브2D 등)은 빼고 본다. */
+    /** 화면 대부분(60% 넘게)이 크게 바뀌었나 (늘 움직이는 칸도 포함해서 잼). */
+    private fun sceneChanged(a: FloatArray, b: FloatArray): Boolean =
+        a.indices.count { abs(a[it] - b[it]) > 25f } > a.size * 0.6f
+
     private fun changed(a: FloatArray, b: FloatArray): Boolean {
         var total = 0f
         var n = 0

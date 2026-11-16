@@ -46,9 +46,18 @@ LEADING_JUNK = re.compile(r"^(?:[^\w一-鿿\[(<]|[A-Za-z](?=[一-鿿])|[①-⑳]
 # OCR이 서로 헷갈리는 한자 (戍成: 태블릿 글꼴에서 위수 협의의 戍를 成으로 읽음, 卫成百科 → 卫戍百科)
 CONFUSABLE = ["干千于", "已己巳", "未末", "人入", "土士", "日曰", "戊戍戌成", "大太犬", "王玉主", "刀力",
               "免兔", "折拆", "徒徙", "历厉", "候侯", "博傅", "摇遥瑶", "视观", "烬煜炽焖", "欸欲",
-              "挑姚", "傀愧倪", "引弓", "丛从", "凛漂", "瞥警聲", "作乍", "敌文", "临高", "中史", "了子", "抉块", "瞌嗑", "物勿", "嗯想", "超招"]
+              "挑姚", "傀愧倪", "引弓", "丛从", "凛漂", "瞥警聲", "作乍", "敌文", "临高", "中史", "了子", "抉块", "瞌嗑", "物勿", "嗯想", "超招", "弑試", "止上"]  # 弑君者·止颂 → 試君者·上颂 (공지)
 # 아이콘이 한자로 잘못 읽힐 때 자주 나오는 글자 (앞에 붙음: 图较慢 → 较慢)
 ICON_CHARS = set("图区回向三囗口日目田凶品吕亘目旦")
+# 공지 날짜 칸 '12 / 11月'이 '121月'로 붙어 읽힘: 1~12월이 아니면 번역하지 않는다
+MONTH_ONLY = re.compile(r"(\d+)月")
+# 괄호로 감싼 제목 ('【中坚甄选】', 정규화 뒤 '[中坚甄选]'): 안의 낱말을 찾아 괄호째
+BRACKET_TITLE = re.compile(r'([\[<「"])([^\[\]<>「」"]{2,20})([\]>」"])')
+BRACKET_OK = {"exact", "alias", "title", "confuse", "fuzzy", "icon"}
+# 숫자 하나가 시계 아이콘 등으로 앞에 붙은 제목 ('0限时复刻')
+DIGIT_HEAD = re.compile(r"\d([一-鿿]{2}.*)")
+# 홀로 읽히면 아이콘으로 보고 번역하지 않는 한 글자 (폰 홈 친구·파일 버튼 아래 아이콘을 '人'으로 읽어 '명'이 뜸)
+LONE_ICON = ICON_CHARS | {"人"}
 # 숫자 옆 아이콘이 한자 한 글자로 읽힌 것 (区835 = 공격력 아이콘 + 835)
 NOISE_CHARS = (ICON_CHARS - set("日回三")) | set("仓四")
 # 숫자 뒤에 붙어 뜻이 있는 글자 (5天, 3次, 第2…). 이 글자와 숫자만 있으면 잡음이 아님
@@ -146,7 +155,8 @@ def object_particle(word):
     return "을" if (ord(c) - 0xAC00) % 28 else "를"
 # 시계 아이콘이 '?', '¥', 'Q', '9.', '0.' 등으로 읽혀 남은 날짜·시간 앞에 붙은 것.
 # 소수점 앞자리를 떼는 건 날짜만 (게임에 '2.5天'은 없지만 '2.5秒'는 있음)
-ICON_NUM = re.compile(r"[A-Za-z¥?.]+(\d+(?:天|小时|分钟|分|秒|日))|\d[.,](\d+(?:天|日))")
+# 둘째: 앞에 붙은 숫자 1~3자리 + 점 ('0.4天', 폰 홈 창고의 알림 '!2' + '6天' = '02.6天')
+ICON_NUM = re.compile(r"[A-Za-z¥?.]+(\d+(?:天|小时|分钟|分|秒|日))|\d{1,3}[.,](\d+(?:天|日))")
 
 
 def normalize(s):
@@ -907,6 +917,21 @@ class Matcher:
         icon_num = ICON_NUM.fullmatch(q)
         if icon_num:
             q = text = icon_num.group(1) or icon_num.group(2)
+        lone = LEADING_JUNK.sub("", q)
+        if len(lone) == 1 and lone in LONE_ICON:
+            return None
+        mon = MONTH_ONLY.fullmatch(q)
+        if mon and not 1 <= int(mon.group(1)) <= 12:
+            return None
+        br = BRACKET_TITLE.fullmatch(q)
+        if br and q not in self.table:
+            inner = self._lookup(br.group(2), screen)
+            if inner and inner[0] in BRACKET_OK:
+                return inner[0], text, f"{br.group(1)}{inner[2]}{br.group(3)}", inner[3]
+            return None  # 괄호 제목만 있는 줄: 그 낱말로 시작하는 긴 문장(앞부분 맞추기)으로 옮기지 않는다
+        dh = DIGIT_HEAD.fullmatch(q)
+        if dh and q not in self.table and dh.group(1)[0] not in UNIT_CHARS and dh.group(1) in self.table:
+            return ("icon", *self.table[dh.group(1)], 95)
         alias = self.aliases.get((screen, q)) or self.aliases.get(("*", q))
         if alias and alias.startswith("="):  # 그 화면에서만 다르게 옮길 말 (설정의 关闭 = 끄기)
             return "alias", text, alias[1:], 100

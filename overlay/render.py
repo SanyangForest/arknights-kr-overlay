@@ -35,7 +35,7 @@ RARITY_COLOR = {6: (255, 127, 39), 5: (255, 208, 64), 4: (205, 170, 255), 3: (17
 # 공용 객체를 바꾸면 overlay.grab_window처럼 기본 모양을 믿는 다른 코드가 깨진다 (GetDC가 64비트 핸들을 돌려줌)
 PANELS = ("recruit", "panel")  # 원문을 덮지 않고 옆에 띄우는 정보 패널 (공개모집 조합, 스테이지 드롭 등)
 
-user32 = ctypes.WinDLL("user32")
+user32 = ctypes.WinDLL("user32", use_last_error=True)
 gdi32 = ctypes.WinDLL("gdi32")
 
 
@@ -279,6 +279,9 @@ gdi32.DeleteDC.argtypes = [wintypes.HDC]
 user32.GetDC.restype = wintypes.HDC
 user32.GetDC.argtypes = [wintypes.HWND]
 user32.ReleaseDC.argtypes = [wintypes.HWND, wintypes.HDC]
+user32.GetWindowLongW.restype = ctypes.c_long
+user32.GetWindowLongW.argtypes = [wintypes.HWND, ctypes.c_int]
+user32.SetWindowLongW.argtypes = [wintypes.HWND, ctypes.c_int, ctypes.c_long]
 user32.UpdateLayeredWindow.argtypes = [wintypes.HWND, wintypes.HDC, ctypes.POINTER(wintypes.POINT),
                                        ctypes.POINTER(wintypes.SIZE), wintypes.HDC, ctypes.POINTER(wintypes.POINT),
                                        wintypes.COLORREF, ctypes.POINTER(_BLENDFUNCTION), wintypes.DWORD]
@@ -292,6 +295,7 @@ class LayeredWindow:
         self.size = None
         self.mem = self.bmp = self.old = None
         self.bits = ctypes.c_void_p()
+        self.failures = 0
 
     def _alloc(self, w, h):
         self.free()
@@ -314,13 +318,29 @@ class LayeredWindow:
         bgra[..., :3] = (a[..., 2::-1] * alpha // 255).astype(np.uint8)
         bgra[..., 3] = alpha[..., 0]
         ctypes.memmove(self.bits, bgra.ctypes.data, bgra.nbytes)
+        ok = self._update(x, y, w, h)
+        if not ok:
+            # 실패하면 창이 그림 대신 Tk 기본 회색 바탕으로 보여 게임을 통째로 가린다 (관리자 권한 실행에서 겪음).
+            # WS_EX_LAYERED를 껐다 켜서 레이어 상태를 처음으로 되돌린 뒤 한 번 더 해 본다
+            err = ctypes.get_last_error()
+            style = user32.GetWindowLongW(self.hwnd, -20)
+            user32.SetWindowLongW(self.hwnd, -20, style & ~0x80000)
+            user32.SetWindowLongW(self.hwnd, -20, style | 0x80000)
+            ok = self._update(x, y, w, h)
+            self.failures += 1
+            if self.failures <= 3:
+                print(f"UpdateLayeredWindow 실패 (오류 {err}) → 레이어 초기화 후 {'성공' if ok else '또 실패 ' + str(ctypes.get_last_error())}",
+                      flush=True)
+        return bool(ok)
+
+    def _update(self, x, y, w, h):
         screen = user32.GetDC(None)
         blend = _BLENDFUNCTION(0, 0, 255, 1)  # AC_SRC_OVER, AC_SRC_ALPHA
         ok = user32.UpdateLayeredWindow(self.hwnd, screen, ctypes.byref(wintypes.POINT(x, y)),
                                         ctypes.byref(wintypes.SIZE(w, h)), self.mem,
                                         ctypes.byref(wintypes.POINT(0, 0)), 0, ctypes.byref(blend), 2)  # ULW_ALPHA
         user32.ReleaseDC(None, screen)
-        return bool(ok)
+        return ok
 
     def free(self):
         if self.mem:

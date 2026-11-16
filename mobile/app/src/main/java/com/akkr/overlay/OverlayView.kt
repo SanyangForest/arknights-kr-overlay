@@ -68,12 +68,15 @@ object Painter {
         val wider = max(boxW, min(boxW * (if (vertical) 3.5f else 1.6f), rightLimit - it.box.left - 4f))
         val base = min((if (vertical) it.box.width() else it.lineH) * 0.85f, 80f)
         val smallest = base * (if (vertical) 0.3f else 0.45f)
+        // 띄어쓰기 없는 짧은 낱말은 중간에서 끊지 않는다 ('오퍼레이/터'): 한 줄이거나, 원문처럼 한 글자씩 세로로 쌓을 때만
+        val word = it.ko.length in 2..8 && it.ko.none { c -> c.isWhitespace() }
         var size = base
         while (true) {
             paint.textSize = size
             for (w in listOf(boxW, wider)) {
                 val l = layout(it.ko, paint, w)
-                if (l.height <= it.box.height() * 1.25f || size <= smallest) return l
+                val unbroken = !word || l.lineCount == 1 || (l.lineCount == it.ko.length && it.ko.length <= 4)
+                if ((unbroken && l.height <= it.box.height() * 1.25f) || size <= smallest) return l
             }
             size *= 0.9f
         }

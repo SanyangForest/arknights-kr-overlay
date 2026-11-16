@@ -96,8 +96,7 @@ class PageReader(private val matcher: Matcher, private val recruit: Recruit? = n
                 text = StringBuilder()
                 box = null
             }
-            for (e in line.elements) {
-                val eb = e.boundingBox?.let { RectF(it) } ?: continue
+            for ((etext, eb) in line.elements.flatMap { pieces(it) }) {
                 if (covered.any { it.contains(eb.centerX(), eb.centerY()) }) {
                     flush()
                     continue
@@ -105,17 +104,39 @@ class PageReader(private val matcher: Matcher, private val recruit: Recruit? = n
                 // 한 줄 안에서 멀리 떨어진 낱말은 다른 글 (대사창의 이름 '阿米娅'와 대사)
                 val prev = box
                 if (prev != null && eb.left - prev.right > max(prev.height(), eb.height()) * 2.5f) flush()
+                // 큰 숫자 바로 뒤의 한자 낱말은 다른 글 (홈의 이성 '195'와 단말기 로고 '终': 붙여 읽으면 '195终'이라
+                // 번역이 안 되고, 됐다 안 됐다 하며 깜빡임). 숫자는 두 자리 이상 낱말 하나 전체일 때만
+                if (prev != null && text.length >= 2 && text.all { it.isDigit() } && Text.hasHan(etext)) flush()
                 // 영문·숫자 낱말 사이는 띄어 쓴다 (중국어 낱말은 붙임)
                 if (text.isNotEmpty() && text.last().isLetterOrDigit() && text.last().code < 128 &&
-                    e.text.first().isLetterOrDigit() && e.text.first().code < 128
+                    etext.first().isLetterOrDigit() && etext.first().code < 128
                 ) text.append(' ')
-                text.append(e.text)
+                text.append(etext)
                 box = box?.apply { union(eb) } ?: eb
             }
             if (line.elements.isEmpty() && covered.none { RectF.intersects(it, lb) }) out += OcrLine(line.text, lb)
             flush()
         }
         return joinRow(out)
+    }
+
+    /**
+     * 낱말 하나를 (글, 상자) 조각들로. 큰 숫자와 한자가 한 낱말로 붙어 읽힌 것('195终', '1951终。' = 홈의 이성 숫자 +
+     * 단말기 로고)은 글자별 상자(symbols)로 숫자와 나머지를 나눈다. 안 그러면 '195终'은 번역이 안 되고
+     * '终'만 읽힐 때는 '단말기'가 떠서 번갈아 깜빡였음.
+     */
+    private fun pieces(e: com.google.mlkit.vision.text.Text.Element): List<Pair<String, RectF>> {
+        val eb = e.boundingBox?.let { RectF(it) } ?: return emptyList()
+        val m = NUM_THEN_HAN.matchEntire(e.text)
+        val sym = e.symbols
+        // 숫자 뒤가 단위('5天', '0296天')면 한 덩어리 그대로
+        if (m == null || m.groupValues[2].first() in Text.UNIT_CHARS || sym.size != e.text.length) return listOf(e.text to eb)
+        val n = m.groupValues[1].length
+        fun boxOf(range: List<com.google.mlkit.vision.text.Text.Symbol>) =
+            range.mapNotNull { it.boundingBox?.let { b -> RectF(b) } }.reduceOrNull { a, b -> a.apply { union(b) } }
+        val left = boxOf(sym.subList(0, n)) ?: return listOf(e.text to eb)
+        val right = boxOf(sym.subList(n, sym.size)) ?: return listOf(e.text to eb)
+        return listOf(m.groupValues[1] to left, m.groupValues[2] to right)
     }
 
     /**
@@ -129,7 +150,10 @@ class PageReader(private val matcher: Matcher, private val recruit: Recruit? = n
             var cur = rest.removeAt(0)
             while (true) {
                 val h = cur.box.height()
+                // 큰 숫자 줄과 한자 줄은 잇지 않는다 (홈의 이성 '496'과 단말기 로고 '终')
+                val number = cur.text.length >= 2 && cur.text.all { it.isDigit() }
                 val i = rest.indexOfFirst { b ->
+                    if (number && Text.hasHan(b.text)) return@indexOfFirst false
                     val bh = b.box.height()
                     val overlap = min(cur.box.bottom, b.box.bottom) - max(cur.box.top, b.box.top)
                     max(h, bh) <= min(h, bh) * 1.4f && overlap >= min(h, bh) * 0.6f &&
@@ -148,5 +172,7 @@ class PageReader(private val matcher: Matcher, private val recruit: Recruit? = n
 
     companion object {
         private const val TAG = "AkkrOverlay"
+        // 두 자리 이상 숫자 + 한자가 든 나머지 ('195终', '1951终。')
+        private val NUM_THEN_HAN = Regex("""(\d{2,})(\D*[一-鿿].*)""")
     }
 }

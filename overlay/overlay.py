@@ -745,6 +745,7 @@ class Overlay:
         self.root.update_idletasks()
         self._make_click_through()
         self.layered = render.LayeredWindow(self.hwnd)
+        self.push_broken = False  # 레이어드 창에 그림 올리기가 실패하는 중 (창을 숨겨 둠)
         self.root.update()
         if before and win32gui.IsWindow(before) and win32gui.GetForegroundWindow() in (self.hwnd, int(self.root.winfo_id())):
             try:
@@ -829,7 +830,7 @@ class Overlay:
             self.toggle()
 
         # 게임이 맨 앞이 아니면 오버레이를 숨김 (보일 때도 포커스는 뺏지 않음)
-        show = self.visible and game_active(self.game, self.always)
+        show = self.visible and game_active(self.game, self.always) and not self.push_broken
         if show != self.shown:
             win32gui.ShowWindow(self.hwnd, win32con.SW_SHOWNOACTIVATE if show else win32con.SW_HIDE)
             self.shown = show
@@ -1096,7 +1097,14 @@ class Overlay:
         # 원문 지우기(층 0)를 모두 먼저, 그 위에 글자(층 1), 정보 패널(층 2)
         layers.sort(key=lambda l: l[0])
         self.frame = render.compose((w, h), [(img, pos, a) for _, img, pos, a in layers])
-        self.layered.push(self.frame, x, y)
+        ok = self.layered.push(self.frame, x, y)
+        if ok != (not self.push_broken):
+            # 그림을 못 올리면 창이 회색 판으로 게임을 가리므로 숨긴다 (다음에 성공하면 다시 보임)
+            self.push_broken = not ok
+            print("번역 창에 그림을 못 올려 숨김" if self.push_broken else "번역 창 그리기 다시 됨", flush=True)
+            if self.push_broken:
+                win32gui.ShowWindow(self.hwnd, win32con.SW_HIDE)
+                self.shown = False
         if fading and not self.fading:
             self.fading = True
             self.root.after(30, self._fade_step)
