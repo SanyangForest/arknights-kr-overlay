@@ -76,7 +76,10 @@ def main():
         # 흘러가는 안내 문구 (overlay/marquee.tsv): 화면 끝에서 잘린 조각도 전체 문장으로 번역
         ("marquee", "\n".join(f for f in m.marquee if f in m.table)),
         # 오퍼레이터 이름 (채용 결과 '직군 + 이름' 규칙에서 이름이 오퍼레이터인지 확인)
-        ("op_names", "\n".join(sorted(n for n in m.op_names if n in m.table)))])
+        ("op_names", "\n".join(sorted(n for n in m.op_names if n in m.table))),
+        # 위수협의 추천 조합 (build_autochess.py): 왼쪽 가운데 단추로 여는 패널. 앱에도 assets/autochess.json으로 들어 있음
+        ("autochess", (ROOT / "out" / "autochess.json").read_text(encoding="utf-8")
+         if (ROOT / "out" / "autochess.json").exists() else "")])
     db.commit()
     db.execute("VACUUM")
     db.close()
