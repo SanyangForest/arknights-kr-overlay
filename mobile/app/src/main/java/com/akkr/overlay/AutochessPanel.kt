@@ -120,7 +120,7 @@ class AutochessPanel(private val ctx: Context, private val wm: WindowManager, js
         }
         val scroll = ScrollView(ctx).apply { addView(body) }
         val close = TextView(ctx).apply {
-            text = "위수협의 추천 조합   ✕ 닫기"
+            text = "위수 협의 추천 조합   ✕ 닫기"
             setTextColor(Color.WHITE)
             setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14f)
             typeface = Typeface.DEFAULT_BOLD
@@ -220,7 +220,7 @@ class AutochessPanel(private val ctx: Context, private val wm: WindowManager, js
             }
             val carry = c.optJSONArray("carry").strings()
             if (carry.isNotEmpty()) {
-                t.dim("핵심  ")
+                t.dim("주 딜러  ")
                 t.span(carry.joinToString(" · ") + "\n", StyleSpan(Typeface.BOLD))
             }
             t.span(c.optString("summary") + "\n", ForegroundColorSpan(0xFFDDDDDD.toInt()), RelativeSizeSpan(0.95f))

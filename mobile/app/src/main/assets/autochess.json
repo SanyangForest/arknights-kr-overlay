@@ -146,7 +146,7 @@
     },
     {
      "char": "char_4198_christ",
-     "ko": "Miss.Christine",
+     "ko": "미스 크리스틴",
      "cost": 2
     },
     {
@@ -1464,7 +1464,7 @@
     },
     {
      "char": "char_4198_christ",
-     "ko": "Miss.Christine",
+     "ko": "미스 크리스틴",
      "cost": 2
     },
     {
@@ -1642,7 +1642,7 @@
      "cost": 1
     },
     {
-     "ko": "Miss.Christine",
+     "ko": "미스 크리스틴",
      "cost": 2
     },
     {
@@ -3241,7 +3241,7 @@
        "cost": 3
       },
       {
-       "ko": "Miss.Christine",
+       "ko": "미스 크리스틴",
        "cost": 2
       },
       {
@@ -3274,7 +3274,7 @@
        "cost": 3
       },
       {
-       "ko": "Miss.Christine",
+       "ko": "미스 크리스틴",
        "cost": 2
       },
       {
@@ -3416,7 +3416,7 @@
        "cost": 3
       },
       {
-       "ko": "Miss.Christine",
+       "ko": "미스 크리스틴",
        "cost": 2
       },
       {
@@ -3453,7 +3453,7 @@
        "cost": 3
       },
       {
-       "ko": "Miss.Christine",
+       "ko": "미스 크리스틴",
        "cost": 2
       },
       {
@@ -4516,7 +4516,7 @@
    "carry": [],
    "stages": [
     {
-     "label": "핵심",
+     "label": "핵심 역할",
      "ops": [
       {
        "ko": "아르케토",
@@ -5294,7 +5294,7 @@
    ],
    "stages": [
     {
-     "label": "핵심",
+     "label": "핵심 카드",
      "ops": [
       {
        "ko": "성질 급한 깡통",

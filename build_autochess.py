@@ -39,9 +39,18 @@ def main():
         if s.get("goldenChessId"):
             piece[s["goldenChessId"]] = (s["charId"], s["chessLevel"])
 
+    # 사전에 없는 이름(라틴 문자 이름 'Miss.Christine' 등)은 한국 서버 캐릭터 표의 공식 이름으로
+    kr_path = game / "kr/gamedata/excel/character_table.json"
+    kr = json.loads(kr_path.read_text(encoding="utf-8")) if kr_path.exists() else {}
+    ko_of = {}
+    for char_id, c in chars.items():
+        zh = c.get("name")
+        if zh and zh not in ko_of:
+            ko_of[zh] = ko.get(zh) or kr.get(char_id, {}).get("name") or zh
+
     def name_ko(char_id):
         zh = chars.get(char_id, {}).get("name") or char_id
-        return ko.get(zh, zh)
+        return ko_of.get(zh) or ko.get(zh, zh)
 
     # 오퍼레이터 원문 이름 → 비용 (커뮤니티 조합은 이름으로 적혀 있음)
     cost_of = {}
@@ -101,7 +110,7 @@ def main():
     bond_ko = {b["zh"]: b["ko"] for b in bonds}
 
     def op(zh):
-        name = ko.get(zh, zh).strip("'\"‘’“”")
+        name = (ko.get(zh) or ko_of.get(zh) or zh).strip("'\"‘’“”")
         return {"ko": name, "cost": cost_of.get(zh) or cost_of.get(zh.strip("'\"‘’“”"), 0)}
 
     community, stats = [], ""
