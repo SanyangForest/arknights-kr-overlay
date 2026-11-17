@@ -59,7 +59,6 @@ class ReaderService : AccessibilityService() {
     private lateinit var bg: Handler
     private var dict: DictStore? = null
     private var reader: PageReader? = null
-    private var autochess: AutochessPanel? = null // 위수협의 추천 조합 (왼쪽 가운데 단추)
     // 아래는 화면 읽기 스레드(bg)에서만 쓴다
     private var shown: List<Shown> = emptyList()
     private val gone = ArrayDeque<Gone>()
@@ -83,11 +82,6 @@ class ReaderService : AccessibilityService() {
                 val d = DictStore.open(this)
                 dict = d
                 reader = PageReader(Matcher(d), d.recruit())
-                // 사전 업데이트로 받은 것이 먼저, 없으면 앱에 든 것 (assets/autochess.json)
-                (d.meta("autochess")?.takeIf { it.isNotBlank() } ?: runCatching { assets.open("autochess.json").bufferedReader().use { it.readText() } }.getOrNull())?.let { json ->
-                    autochess = runCatching { AutochessPanel(this, wm, json) }
-                        .onFailure { Log.w(TAG, "위수협의 데이터를 읽지 못함", it) }.getOrNull()
-                }
             } catch (e: Exception) {
                 Log.e(TAG, "사전을 열지 못함", e)
             }
@@ -114,7 +108,6 @@ class ReaderService : AccessibilityService() {
         running = false
         connected = false
         bg.removeCallbacksAndMessages(null)
-        autochess?.destroy()
         view?.let { v -> runCatching { wm.removeView(v) } }
         view = null
         bg.post {
@@ -148,14 +141,12 @@ class ReaderService : AccessibilityService() {
         if (!running) return
         val r = reader
         if (r == null || !enabled()) {
-            autochess?.hide()
             clear()
             next(1000)
             return
         }
         val win = gameWindow()
         if (win == null) {
-            autochess?.hide()
             clear()
             next(800)
             return
@@ -272,7 +263,6 @@ class ReaderService : AccessibilityService() {
         dirtySince = 0L
         lastOcr = now
         val items = r.read(bmp, olds = shown.map { it.p.item })
-        autochess?.observe(items.map { it.zh })
         reconcile(bmp, items)
     }
 
