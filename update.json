@@ -2,14 +2,14 @@
   "format": 1,
   "repo": "SanyangForest/arknights-kr-overlay",
   "dict": {
-    "version": "202611172019",
-    "built": "2026-11-17 20:18",
+    "version": "202611172150",
+    "built": "2026-11-17 21:50",
     "entries": 558420,
     "full": {
-      "url": "https://github.com/SanyangForest/arknights-kr-overlay/releases/download/d202611172019/dict-202611172019.db.gz",
-      "sha256": "625831abd6f466419dcf35d253a8c7113928d17d152b24767273abfb5823cb93",
-      "size": 65254634,
-      "db_size": 165326848
+      "url": "https://github.com/SanyangForest/arknights-kr-overlay/releases/download/d202611172150/dict-202611172150.db.gz",
+      "sha256": "28b3e11faa47a8cb86e8801074cd99765ec79d4e6d3bd2071fdd49a0af741861",
+      "size": 65270303,
+      "db_size": 165433344
     },
     "min_patch_from": "202611140007",
     "patches": [
@@ -40,15 +40,22 @@
         "url": "https://github.com/SanyangForest/arknights-kr-overlay/releases/download/d202611172019/dict-patch-202611162117-202611172019.db.gz",
         "sha256": "683d0ca5ae2fcf022eb3954b51d0f1cfb55b024f5b2b7b6ec3a4ed86e3bef909",
         "size": 866
+      },
+      {
+        "from": "202611172019",
+        "to": "202611172150",
+        "url": "https://github.com/SanyangForest/arknights-kr-overlay/releases/download/d202611172150/dict-patch-202611172019-202611172150.db.gz",
+        "sha256": "a13a27342d5246547c895f9bcebe8cc8e066a7874c00038eb67c0cd9d8e19bd1",
+        "size": 16279
       }
     ]
   },
   "apk": {
-    "versionCode": 38,
-    "versionName": "0.38",
-    "url": "https://github.com/SanyangForest/arknights-kr-overlay/releases/download/d202611172019/akkr-overlay-0.38.apk",
-    "sha256": "895c0abd2422af7318cb47c19464e3dfc35b16f33732ea6d423d97442fd3f5f9",
-    "size": 16355110
+    "versionCode": 39,
+    "versionName": "0.39",
+    "url": "https://github.com/SanyangForest/arknights-kr-overlay/releases/download/d202611172150/akkr-overlay-0.39.apk",
+    "sha256": "2010cbf53930254e90b5781c4bd966d2b33dbdd40860770139aa5690b60902b1",
+    "size": 16370917
   },
   "pc": {
     "version": "202611162117",
