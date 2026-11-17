@@ -17,8 +17,8 @@ android {
         applicationId = "com.akkr.overlay"
         minSdk = 26
         targetSdk = 35
-        versionCode = 37
-        versionName = "0.37"
+        versionCode = 38
+        versionName = "0.38"
         // 요즘 안드로이드 폰(64비트 ARM)용 OCR 라이브러리만 넣어 설치 파일을 줄임
         ndk { abiFilters += "arm64-v8a" }
         buildConfigField("String", "UPDATE_URL", "\"$updateUrl\"")
